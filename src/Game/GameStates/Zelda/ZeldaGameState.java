@@ -27,7 +27,7 @@ public class ZeldaGameState extends State {
     public ArrayList<ArrayList<ArrayList<SolidStaticEntities>>> objects;
     public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> enemies;
     public Link link;
-    public static boolean inCave = false;
+    public static boolean inCave = false, runOnce = false;
     public ArrayList<SolidStaticEntities> caveObjects;
 
 
@@ -70,7 +70,11 @@ public class ZeldaGameState extends State {
     public void tick() {
         link.tick();
         if (inCave){
-
+        	if (runOnce== false) {
+        		link.x = link.x + 20;
+        		link.y = link.y + 20;
+        		runOnce = true;
+        	}
         }else {
             if (!link.movingMap) {
                 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
