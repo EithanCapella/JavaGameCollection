@@ -54,7 +54,7 @@ public class Link extends BaseMovingEntity {
         if (movingMap){
             switch (movingTo) {
                 case RIGHT:
-                    handler.getZeldaGameState().cameraOffsetX++;
+                    handler.getZeldaGameState().cameraOffsetX+=2;
                     newMapX++;
                     if (xExtraCounter>0){
                         x+=2;
@@ -66,7 +66,7 @@ public class Link extends BaseMovingEntity {
                     }
                     break;
                 case LEFT:
-                    handler.getZeldaGameState().cameraOffsetX--;
+                    handler.getZeldaGameState().cameraOffsetX-=2;
                     newMapX--;
                     if (xExtraCounter>0){
                         x-=2;
@@ -78,7 +78,7 @@ public class Link extends BaseMovingEntity {
                     }
                     break;
                 case UP:
-                    handler.getZeldaGameState().cameraOffsetY--;
+                    handler.getZeldaGameState().cameraOffsetY-=2;
                     newMapY++;
                     if (yExtraCounter>0){
                         y-=2;
@@ -90,7 +90,7 @@ public class Link extends BaseMovingEntity {
                     }
                     break;
                 case DOWN:
-                    handler.getZeldaGameState().cameraOffsetY++;
+                    handler.getZeldaGameState().cameraOffsetY+=2;
                     newMapY--;
                     if (yExtraCounter>0){
                         y+=2;
@@ -184,8 +184,8 @@ public class Link extends BaseMovingEntity {
                 if ((objects instanceof DungeonDoor) && objects.bounds.intersects(bounds) && direction == ((DungeonDoor) objects).direction) {
                     if (((DungeonDoor) objects).name.equals("caveStartLeave")) {
                         ZeldaGameState.inCave = false;
-                        x = ((DungeonDoor) objects).nLX;
-                        y = ((DungeonDoor) objects).nLY;
+                        x = ((DungeonDoor) objects).nLX + 20;
+                        y = ((DungeonDoor) objects).nLY + 10;
                         direction = DOWN;
                     }
                 } else if (!(objects instanceof DungeonDoor) && objects.bounds.intersects(interactBounds)) {
@@ -202,26 +202,26 @@ public class Link extends BaseMovingEntity {
                         movingTo = ((SectionDoor) objects).direction;
                         switch (((SectionDoor) objects).direction) {
                             case RIGHT:
-                                newMapX = -(((handler.getZeldaGameState().mapWidth) + 1) * worldScale);
+                                newMapX = -(((handler.getZeldaGameState().mapWidth) + 1) * 1/2 * worldScale);
                                 newMapY = 0;
                                 handler.getZeldaGameState().mapX++;
                                 xExtraCounter = 8 * worldScale + (2 * worldScale);
                                 break;
                             case LEFT:
-                                newMapX = (((handler.getZeldaGameState().mapWidth) + 1) * worldScale);
+                                newMapX = (((handler.getZeldaGameState().mapWidth) + 1) * 1/2 * worldScale);
                                 newMapY = 0;
                                 handler.getZeldaGameState().mapX--;
                                 xExtraCounter = 8 * worldScale + (2 * worldScale);
                                 break;
                             case UP:
                                 newMapX = 0;
-                                newMapY = -(((handler.getZeldaGameState().mapHeight) + 1) * worldScale);
+                                newMapY = -(((handler.getZeldaGameState().mapHeight) + 1) * 1/2 * worldScale);
                                 handler.getZeldaGameState().mapY--;
                                 yExtraCounter = 8 * worldScale + (2 * worldScale);
                                 break;
                             case DOWN:
                                 newMapX = 0;
-                                newMapY = (((handler.getZeldaGameState().mapHeight) + 1) * worldScale);
+                                newMapY = (((handler.getZeldaGameState().mapHeight) + 1) * 1/2 * worldScale);
                                 handler.getZeldaGameState().mapY++;
                                 yExtraCounter = 8 * worldScale + (2 * worldScale);
                                 break;
@@ -231,8 +231,8 @@ public class Link extends BaseMovingEntity {
                     else {
                         if (((DungeonDoor) objects).name.equals("caveStartEnter")) {
                             ZeldaGameState.inCave = true;
-                            x = ((DungeonDoor) objects).nLX;
-                            y = ((DungeonDoor) objects).nLY;
+                            x = ((DungeonDoor) objects).nLX + 10;
+                            y = ((DungeonDoor) objects).nLY - 40;
                             direction = UP;
                         }
                     }
