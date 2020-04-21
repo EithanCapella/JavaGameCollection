@@ -9,6 +9,7 @@ import Resources.Animation;
 import Resources.Images;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import static Game.GameStates.Zelda.ZeldaGameState.worldScale;
@@ -21,7 +22,7 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class Link extends BaseMovingEntity {
 
 
-    private final int animSpeed = 120;
+    private int animSpeed = 120;
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
     public boolean movingMap = false;
     Direction movingTo;
@@ -40,6 +41,22 @@ public class Link extends BaseMovingEntity {
 
     @Override
     public void tick() {
+    	
+    	 //Extra abilities for Link
+        //To Do: add extra weapons if possible or abilities, magic, bow etc.
+        //
+          if (handler.getKeyManager().shift == true) {
+          	speed = 6;
+          	animSpeed = 20;
+          	animation.getCurrentFrame();
+          	animation.tick();
+          	
+          }
+          else {speed = 4;
+          animation.getCurrentFrame();
+        	animation.tick();
+          animSpeed = 120;}
+    	
         if (movingMap){
             switch (movingTo) {
                 case RIGHT:
@@ -232,6 +249,7 @@ public class Link extends BaseMovingEntity {
                 }
             }
         }
+        //Movement
         switch (direction) {
             case RIGHT:
                 x += speed;
