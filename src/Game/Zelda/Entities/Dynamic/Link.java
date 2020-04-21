@@ -22,7 +22,7 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class Link extends BaseMovingEntity {
 
 
-    private int animSpeed = 120;
+    private final int animSpeed = 120;
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
     public boolean movingMap = false;
     Direction movingTo;
@@ -46,16 +46,10 @@ public class Link extends BaseMovingEntity {
         //To Do: add extra weapons if possible or abilities, magic, bow etc.
         //
           if (handler.getKeyManager().shift == true) {
-          	speed = 6;
-          	animSpeed = 20;
-          	animation.getCurrentFrame();
-          	animation.tick();
+          	speed = 5;}
           	
-          }
-          else {speed = 4;
-          animation.getCurrentFrame();
-        	animation.tick();
-          animSpeed = 120;}
+          
+          else {speed = 4;}
     	
         if (movingMap){
             switch (movingTo) {
