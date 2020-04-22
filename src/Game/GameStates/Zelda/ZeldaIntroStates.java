@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
  * Created by AlexVR on 3/14/2020
  */
 public class ZeldaIntroStates extends State {
+	public boolean runOnce = false;
     private Animation introAnimation;
     private int stage = 0;
     private int stageCounter = 60 * 3; // 3 seconds
@@ -19,15 +20,22 @@ public class ZeldaIntroStates extends State {
     public ZeldaIntroStates(Handler handler) {
         super(handler);
         introAnimation = new Animation(100, Images.zeldaTitleFrames);
+        
     }
 
     @Override
     public void tick() {
+    	if (runOnce == false) {
+    		System.out.println("runs");
+        handler.getMusicHandler().startMusic("TitleScreen.wav");
+        runOnce = true;}
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)){
+        	handler.getMusicHandler().changeMusic("OverWorld.wav");
             handler.changeState(handler.getZeldaGameState());
         }
         if(stage == 0) {
             introAnimation.tick();
+            
         }else if(stage==1){
             if (stageCounter< 60*42){
                 yStoryOffset +=3;
