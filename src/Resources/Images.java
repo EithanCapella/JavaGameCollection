@@ -66,7 +66,10 @@ public class Images {
     public static ArrayList<BufferedImage> zeldaWorldLayoutTiles;
 
     public static BufferedImage zeldaLinkImage;
+    public static BufferedImage npcImage;
+    public static BufferedImage[] npc;
     public SpriteSheet zeldaLinkSpriteSheet;
+    public SpriteSheet npcSpriteSheet;
     public static BufferedImage[] zeldaLinkFrames;
 
     public static ArrayList<BufferedImage> forestTiles;
@@ -110,6 +113,8 @@ public class Images {
         zeldaLinkFrames = new BufferedImage[8];
 
         bouncyEnemyFrames = new BufferedImage[2];
+        npc = new BufferedImage[5];
+
 
 
 
@@ -251,6 +256,14 @@ public class Images {
             zeldaLinkFrames[5] = zeldaLinkSpriteSheet.crop(86,11,16,16);
             zeldaLinkFrames[6] = zeldaLinkSpriteSheet.crop(213,11,16,16);
             zeldaLinkFrames[7] = zeldaLinkSpriteSheet.crop(230,11,16,16);
+            
+            npcImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc1.png"));
+            npcSpriteSheet = new SpriteSheet( npcImage);
+            npc[0] = npcSpriteSheet.crop(18, 11, 16, 16); // oldman 
+            npc[1] = npcSpriteSheet.crop(52, 11, 16, 16); // fire
+            npc[2] = npcSpriteSheet.crop(35, 11, 16, 16); // old lady
+            npc[3] = npcSpriteSheet.crop(109, 11, 16, 16); // merchant1
+            npc[4] = zeldaLinkSpriteSheet.crop(1,154,8,16);;
 
             zeldaWorldLayoutTileImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/layout.png"));
             zeldaWorldLayoutTileSpriteSheet = new SpriteSheet( createImageTransparent(zeldaWorldLayoutTileImage,"layout_0,128,0_green",new Color(0,128,0).getRGB()));

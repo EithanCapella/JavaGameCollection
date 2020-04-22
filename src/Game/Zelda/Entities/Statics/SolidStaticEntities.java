@@ -23,4 +23,9 @@ public class SolidStaticEntities extends BaseEntity {
     public void render(Graphics g) {
         g.drawImage(sprite,(x* (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y* (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height,null);
     }
+
+	public Rectangle getBounds() {
+		// TODO Auto-generated method stub
+        return new Rectangle(new Rectangle((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height));
+	}
 }

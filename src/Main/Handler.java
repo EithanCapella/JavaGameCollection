@@ -7,6 +7,7 @@ import Game.GameStates.Zelda.ZeldaIntroStates;
 import Game.GameStates.Zelda.ZeldaMapMakerState;
 import Game.PacMan.World.Map;
 import Game.PacMan.entities.Dynamics.PacMan;
+import Game.Zelda.Entities.Dynamic.Link;
 import Input.KeyManager;
 import Input.MouseManager;
 import Resources.MusicHandler;
@@ -33,6 +34,7 @@ public class Handler {
     public static boolean DEBUG = true;
     private Map map;
     private PacMan pacman;
+    private Link link;
 
     public Handler(GameSetUp game){
         this.game = game;
@@ -176,5 +178,12 @@ public class Handler {
 
     public void setPacman(PacMan pacman) {
         this.pacman = pacman;
+    }
+    public Link getLink() {
+        return link;
+    }
+
+    public void setLink(Link link) {
+        this.link = link;
     }
 }

@@ -1,12 +1,17 @@
 package Game.GameStates.Zelda;
 
 import Game.GameStates.State;
+import Game.Zelda.Entities.BaseEntity;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
+import Game.Zelda.Entities.Dynamic.BouncyFella;
 import Game.Zelda.Entities.Dynamic.Direction;
 import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Statics.DungeonDoor;
+import Game.Zelda.Entities.Statics.Fire;
+import Game.Zelda.Entities.Statics.oldMan;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
+import Game.Zelda.Entities.Statics.caveSword;
 import Main.Handler;
 import Resources.Images;
 
@@ -25,6 +30,7 @@ public class ZeldaGameState extends State {
     public int mapX,mapY,mapWidth,mapHeight;
 
     public ArrayList<ArrayList<ArrayList<SolidStaticEntities>>> objects;
+    //public ArrayList<ArrayList<ArrayList<BaseEntity>>> npc;
     public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> enemies;
     public Link link;
     public static boolean inCave = false, runOnce = false;
@@ -51,15 +57,19 @@ public class ZeldaGameState extends State {
         for (int i =0;i<16;i++){
             objects.add(new ArrayList<>());
             enemies.add(new ArrayList<>());
+            //npc.add(new ArrayList<>());
             for (int j =0;j<8;j++) {
                 objects.get(i).add(new ArrayList<>());
                 enemies.get(i).add(new ArrayList<>());
+                //npc.get(i).add(new ArrayList<>());
             }
         }
 
         addWorldObjects();
 
         link = new Link(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.zeldaLinkFrames,handler);
+        
+
 
 
     }
@@ -97,9 +107,9 @@ public class ZeldaGameState extends State {
                 entity.render(g);
             }
             g.setColor(Color.WHITE);
-            g.setFont(new Font("TimesRoman", Font.BOLD, 32));
+            g.setFont(new Font("TimesRoman", Font.BOLD, 24));
             g.drawString("  IT ' S  DANGEROUS  TO  GO",(3 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(2 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset+ ((16*worldScale)));
-            g.drawString("  ALONE !   TAKE  THIS",(4 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(4 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset- ((16*worldScale)/2));
+            g.drawString("  ALONE !   TAKE  THIS",(5 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(4 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset- ((16*worldScale)/2));
             link.render(g);
         }else {
             g.drawImage(Images.zeldaMap, -cameraOffsetX + xOffset, -cameraOffsetY + yOffset, Images.zeldaMap.getWidth() * worldScale, Images.zeldaMap.getHeight() * worldScale, null);
@@ -145,6 +155,13 @@ public class ZeldaGameState extends State {
             }
         }
         caveObjects.add(new DungeonDoor(7,9,16*worldScale*2,16*worldScale * 2,Direction.DOWN,"caveStartLeave",handler,(4 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(2 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
+        caveObjects.add(new oldMan(8,4,handler));
+        caveObjects.add(new Fire(5,4,handler));
+        caveObjects.add(new Fire(11,4,handler));
+        caveObjects.add(new caveSword(8,5,handler));
+
+
+
 
         //7,7
         ArrayList<SolidStaticEntities> solids = new ArrayList<>();
@@ -188,6 +205,12 @@ public class ZeldaGameState extends State {
         solids.add(new SolidStaticEntities(9,1,Images.forestTiles.get(5),handler));
         solids.add(new SolidStaticEntities(9,0,Images.forestTiles.get(5),handler));
         objects.get(7).set(7,solids);
+        monster = new ArrayList<>();
+        monster.add(new BouncyFella(8,4,handler));
+
+        enemies.get(7).set(7,monster);
+
+
 
         //6,7
         monster = new ArrayList<>();
@@ -196,6 +219,13 @@ public class ZeldaGameState extends State {
         solids.add(new SectionDoor( 12,0,16*worldScale * 2,16*worldScale,Direction.UP,handler));
         solids.add(new SectionDoor( 15,5,16*worldScale,16*worldScale,Direction.RIGHT,handler));
         objects.get(6).set(7,solids);
+        monster.add(new BouncyFella(2,4,handler));
+        monster.add(new BouncyFella(3,2,handler));
+        monster.add(new BouncyFella(4,3,handler));
+        monster.add(new BouncyFella(2,5,handler));
+
+        enemies.get(6).set(7,monster);
+
 
 
         //7,6
@@ -211,8 +241,12 @@ public class ZeldaGameState extends State {
         solids = new ArrayList<>();
         solids.add(new SectionDoor( 0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
         solids.add(new SectionDoor( 2,0,16*worldScale * 13,16*worldScale,Direction.UP,handler));
-        solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*7,Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*7,Direction.RIGHT,handler));        
         objects.get(8).set(7,solids);
+       
+
+
+        
     }
 
     @Override

@@ -21,6 +21,7 @@ public class MMBaseMovingEntity extends MMBaseEntity {
     BufferedImage[] sprites;
     boolean moving = false;
     public Rectangle interactBounds;
+    public int health=1;
 
     public MMBaseMovingEntity(int x, int y, BufferedImage[] sprite, Handler handler) {
         super(x, y, sprite[0], handler);
