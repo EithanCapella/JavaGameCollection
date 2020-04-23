@@ -68,11 +68,20 @@ public class Images {
 
     public static BufferedImage zeldaLinkImage;
     public static BufferedImage npcImage;
+    public static BufferedImage itemImage;
     public static BufferedImage[] npc;
     public SpriteSheet zeldaLinkSpriteSheet;
     public SpriteSheet npcSpriteSheet;
+    public SpriteSheet itemSpriteSheet;
     public static BufferedImage[] zeldaLinkFrames;
-    public static BufferedImage[] swordLinkFrames;
+    public static BufferedImage[] woodenSwordAttackFrames;
+    public static BufferedImage[] whiteSwordAttackFrames;
+    public static BufferedImage[] magicalSwordAttackFrames;
+    public static BufferedImage[] magicalRodAttackFrames;
+    public static BufferedImage[] linkHearts;
+
+
+
 
 
     public static ArrayList<BufferedImage> forestTiles;
@@ -114,6 +123,15 @@ public class Images {
         mountainTiles = new ArrayList<>();
 
         zeldaLinkFrames = new BufferedImage[6];
+        woodenSwordAttackFrames = new BufferedImage[16];
+        whiteSwordAttackFrames = new BufferedImage[16];
+        magicalSwordAttackFrames = new BufferedImage[16];
+        magicalRodAttackFrames = new BufferedImage[16];
+        linkHearts= new BufferedImage[2];
+
+
+
+
 
         bouncyEnemyFrames = new BufferedImage[2];
         npc = new BufferedImage[5];
@@ -259,6 +277,25 @@ public class Images {
             zeldaLinkFrames[4] = zeldaLinkSpriteSheet.crop(69,11,16,16);
             zeldaLinkFrames[5] = zeldaLinkSpriteSheet.crop(86,11,16,16);
             
+            woodenSwordAttackFrames[0] = zeldaLinkSpriteSheet.crop(1,47,16,16); //attackDownStart
+            woodenSwordAttackFrames[1] = zeldaLinkSpriteSheet.crop(18,47,16,28); //attackDownEnd
+            woodenSwordAttackFrames[2] = zeldaLinkSpriteSheet.crop(35,47,16,23);
+            woodenSwordAttackFrames[3] = zeldaLinkSpriteSheet.crop(52,47,16,19); //downAnimEnd
+            woodenSwordAttackFrames[4] = zeldaLinkSpriteSheet.crop(1,77,16,16);
+            woodenSwordAttackFrames[5] = zeldaLinkSpriteSheet.crop(18,77,27,17); //attackSideEnd
+            woodenSwordAttackFrames[6] = zeldaLinkSpriteSheet.crop(46,77,23,17);
+            woodenSwordAttackFrames[7] = zeldaLinkSpriteSheet.crop(70,77,19,17); //sideAnimEnd
+            woodenSwordAttackFrames[8] = zeldaLinkSpriteSheet.crop(1,109,16,16);
+            woodenSwordAttackFrames[9] = zeldaLinkSpriteSheet.crop(18,97,16,28); //attackUpEnd
+            woodenSwordAttackFrames[10] = zeldaLinkSpriteSheet.crop(35,98,16,27);
+            woodenSwordAttackFrames[11] = zeldaLinkSpriteSheet.crop(53,107,16,19); //upAnimEnd
+            woodenSwordAttackFrames[12] = zeldaLinkSpriteSheet.crop(1,128,16,23);//unknown 
+            woodenSwordAttackFrames[13] = zeldaLinkSpriteSheet.crop(18,128,16,19); //unknown 
+            woodenSwordAttackFrames[14] = zeldaLinkSpriteSheet.crop(35,128,23,17);//unknown 
+            woodenSwordAttackFrames[15] = zeldaLinkSpriteSheet.crop(59,128,19,17);//unknown 
+
+
+            
             
             npcImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc1.png"));
             npcSpriteSheet = new SpriteSheet( npcImage);
@@ -267,6 +304,10 @@ public class Images {
             npc[2] = npcSpriteSheet.crop(35, 11, 16, 16); // old lady
             npc[3] = npcSpriteSheet.crop(109, 11, 16, 16); // merchant1
             npc[4] = zeldaLinkSpriteSheet.crop(1,154,8,16);; //sword
+            itemImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/items.png"));
+            itemSpriteSheet = new SpriteSheet( itemImage);
+            linkHearts[0] = itemSpriteSheet.crop(0, 0, 8, 8); // fullHeart 
+            linkHearts[1] = itemSpriteSheet.crop(8,0,8,8); // halfHeart
 
             zeldaWorldLayoutTileImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/layout.png"));
             zeldaWorldLayoutTileSpriteSheet = new SpriteSheet( createImageTransparent(zeldaWorldLayoutTileImage,"layout_0,128,0_green",new Color(0,128,0).getRGB()));

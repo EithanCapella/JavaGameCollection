@@ -68,15 +68,9 @@ public class ZeldaGameState extends State {
 
         addWorldObjects();
 
-        link = new Link(xOffset+(stageWidth/2),yOffset + (stageHeight/2),handler);
-        
-
-
+        link = new Link(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.zeldaLinkFrames, handler);
 
     }
-
-
-
     @Override
     public void tick() {
         link.tick();
@@ -87,9 +81,11 @@ public class ZeldaGameState extends State {
 				runOnce = true;
 
 			}
-				if(link.hasSword&& beginAdventure==false) {
-					beginAdventure=true;
+				if(link.hasSword&& beginAdventure==false) {	
+					handler.getMusicHandler().playEffect("newItem.wav");
 					caveObjects.remove(92);
+		        	handler.getMusicHandler().changeMusic("OverWorld.wav");
+					beginAdventure=true;					
 				}
         }else {
             if (!link.movingMap) {
@@ -134,6 +130,30 @@ public class ZeldaGameState extends State {
             g.fillRect(0, 0, handler.getWidth(), yOffset);
             g.fillRect(0, yOffset + stageHeight, handler.getWidth(), handler.getHeight());
         }
+        if(link.getLife() == 3) {
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 150,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+		}
+        if(link.getLife() == 2.5) {
+			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 150,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+		}
+		if(link.getLife() == 2) {
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+		}
+		if(link.getLife() == 1.5) {
+			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+		}
+		if(link.getLife() == 1) {
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+		}
+		if(link.getLife() == 0.5) {
+			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+		}
 
     }
 

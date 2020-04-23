@@ -23,261 +23,288 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class Link extends BaseMovingEntity {
 
 
-    private final int animSpeed = 120;
-    private final int itemAnimSpeed = 265;
-    int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-    public boolean movingMap = false,hasSword=false,itemTick=false;
-    Direction movingTo;
-    Animation pickUpAnim;
+	private final int animSpeed = 120;
+	private double life=3.0;
+
+
+	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
+	public boolean movingMap = false,hasSword=false,horray=false;
+	Direction movingTo;
+	Animation pickUpAnim;
 
 
 
-    public Link(int x, int y, Handler handler) {
-		super(x, y, Images.zeldaLinkFrames, handler);
-        speed = 4;
-        health = 6;
-        //sprites= Images.zeldaLinkFrames;
-        animation = new Animation(animSpeed,Images.zeldaLinkFrames);
-        pickUpAnim = new Animation(itemAnimSpeed,Images.itemPickUpFrames);
-    }
+	public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
+		super(x, y, sprite, handler);
+		speed = 4;
+		health = 6;
+		BufferedImage[] animList = new BufferedImage[2];
+		animList[0] = sprite[4];
+		animList[1] = sprite[5];
 
-    @Override
-    public void tick() {
-    	//Extra abilities for Link
-    	//To Do: add extra weapons if possible or abilities, magic, bow etc.
-    	//
-    	if (handler.getKeyManager().shift == true) {
-    		speed = 5;}
+		animation = new Animation(animSpeed,animList);
+		pickUpAnim = new Animation(500,Images.itemPickUpFrames);
+
+	}
+
+	@Override
+	public void tick() {
+		//Extra abilities for Link
+		//To Do: add extra weapons if possible or abilities, magic, bow etc.
+		//
+		for (SolidStaticEntities objects : handler.getZeldaGameState().caveObjects) {
+			if ((objects instanceof caveSword) && objects.bounds.intersects(interactBounds)) {
+				pickUpAnim.tick();
+				horray=true;
+			}
+		}
+		if (handler.getKeyManager().shift == true) {
+			speed = 5;}
 
 
-    	else {speed = 4;}
+		else {speed = 4;}
 
-        if (movingMap){
-            switch (movingTo) {
-                case RIGHT:
-                    handler.getZeldaGameState().cameraOffsetX+=2;
-                    newMapX++;
-                    if (xExtraCounter>0){
-                        x+=2;
-                        xExtraCounter--;
-                        animation.tick();
+		if (movingMap){
+			switch (movingTo) {
+			case RIGHT:
+				handler.getZeldaGameState().cameraOffsetX+=2;
+				newMapX++;
+				if (xExtraCounter>0){
+					x+=2;
+					xExtraCounter--;
+					animation.tick();
 
-                    }else{
-                        x--;
-                    }
-                    break;
-                case LEFT:
-                    handler.getZeldaGameState().cameraOffsetX-=2;
-                    newMapX--;
-                    if (xExtraCounter>0){
-                        x-=2;
-                        xExtraCounter--;
-                        animation.tick();
+				}else{
+					x--;
+				}
+				break;
+			case LEFT:
+				handler.getZeldaGameState().cameraOffsetX-=2;
+				newMapX--;
+				if (xExtraCounter>0){
+					x-=2;
+					xExtraCounter--;
+					animation.tick();
 
-                    }else{
-                        x++;
-                    }
-                    break;
-                case UP:
-                    handler.getZeldaGameState().cameraOffsetY-=2;
-                    newMapY++;
-                    if (yExtraCounter>0){
-                        y-=2;
-                        yExtraCounter--;
-                        animation.tick();
+				}else{
+					x++;
+				}
+				break;
+			case UP:
+				handler.getZeldaGameState().cameraOffsetY-=2;
+				newMapY++;
+				if (yExtraCounter>0){
+					y-=2;
+					yExtraCounter--;
+					animation.tick();
 
-                    }else{
-                        y++;
-                    }
-                    break;
-                case DOWN:
-                    handler.getZeldaGameState().cameraOffsetY+=2;
-                    newMapY--;
-                    if (yExtraCounter>0){
-                        y+=2;
-                        yExtraCounter--;
-                        animation.tick();
-                    }else{
-                        y--;
-                    }
-                    break;
-            }
-            bounds = new Rectangle(x,y,width,height);
-            changeIntersectingBounds();
-            if (newMapX == 0 && newMapY == 0){
-                movingMap = false;
-                movingTo = null;
-                newMapX = 0;
-                newMapY = 0;
-            }
-        }else {
-            if (handler.getKeyManager().up) {
-                if (direction != UP) {
-                    BufferedImage[] animList = new BufferedImage[2];
-                    animList[0] = sprites[4];
-                    animList[1] = sprites[5];
-                    animation = new Animation(animSpeed, animList);
-                    direction = UP;
-                    sprite = sprites[4];
-                }
-                animation.tick();
-                move(direction);
+				}else{
+					y++;
+				}
+				break;
+			case DOWN:
+				handler.getZeldaGameState().cameraOffsetY+=2;
+				newMapY--;
+				if (yExtraCounter>0){
+					y+=2;
+					yExtraCounter--;
+					animation.tick();
+				}else{
+					y--;
+				}
+				break;
+			}
+			bounds = new Rectangle(x,y,width,height);
+			changeIntersectingBounds();
+			if (newMapX == 0 && newMapY == 0){
+				movingMap = false;
+				movingTo = null;
+				newMapX = 0;
+				newMapY = 0;
+			}
+		}else {
+			if (handler.getKeyManager().up) {
+				if (direction != UP) {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = sprites[4];
+					animList[1] = sprites[5];
+					animation = new Animation(animSpeed, animList);
+					direction = UP;
+					sprite = sprites[4];
+				}
+				animation.tick();
+				move(direction);
 
-            } else if (handler.getKeyManager().down) {
-                if (direction != DOWN) {
-                    BufferedImage[] animList = new BufferedImage[2];
-                    animList[0] = sprites[0];
-                    animList[1] = sprites[1];
-                    animation = new Animation(animSpeed, animList);
-                    direction = DOWN;
-                    sprite = sprites[0];
-                }
-                animation.tick();
-                move(direction);
-            } else if (handler.getKeyManager().left) {
-                if (direction != Direction.LEFT) {
-                    BufferedImage[] animList = new BufferedImage[2];
-                    animList[0] = Images.flipHorizontal(sprites[2]);
-                    animList[1] = Images.flipHorizontal(sprites[3]);
-                    animation = new Animation(animSpeed, animList);
-                    direction = Direction.LEFT;
-                    sprite = Images.flipHorizontal(sprites[3]);
-                }
-                animation.tick();
-                move(direction);
-            } else if (handler.getKeyManager().right) {
-                if (direction != Direction.RIGHT) {
-                    BufferedImage[] animList = new BufferedImage[2];
-                    animList[0] = (sprites[2]);
-                    animList[1] = (sprites[3]);
-                    animation = new Animation(animSpeed, animList);
-                    direction = Direction.RIGHT;
-                    sprite = (sprites[3]);
-                }
-                animation.tick();
-                move(direction);
-            } else {
-                moving = false;
-            }
-        }
-    }
+			} else if (handler.getKeyManager().down) {
+				if (direction != DOWN) {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = sprites[0];
+					animList[1] = sprites[1];
+					animation = new Animation(animSpeed, animList);
+					direction = DOWN;
+					sprite = sprites[0];
+				}
+				animation.tick();
+				move(direction);
+			} else if (handler.getKeyManager().left) {
+				if (direction != Direction.LEFT) {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = Images.flipHorizontal(sprites[2]);
+					animList[1] = Images.flipHorizontal(sprites[3]);
+					animation = new Animation(animSpeed, animList);
+					direction = Direction.LEFT;
+					sprite = Images.flipHorizontal(sprites[3]);
+				}
+				animation.tick();
+				move(direction);
+			} else if (handler.getKeyManager().right) {
+				if (direction != Direction.RIGHT) {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = (sprites[2]);
+					animList[1] = (sprites[3]);
+					animation = new Animation(animSpeed, animList);
+					direction = Direction.RIGHT;
+					sprite = (sprites[3]);
+				}
+				animation.tick();
+				move(direction);
+			} else {
+				moving = false;
+			}
+		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && life < 3) {
+			setLife(getLife() + 0.5);
+		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_J) && life >= 0.5) {
+			setLife(getLife() - 0.5);
+		}
+	}
 
-    @Override
-    public void render(Graphics g) {
-        if (moving&&!itemTick) {
-            g.drawImage(animation.getCurrentFrame(),x , y, width , height  , null);
+	@Override
+	public void render(Graphics g) {
+		if (moving) {
+			g.drawImage(animation.getCurrentFrame(),x , y, width , height  , null);
 
-        } else {
-            if (movingMap){
-                g.drawImage(animation.getCurrentFrame(),x , y, width, height  , null);
-            }
-            g.drawImage(sprite, x , y, width , height , null);
-        }
-        if(itemTick) {
-            g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
-            g.drawImage(Images.npc[4],x+10 , y -40, width/2 , height  , null);
-        }
-    }
+		} else {
+			if (movingMap){
+				g.drawImage(animation.getCurrentFrame(),x , y, width, height  , null);
+			}
+			g.drawImage(sprite, x , y, width , height , null);
+		}
+		if(horray) {
+			g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
+			g.drawImage(Images.npc[4],x+10 , y -40, width/2 , height  , null);
+		}
 
-    @Override
-    public void move(Direction direction) {
-        moving = true;
-        changeIntersectingBounds();
-        //chack for collisions
-        if (ZeldaGameState.inCave){
-            for (SolidStaticEntities objects : handler.getZeldaGameState().caveObjects) {
-                if ((objects instanceof caveSword) && objects.bounds.intersects(interactBounds)) {
-            		pickUpAnim.tick();
-            		itemTick=true;
-                	hasSword=true;
-            		if(pickUpAnim.end) {
-                    	itemTick=false;
-            		}
-                }
-               
 
-                if ((objects instanceof DungeonDoor) && objects.bounds.intersects(bounds) && direction == ((DungeonDoor) objects).direction) {
-                    if (((DungeonDoor) objects).name.equals("caveStartLeave")) {
-                        ZeldaGameState.inCave = false;
-                        x = ((DungeonDoor) objects).nLX + 20;
-                        y = ((DungeonDoor) objects).nLY + 10;
-                        direction = DOWN;
-                    }
-                } else if (!(objects instanceof DungeonDoor) && objects.bounds.intersects(interactBounds)) {
-                    //dont move
-                    return;
-                }
-            }
-        }
-        else {
-            for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
-                if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
-                    if (!(objects instanceof DungeonDoor)) {
-                        movingMap = true;
-                        movingTo = ((SectionDoor) objects).direction;
-                        switch (((SectionDoor) objects).direction) {
-                            case RIGHT:
-                                newMapX = -(((handler.getZeldaGameState().mapWidth) + 1) * 1/2 * worldScale);
-                                newMapY = 0;
-                                handler.getZeldaGameState().mapX++;
-                                xExtraCounter = 8 * worldScale + (2 * worldScale);
-                                break;
-                            case LEFT:
-                                newMapX = (((handler.getZeldaGameState().mapWidth) + 1) * 1/2 * worldScale);
-                                newMapY = 0;
-                                handler.getZeldaGameState().mapX--;
-                                xExtraCounter = 8 * worldScale + (2 * worldScale);
-                                break;
-                            case UP:
-                                newMapX = 0;
-                                newMapY = -(((handler.getZeldaGameState().mapHeight) + 1) * 1/2 * worldScale);
-                                handler.getZeldaGameState().mapY--;
-                                yExtraCounter = 8 * worldScale + (2 * worldScale);
-                                break;
-                            case DOWN:
-                                newMapX = 0;
-                                newMapY = (((handler.getZeldaGameState().mapHeight) + 1) * 1/2 * worldScale);
-                                handler.getZeldaGameState().mapY++;
-                                yExtraCounter = 8 * worldScale + (2 * worldScale);
-                                break;
-                        }
-                        return;
-                    }
-                    else {
-                        if (((DungeonDoor) objects).name.equals("caveStartEnter")) {
-                            ZeldaGameState.inCave = true;
-                            x = ((DungeonDoor) objects).nLX + 10;
-                            y = ((DungeonDoor) objects).nLY - 40;
-                            direction = UP;
-                        }
-                    }
-                }
-                else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
-                    //dont move
-                    return;
-                }
-            }
-        }
-        //Movement
-        switch (direction) {
-            case RIGHT:
-                x += speed;
-                break;
-            case LEFT:
-                x -= speed;
+	}
 
-                break;
-            case UP:
-                y -= speed;
-                break;
-            case DOWN:
-                y += speed;
+	@Override
+	public void move(Direction direction) {
+		moving = true;
+		changeIntersectingBounds();
+		//chack for collisions
+		if (ZeldaGameState.inCave){
+			for (SolidStaticEntities objects : handler.getZeldaGameState().caveObjects) {
+				if ((objects instanceof caveSword) && objects.bounds.intersects(interactBounds)) {
+					hasSword=true;
+					moving=false;
+					if(pickUpAnim.end) {
+						moving=true;
+						horray=false;
+					}
+				}
 
-                break;
-        }
-        bounds.x = x;
-        bounds.y = y;
-        changeIntersectingBounds();
 
-    }
+				if ((objects instanceof DungeonDoor) && objects.bounds.intersects(bounds) && direction == ((DungeonDoor) objects).direction) {
+					if (((DungeonDoor) objects).name.equals("caveStartLeave")) {
+						ZeldaGameState.inCave = false;
+						x = ((DungeonDoor) objects).nLX + 20;
+						y = ((DungeonDoor) objects).nLY + 10;
+						direction = DOWN;
+					}
+				} else if (!(objects instanceof DungeonDoor) && objects.bounds.intersects(interactBounds)) {
+					//dont move
+					return;
+				}
+			}
+		}
+		else {
+			for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
+				if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
+					if (!(objects instanceof DungeonDoor)) {
+						movingMap = true;
+						movingTo = ((SectionDoor) objects).direction;
+						switch (((SectionDoor) objects).direction) {
+						case RIGHT:
+							newMapX = -(((handler.getZeldaGameState().mapWidth) + 1) * 1/2 * worldScale);
+							newMapY = 0;
+							handler.getZeldaGameState().mapX++;
+							xExtraCounter = 8 * worldScale + (2 * worldScale);
+							break;
+						case LEFT:
+							newMapX = (((handler.getZeldaGameState().mapWidth) + 1) * 1/2 * worldScale);
+							newMapY = 0;
+							handler.getZeldaGameState().mapX--;
+							xExtraCounter = 8 * worldScale + (2 * worldScale);
+							break;
+						case UP:
+							newMapX = 0;
+							newMapY = -(((handler.getZeldaGameState().mapHeight) + 1) * 1/2 * worldScale);
+							handler.getZeldaGameState().mapY--;
+							yExtraCounter = 8 * worldScale + (2 * worldScale);
+							break;
+						case DOWN:
+							newMapX = 0;
+							newMapY = (((handler.getZeldaGameState().mapHeight) + 1) * 1/2 * worldScale);
+							handler.getZeldaGameState().mapY++;
+							yExtraCounter = 8 * worldScale + (2 * worldScale);
+							break;
+						}
+						return;
+					}
+					else {
+						if (((DungeonDoor) objects).name.equals("caveStartEnter")) {
+							ZeldaGameState.inCave = true;
+							x = ((DungeonDoor) objects).nLX + 10;
+							y = ((DungeonDoor) objects).nLY - 40;
+							direction = UP;
+						}
+					}
+				}
+				else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
+					//dont move
+					return;
+				}
+			}
+		}
+		//Movement
+		switch (direction) {
+		case RIGHT:
+			x += speed;
+			break;
+		case LEFT:
+			x -= speed;
+
+			break;
+		case UP:
+			y -= speed;
+			break;
+		case DOWN:
+			y += speed;
+
+			break;
+		}
+		bounds.x = x;
+		bounds.y = y;
+		changeIntersectingBounds();
+
+	}
+	public double getLife() {
+		return life;
+	}
+
+	public void setLife(double life) {
+		this.life = life;
+	}
 }
