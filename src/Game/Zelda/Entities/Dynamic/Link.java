@@ -28,6 +28,7 @@ public class Link extends BaseMovingEntity {
 
 
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
+	int celebrateCounter = 60;
 	public boolean movingMap = false,hasSword=false,horray=false;
 	Direction movingTo;
 	Animation pickUpAnim;
@@ -52,12 +53,13 @@ public class Link extends BaseMovingEntity {
 		//Extra abilities for Link
 		//To Do: add extra weapons if possible or abilities, magic, bow etc.
 		//
-		for (SolidStaticEntities objects : handler.getZeldaGameState().caveObjects) {
-			if ((objects instanceof caveSword) && objects.bounds.intersects(interactBounds)) {
-				pickUpAnim.tick();
-				horray=true;
-			}
+		if(!pickUpAnim.end && hasSword == true && horray == true && celebrateCounter <= 0) {
+			pickUpAnim.end = true;
+			moving=true;
+			horray=false;
+			animation.tick();
 		}
+		else if (!pickUpAnim.end && hasSword == true && horray == true && celebrateCounter > 0) {celebrateCounter--;}
 		if (handler.getKeyManager().shift == true) {
 			speed = 5;}
 
@@ -208,11 +210,10 @@ public class Link extends BaseMovingEntity {
 			for (SolidStaticEntities objects : handler.getZeldaGameState().caveObjects) {
 				if ((objects instanceof caveSword) && objects.bounds.intersects(interactBounds)) {
 					hasSword=true;
+					pickUpAnim.tick();
+					horray = true;
 					moving=false;
-					if(pickUpAnim.end) {
-						moving=true;
-						horray=false;
-					}
+					
 				}
 
 
