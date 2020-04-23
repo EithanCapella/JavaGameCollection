@@ -87,9 +87,7 @@ public class ZeldaGameState extends State {
 				runOnce = true;
 
 			}
-				
 				if(link.hasSword&& beginAdventure==false) {
-					System.out.println("begin");
 					beginAdventure=true;
 					caveObjects.remove(92);
 				}

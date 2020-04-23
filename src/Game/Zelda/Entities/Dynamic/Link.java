@@ -183,7 +183,6 @@ public class Link extends BaseMovingEntity {
         if (ZeldaGameState.inCave){
             for (SolidStaticEntities objects : handler.getZeldaGameState().caveObjects) {
                 if ((objects instanceof caveSword) && objects.bounds.intersects(interactBounds)) {
-                	System.out.println("sword");
                 	hasSword=true;
                 }
                

@@ -38,8 +38,6 @@ public class BaseMovingEntity extends BaseEntity {
         interactBounds.height/=2;
     }
 
-
-
 	@Override
     public void tick() {
         if(!dead){
