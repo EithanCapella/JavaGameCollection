@@ -21,6 +21,7 @@ public class BaseMovingEntity extends BaseEntity {
     BufferedImage[] sprites;
     boolean moving = false;
     boolean dead = false;
+    boolean attacking=false;
 
 
     Rectangle interactBounds;
@@ -92,5 +93,10 @@ public class BaseMovingEntity extends BaseEntity {
     public void kill(){
         dead=true;
     }
+
+	public void attack(Direction direction) {
+		attacking=true;
+		
+	}
 
 }

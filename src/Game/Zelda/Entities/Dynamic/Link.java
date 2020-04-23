@@ -24,34 +24,34 @@ public class Link extends BaseMovingEntity {
 
 
     private final int animSpeed = 120;
+    private final int itemAnimSpeed = 265;
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-    public boolean movingMap = false,hasSword=false;
+    public boolean movingMap = false,hasSword=false,itemTick=false;
     Direction movingTo;
+    Animation pickUpAnim;
 
 
-    public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
-        super(x, y, sprite, handler);
+
+    public Link(int x, int y, Handler handler) {
+		super(x, y, Images.zeldaLinkFrames, handler);
         speed = 4;
         health = 6;
-        BufferedImage[] animList = new BufferedImage[2];
-        animList[0] = sprite[4];
-        animList[1] = sprite[5];
-
-        animation = new Animation(animSpeed,animList);
+        //sprites= Images.zeldaLinkFrames;
+        animation = new Animation(animSpeed,Images.zeldaLinkFrames);
+        pickUpAnim = new Animation(itemAnimSpeed,Images.itemPickUpFrames);
     }
 
     @Override
     public void tick() {
-    	
-    	 //Extra abilities for Link
-        //To Do: add extra weapons if possible or abilities, magic, bow etc.
-        //
-          if (handler.getKeyManager().shift == true) {
-          	speed = 5;}
-          	
-          
-          else {speed = 4;}
-    	
+    	//Extra abilities for Link
+    	//To Do: add extra weapons if possible or abilities, magic, bow etc.
+    	//
+    	if (handler.getKeyManager().shift == true) {
+    		speed = 5;}
+
+
+    	else {speed = 4;}
+
         if (movingMap){
             switch (movingTo) {
                 case RIGHT:
@@ -164,7 +164,7 @@ public class Link extends BaseMovingEntity {
 
     @Override
     public void render(Graphics g) {
-        if (moving) {
+        if (moving&&!itemTick) {
             g.drawImage(animation.getCurrentFrame(),x , y, width , height  , null);
 
         } else {
@@ -172,6 +172,10 @@ public class Link extends BaseMovingEntity {
                 g.drawImage(animation.getCurrentFrame(),x , y, width, height  , null);
             }
             g.drawImage(sprite, x , y, width , height , null);
+        }
+        if(itemTick) {
+            g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
+            g.drawImage(Images.npc[4],x+10 , y -40, width/2 , height  , null);
         }
     }
 
@@ -183,7 +187,12 @@ public class Link extends BaseMovingEntity {
         if (ZeldaGameState.inCave){
             for (SolidStaticEntities objects : handler.getZeldaGameState().caveObjects) {
                 if ((objects instanceof caveSword) && objects.bounds.intersects(interactBounds)) {
+            		pickUpAnim.tick();
+            		itemTick=true;
                 	hasSword=true;
+            		if(pickUpAnim.end) {
+                    	itemTick=false;
+            		}
                 }
                
 
