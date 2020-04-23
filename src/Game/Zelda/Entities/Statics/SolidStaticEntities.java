@@ -12,10 +12,14 @@ import java.awt.image.BufferedImage;
  * Created by AlexVR on 3/14/2020
  */
 public class SolidStaticEntities extends BaseEntity {
+    Rectangle interactBounds;
 
-    public SolidStaticEntities(int x, int y, BufferedImage sprite, Handler handler) {
+	public SolidStaticEntities(int x, int y, BufferedImage sprite, Handler handler) {
         super(x, y, sprite,handler);
         bounds = new Rectangle((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height);
+        interactBounds = (Rectangle) bounds.clone();
+        interactBounds.y+=(height/2);
+        interactBounds.height/=2;
 
     }
 
@@ -24,8 +28,9 @@ public class SolidStaticEntities extends BaseEntity {
         g.drawImage(sprite,(x* (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y* (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height,null);
     }
 
-	public Rectangle getBounds() {
-		// TODO Auto-generated method stub
-        return new Rectangle(new Rectangle((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height));
+    public Rectangle getInteractBounds() {
+		return interactBounds;
 	}
+
+	
 }

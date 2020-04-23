@@ -1,6 +1,7 @@
 package Game.GameStates.Zelda;
 
 import Game.GameStates.State;
+import Game.PacMan.entities.Statics.BaseStatic;
 import Game.Zelda.Entities.BaseEntity;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.BouncyFella;
@@ -33,7 +34,7 @@ public class ZeldaGameState extends State {
     //public ArrayList<ArrayList<ArrayList<BaseEntity>>> npc;
     public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> enemies;
     public Link link;
-    public static boolean inCave = false, runOnce = false;
+    public static boolean inCave = false, runOnce = false, beginAdventure=false;;
     public ArrayList<SolidStaticEntities> caveObjects;
 
 
@@ -79,12 +80,19 @@ public class ZeldaGameState extends State {
     @Override
     public void tick() {
         link.tick();
-        if (inCave){
-        	if (runOnce== false) {
-        		link.x = link.x + 20;
-        		link.y = link.y + 20;
-        		runOnce = true;
-        	}
+		if (inCave){
+			if (runOnce== false) {
+				link.x = link.x + 20;
+				link.y = link.y + 20;
+				runOnce = true;
+
+			}
+				
+				if(link.hasSword&& beginAdventure==false) {
+					System.out.println("begin");
+					beginAdventure=true;
+					caveObjects.remove(92);
+				}
         }else {
             if (!link.movingMap) {
                 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {

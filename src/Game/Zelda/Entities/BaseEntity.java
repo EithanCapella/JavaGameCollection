@@ -34,7 +34,11 @@ public class BaseEntity {
 
     }
 
-    public void tick(){
+    public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public void tick(){
 
     }
 

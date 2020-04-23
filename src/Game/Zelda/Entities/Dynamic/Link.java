@@ -4,6 +4,7 @@ import Game.GameStates.Zelda.ZeldaGameState;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
+import Game.Zelda.Entities.Statics.caveSword;
 import Main.Handler;
 import Resources.Animation;
 import Resources.Images;
@@ -24,7 +25,7 @@ public class Link extends BaseMovingEntity {
 
     private final int animSpeed = 120;
     int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-    public boolean movingMap = false;
+    public boolean movingMap = false,hasSword=false;
     Direction movingTo;
 
 
@@ -181,6 +182,12 @@ public class Link extends BaseMovingEntity {
         //chack for collisions
         if (ZeldaGameState.inCave){
             for (SolidStaticEntities objects : handler.getZeldaGameState().caveObjects) {
+                if ((objects instanceof caveSword) && objects.bounds.intersects(interactBounds)) {
+                	System.out.println("sword");
+                	hasSword=true;
+                }
+               
+
                 if ((objects instanceof DungeonDoor) && objects.bounds.intersects(bounds) && direction == ((DungeonDoor) objects).direction) {
                     if (((DungeonDoor) objects).name.equals("caveStartLeave")) {
                         ZeldaGameState.inCave = false;
