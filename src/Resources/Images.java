@@ -92,6 +92,13 @@ public class Images {
     public static BufferedImage EnemyOverwoldImage;
     public SpriteSheet EnemyOverwoldSpriteSheet;
     public static BufferedImage[] bouncyEnemyFrames;
+    public static BufferedImage[] octorokEnemyFrames;
+    public static BufferedImage[] moblinEnemyFrames;
+    public static BufferedImage[] leeverEnemyFrames;
+    public static BufferedImage[] moblinArrow;
+    public static BufferedImage octoBall;
+
+
 
     public Images() {
 
@@ -128,12 +135,11 @@ public class Images {
         magicalSwordAttackFrames = new BufferedImage[16];
         magicalRodAttackFrames = new BufferedImage[16];
         linkHearts= new BufferedImage[2];
-
-
-
-
-
         bouncyEnemyFrames = new BufferedImage[2];
+        octorokEnemyFrames = new BufferedImage[4];
+        moblinEnemyFrames = new BufferedImage[4];
+        leeverEnemyFrames = new BufferedImage[4];
+        moblinArrow = new BufferedImage[3];
         npc = new BufferedImage[5];
         itemPickUpFrames= new BufferedImage[2];
 
@@ -323,6 +329,22 @@ public class Images {
 
             bouncyEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(162,90,16,16);
             bouncyEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(179,90,16,16);
+            octorokEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(1,11,16,16);
+            octorokEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(18,11,16,16);
+            octorokEnemyFrames[2] = EnemyOverwoldSpriteSheet.crop(36,11,16,16);
+            octorokEnemyFrames[3] = EnemyOverwoldSpriteSheet.crop(52,11,16,16);
+            octoBall= EnemyOverwoldSpriteSheet.crop(69,11,8,16);
+            moblinEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(82,11,16,16);
+            moblinEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(99,11,16,16);
+            moblinEnemyFrames[2] = EnemyOverwoldSpriteSheet.crop(116,11,16,16);
+            moblinEnemyFrames[3] = EnemyOverwoldSpriteSheet.crop(133,11,16,16);
+            moblinArrow[0] = EnemyOverwoldSpriteSheet.crop(150,11,8,16); //top
+            moblinArrow[1] = EnemyOverwoldSpriteSheet.crop(159,11,16,16); //side
+            moblinArrow[2] = EnemyOverwoldSpriteSheet.crop(176,11,8,16);
+            leeverEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(1,59,16,16);
+            leeverEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(18,59,16,16);
+            leeverEnemyFrames[2] = EnemyOverwoldSpriteSheet.crop(36,59,16,16);
+            leeverEnemyFrames[3] = EnemyOverwoldSpriteSheet.crop(52,59,16,16);
             itemPickUpFrames[0] = zeldaLinkSpriteSheet.crop(213,11,16,16);
             itemPickUpFrames[1] = zeldaLinkSpriteSheet.crop(230,11,16,16);
 

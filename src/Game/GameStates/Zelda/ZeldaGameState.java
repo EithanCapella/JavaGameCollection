@@ -6,7 +6,10 @@ import Game.Zelda.Entities.BaseEntity;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.BouncyFella;
 import Game.Zelda.Entities.Dynamic.Direction;
+import Game.Zelda.Entities.Dynamic.Leever;
 import Game.Zelda.Entities.Dynamic.Link;
+import Game.Zelda.Entities.Dynamic.Moblin;
+import Game.Zelda.Entities.Dynamic.Octorok;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.Fire;
 import Game.Zelda.Entities.Statics.oldMan;
@@ -187,8 +190,6 @@ public class ZeldaGameState extends State {
         caveObjects.add(new caveSword(8,5,handler));
 
 
-
-
         //7,7
         ArrayList<SolidStaticEntities> solids = new ArrayList<>();
         ArrayList<BaseMovingEntity> monster = new ArrayList<>();
@@ -233,10 +234,17 @@ public class ZeldaGameState extends State {
         objects.get(7).set(7,solids);
         monster = new ArrayList<>();
         monster.add(new BouncyFella(8,4,handler));
-
+        monster.add(new Octorok(4,6,handler));
+        monster.add(new Moblin(6,7,handler));
+        monster.add(new Leever(8,2,handler));
         enemies.get(7).set(7,monster);
-
-
+        
+        //5,7
+        monster = new ArrayList<>();
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*7, Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 4,0,16*worldScale,16*worldScale,Direction.UP,handler));
+        objects.get(5).set(7,solids);
 
         //6,7
         monster = new ArrayList<>();
@@ -251,8 +259,73 @@ public class ZeldaGameState extends State {
         monster.add(new BouncyFella(2,5,handler));
 
         enemies.get(6).set(7,monster);
+      //8,7
+        monster = new ArrayList<>();
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 2,0,16*worldScale * 13,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*7,Direction.RIGHT,handler));        
+        objects.get(8).set(7,solids);
+        
+      //11,7
+        monster = new ArrayList<>();
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 10,0,16*worldScale * 3,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*3,Direction.RIGHT,handler));        
+        objects.get(11).set(7,solids);
+        
+      //0,6
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,5,16*worldScale,16*worldScale*3, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 7,0,16*worldScale * 14,16*worldScale,Direction.UP,handler));
+        objects.get(0).set(6,solids);
+      //5,5
+        monster = new ArrayList<>();
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale, Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 2,10,16*worldScale*4,16*worldScale,Direction.DOWN,handler));
+        solids.add(new SectionDoor( 6,10,16*worldScale*4,16*worldScale,Direction.DOWN,handler));
+        solids.add(new SectionDoor( 11,10,16*worldScale,16*worldScale,Direction.DOWN,handler));
+        solids.add(new SectionDoor( 13,10,16*worldScale,16*worldScale,Direction.DOWN,handler));
+        objects.get(5).set(5,solids);
+      //6,5
+        monster = new ArrayList<>();
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 7,0,16*worldScale * 2,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*8, Direction.RIGHT,handler));
 
-
+        objects.get(6).set(5,solids);
+      //4,6
+        monster = new ArrayList<>();
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*6, Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 3,0,16*worldScale*3,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 8,0,16*worldScale*3,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 13,0,16*worldScale*3,16*worldScale,Direction.UP,handler));
+        objects.get(4).set(6,solids);
+      //5,6
+        monster = new ArrayList<>();
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,2,16*worldScale,16*worldScale*6, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 4,10,16*worldScale,16*worldScale,Direction.DOWN,handler));
+        solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*6, Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 7,0,16*worldScale * 3,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 2,0,16*worldScale*3,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 9,0,16*worldScale,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 11,0,16*worldScale,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 13,0,16*worldScale,16*worldScale,Direction.UP,handler));
+        objects.get(5).set(6,solids);
+      
+      //6,6
+        monster = new ArrayList<>();
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale*3, Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 12,10,16*worldScale * 2,16*worldScale,Direction.DOWN,handler));
+        solids.add(new SectionDoor( 0,2,16*worldScale,16*worldScale*6, Direction.LEFT,handler));
+        objects.get(6).set(6,solids);
 
         //7,6
         monster = new ArrayList<>();
@@ -262,14 +335,76 @@ public class ZeldaGameState extends State {
         solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale*3,Direction.RIGHT,handler));
         objects.get(7).set(6,solids);
 
-        //8,7
-        monster = new ArrayList<>();
+        //8,6
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,3,16*worldScale,16*worldScale*3, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 15,3,16*worldScale,16*worldScale*3,Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 3,0,16*worldScale,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 5,0,16*worldScale,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 7,0,16*worldScale*2,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 10,0,16*worldScale,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 12,0,16*worldScale,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 3,10,16*worldScale,16*worldScale,Direction.DOWN,handler));
+        solids.add(new SectionDoor( 5,10,16*worldScale,16*worldScale,Direction.DOWN,handler));
+        solids.add(new SectionDoor( 7,10,16*worldScale*2,16*worldScale,Direction.DOWN,handler));
+        solids.add(new SectionDoor( 10,10,16*worldScale,16*worldScale,Direction.DOWN,handler));
+        solids.add(new SectionDoor( 12,10,16*worldScale,16*worldScale,Direction.DOWN,handler));
+        solids.add(new SectionDoor( 14,10,16*worldScale*2,16*worldScale,Direction.DOWN,handler));      
+        objects.get(8).set(6,solids);
+      //9,6;
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,3,16*worldScale,16*worldScale*3, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale*3,Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 7,0,16*worldScale * 2,16*worldScale,Direction.UP,handler));
+        objects.get(9).set(6,solids);
+      //10,6
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,4,16*worldScale,16*worldScale*3, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*6,Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 7,0,16*worldScale * 4,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 10,0,16*worldScale ,16*worldScale,Direction.UP,handler));
+        objects.get(10).set(6,solids);
+      //11,6
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,2,16*worldScale,16*worldScale*10,Direction.LEFT,handler));
+        solids.add(new SectionDoor( 15,5,16*worldScale,16*worldScale,Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 1,0,16*worldScale ,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 3,0,16*worldScale*4 ,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 9,0,16*worldScale ,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 11,0,16*worldScale ,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 9,10,16*worldScale*4 ,16*worldScale,Direction.DOWN,handler));
+        objects.get(11).set(6,solids);
+      //12,6
         solids = new ArrayList<>();
         solids.add(new SectionDoor( 0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        solids.add(new SectionDoor( 2,0,16*worldScale * 13,16*worldScale,Direction.UP,handler));
-        solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*7,Direction.RIGHT,handler));        
-        objects.get(8).set(7,solids);
-       
+        solids.add(new SectionDoor( 15,13,16*worldScale,16*worldScale,Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 15,3,16*worldScale,16*worldScale,Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 3,0,16*worldScale ,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 7,0,16*worldScale ,16*worldScale,Direction.UP,handler));
+
+
+        objects.get(12).set(6,solids);
+      //13,6
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,3,16*worldScale,16*worldScale,Direction.LEFT,handler));
+        solids.add(new SectionDoor( 0,13,16*worldScale,16*worldScale,Direction.LEFT,handler));
+        solids.add(new SectionDoor( 3,0,16*worldScale ,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 7,0,16*worldScale ,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale*2,Direction.RIGHT,handler));
+        objects.get(13).set(6,solids);
+      //14,6
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,3,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*6,Direction.RIGHT,handler));
+        objects.get(14).set(6,solids);
+      //15,6
+        solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 3,0,16*worldScale*4 ,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 3,10,16*worldScale*4 ,16*worldScale,Direction.DOWN,handler));
+        objects.get(15).set(6,solids);
+
+
 
 
         
