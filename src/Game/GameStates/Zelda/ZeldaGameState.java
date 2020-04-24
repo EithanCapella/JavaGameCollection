@@ -10,6 +10,7 @@ import Game.Zelda.Entities.Dynamic.Leever;
 import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Dynamic.Moblin;
 import Game.Zelda.Entities.Dynamic.Octorok;
+import Game.Zelda.Entities.Dynamic.Zora;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.Fire;
 import Game.Zelda.Entities.Statics.oldMan;
@@ -237,6 +238,8 @@ public class ZeldaGameState extends State {
         monster.add(new Octorok(4,6,handler));
         monster.add(new Moblin(6,7,handler));
         monster.add(new Leever(8,2,handler));
+        monster.add(new Zora(2,5,handler));
+
         enemies.get(7).set(7,monster);
         
         //5,7

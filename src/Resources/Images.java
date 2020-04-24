@@ -95,6 +95,7 @@ public class Images {
     public static BufferedImage[] octorokEnemyFrames;
     public static BufferedImage[] moblinEnemyFrames;
     public static BufferedImage[] leeverEnemyFrames;
+    public static BufferedImage[] zoraEnemyFrames;
     public static BufferedImage[] moblinArrow;
     public static BufferedImage octoBall;
 
@@ -139,6 +140,7 @@ public class Images {
         octorokEnemyFrames = new BufferedImage[4];
         moblinEnemyFrames = new BufferedImage[4];
         leeverEnemyFrames = new BufferedImage[4];
+        zoraEnemyFrames = new BufferedImage[4];
         moblinArrow = new BufferedImage[3];
         npc = new BufferedImage[5];
         itemPickUpFrames= new BufferedImage[2];
@@ -345,8 +347,13 @@ public class Images {
             leeverEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(18,59,16,16);
             leeverEnemyFrames[2] = EnemyOverwoldSpriteSheet.crop(36,59,16,16);
             leeverEnemyFrames[3] = EnemyOverwoldSpriteSheet.crop(52,59,16,16);
+            zoraEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(189,11,16,16);
+            zoraEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(206,11,16,16);
+            zoraEnemyFrames[2] = EnemyOverwoldSpriteSheet.crop(224,11,16,16);
+            zoraEnemyFrames[3] = EnemyOverwoldSpriteSheet.crop(240,11,16,16);
             itemPickUpFrames[0] = zeldaLinkSpriteSheet.crop(213,11,16,16);
             itemPickUpFrames[1] = zeldaLinkSpriteSheet.crop(230,11,16,16);
+            
 
             //dungeon one tiles
             zeldaTiles.add(zeldaSpriteSheet.crop(815,11,32,32));
