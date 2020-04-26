@@ -7,7 +7,11 @@ import Game.GameStates.Zelda.ZeldaIntroStates;
 import Game.GameStates.Zelda.ZeldaMapMakerState;
 import Game.PacMan.World.Map;
 import Game.PacMan.entities.Dynamics.PacMan;
+import Game.Zelda.Entities.Dynamic.BouncyFella;
 import Game.Zelda.Entities.Dynamic.Link;
+import Game.Zelda.Entities.Dynamic.Moblin;
+import Game.Zelda.Entities.Dynamic.Octorok;
+import Game.Zelda.Entities.Dynamic.Zora;
 import Input.KeyManager;
 import Input.MouseManager;
 import Resources.MusicHandler;
@@ -35,8 +39,13 @@ public class Handler {
     private Map map;
     private PacMan pacman;
     private Link link;
+    private Octorok octorok;
+    private BouncyFella bouncyFella;
+    private Moblin moblin;
+    private Zora zora;
+    
 
-    public Handler(GameSetUp game){
+	public Handler(GameSetUp game){
         this.game = game;
     }
 
@@ -186,4 +195,37 @@ public class Handler {
     public void setLink(Link link) {
         this.link = link;
     }
+
+    public Octorok getOctorok() {
+		return octorok;
+	}
+
+	public void setOctorok(Octorok octorok) {
+		this.octorok = octorok;
+	}
+
+	public BouncyFella getBouncyFella() {
+		return bouncyFella;
+	}
+
+	public void setBouncyFella(BouncyFella bouncyFella) {
+		this.bouncyFella = bouncyFella;
+	}
+
+	public Moblin getMoblin() {
+		return moblin;
+	}
+
+	public void setMoblin(Moblin moblin) {
+		this.moblin = moblin;
+	}
+
+	public Zora getZora() {
+		return zora;
+	}
+
+	public void setZora(Zora zora) {
+		this.zora = zora;
+	}
+
 }

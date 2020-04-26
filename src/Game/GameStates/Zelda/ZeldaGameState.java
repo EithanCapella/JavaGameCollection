@@ -234,8 +234,8 @@ public class ZeldaGameState extends State {
         solids.add(new SolidStaticEntities(9,0,Images.forestTiles.get(5),handler));
         objects.get(7).set(7,solids);
         monster = new ArrayList<>();
-        monster.add(new BouncyFella(8,4,handler));
-        monster.add(new Octorok(4,6,handler));
+        monster.add(new BouncyFella(4,6,handler));
+        monster.add(new Octorok(8,4,handler));
         monster.add(new Moblin(6,7,handler));
         monster.add(new Leever(8,2,handler));
         monster.add(new Zora(2,5,handler));

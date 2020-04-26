@@ -52,9 +52,7 @@ public class Link extends BaseMovingEntity {
 		animList1[2] = (Images.woodenSwordAttackFrames[10]);
 		animList1[3] = (Images.woodenSwordAttackFrames[11]);
 		attackAnim = new Animation(100,animList1);
-
 	}
-
 	@Override
 	public void tick() {
 		//Extra abilities for Link
@@ -103,7 +101,6 @@ public class Link extends BaseMovingEntity {
 					x-=2;
 					xExtraCounter--;
 					animation.tick();
-
 				}else{
 					x++;
 				}
@@ -115,7 +112,6 @@ public class Link extends BaseMovingEntity {
 					y-=2;
 					yExtraCounter--;
 					animation.tick();
-
 				}else{
 					y++;
 				}
@@ -265,15 +261,19 @@ public class Link extends BaseMovingEntity {
 			g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
 			g.drawImage(Images.npc[4],x , y -40, width/2 , height  , null);
 		}
-		if (attacking) {
-			g.drawImage(attackAnim.getCurrentFrame(),x , y, attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
+		if (attacking) {    
+			if(direction == Direction.LEFT) {
+				g.drawImage(attackAnim.getCurrentFrame(),this.x -(attackAnim.getCurrentFrame().getWidth()*2-this.width) , y,attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
+			}
+			if(direction == Direction.UP) {
+				g.drawImage(attackAnim.getCurrentFrame(),x , this.y -(attackAnim.getCurrentFrame().getHeight()*2 -this.height), attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
+			}else {g.drawImage(attackAnim.getCurrentFrame(),x , y, attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null); }
 		}
 		if (hurt&& !attacking) {
-			g.drawImage(hurtAnim.getCurrentFrame(),x , y, width , height, null);
+			g.drawImage(hurtAnim.getCurrentFrame(),x , y, width , height, null); 
 		}
-
-
 	}
+	 
 
 	@Override
 	public void move(Direction direction) {
