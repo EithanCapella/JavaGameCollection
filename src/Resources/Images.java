@@ -74,6 +74,7 @@ public class Images {
     public SpriteSheet npcSpriteSheet;
     public SpriteSheet itemSpriteSheet;
     public static BufferedImage[] zeldaLinkFrames;
+    public static BufferedImage[] linkHurtFrames;
     public static BufferedImage[] woodenSwordAttackFrames;
     public static BufferedImage[] whiteSwordAttackFrames;
     public static BufferedImage[] magicalSwordAttackFrames;
@@ -144,6 +145,8 @@ public class Images {
         moblinArrow = new BufferedImage[3];
         npc = new BufferedImage[5];
         itemPickUpFrames= new BufferedImage[2];
+        linkHurtFrames = new BufferedImage[3];
+
 
 
 
@@ -284,19 +287,22 @@ public class Images {
             zeldaLinkFrames[3] = zeldaLinkSpriteSheet.crop(52,11,16,16);
             zeldaLinkFrames[4] = zeldaLinkSpriteSheet.crop(69,11,16,16);
             zeldaLinkFrames[5] = zeldaLinkSpriteSheet.crop(86,11,16,16);
+            linkHurtFrames[0] = zeldaLinkSpriteSheet.crop(92,224,16,16);
+            linkHurtFrames[1] = zeldaLinkSpriteSheet.crop(75,224,16,16);
+            linkHurtFrames[2] = zeldaLinkSpriteSheet.crop(58,224,16,16);
             
             woodenSwordAttackFrames[0] = zeldaLinkSpriteSheet.crop(1,47,16,16); //attackDownStart
             woodenSwordAttackFrames[1] = zeldaLinkSpriteSheet.crop(18,47,16,28); //attackDownEnd
             woodenSwordAttackFrames[2] = zeldaLinkSpriteSheet.crop(35,47,16,23);
             woodenSwordAttackFrames[3] = zeldaLinkSpriteSheet.crop(52,47,16,19); //downAnimEnd
             woodenSwordAttackFrames[4] = zeldaLinkSpriteSheet.crop(1,77,16,16);
-            woodenSwordAttackFrames[5] = zeldaLinkSpriteSheet.crop(18,77,27,17); //attackSideEnd
+            woodenSwordAttackFrames[5] = zeldaLinkSpriteSheet.crop(18,77,27,17); 
             woodenSwordAttackFrames[6] = zeldaLinkSpriteSheet.crop(46,77,23,17);
             woodenSwordAttackFrames[7] = zeldaLinkSpriteSheet.crop(70,77,19,17); //sideAnimEnd
-            woodenSwordAttackFrames[8] = zeldaLinkSpriteSheet.crop(1,109,16,16);
+            woodenSwordAttackFrames[8] = zeldaLinkSpriteSheet.crop(1,97,16,28);
             woodenSwordAttackFrames[9] = zeldaLinkSpriteSheet.crop(18,97,16,28); //attackUpEnd
-            woodenSwordAttackFrames[10] = zeldaLinkSpriteSheet.crop(35,98,16,27);
-            woodenSwordAttackFrames[11] = zeldaLinkSpriteSheet.crop(53,107,16,19); //upAnimEnd
+            woodenSwordAttackFrames[10] = zeldaLinkSpriteSheet.crop(35,97,16,28);
+            woodenSwordAttackFrames[11] = zeldaLinkSpriteSheet.crop(52,97,16,28); //upAnimEnd
             woodenSwordAttackFrames[12] = zeldaLinkSpriteSheet.crop(1,128,16,23);//unknown 
             woodenSwordAttackFrames[13] = zeldaLinkSpriteSheet.crop(18,128,16,19); //unknown 
             woodenSwordAttackFrames[14] = zeldaLinkSpriteSheet.crop(35,128,23,17);//unknown 

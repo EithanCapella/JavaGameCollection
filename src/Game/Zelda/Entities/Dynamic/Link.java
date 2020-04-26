@@ -28,10 +28,10 @@ public class Link extends BaseMovingEntity {
 
 
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-	int celebrateCounter = 60;
-	public boolean movingMap = false,hasSword=false,horray=false;
+	int celebrateCounter = 60,attackCounter=30,hurtCounter=20;
+	public boolean movingMap = false,hasSword=false,horray=false,hurt=false;
 	Direction movingTo;
-	Animation pickUpAnim;
+	Animation pickUpAnim,attackAnim,hurtAnim;
 
 
 
@@ -42,9 +42,16 @@ public class Link extends BaseMovingEntity {
 		BufferedImage[] animList = new BufferedImage[2];
 		animList[0] = sprite[4];
 		animList[1] = sprite[5];
-
+		
 		animation = new Animation(animSpeed,animList);
 		pickUpAnim = new Animation(500,Images.itemPickUpFrames);
+		hurtAnim = new Animation(90,Images.linkHurtFrames);
+		BufferedImage[] animList1 = new BufferedImage[4];
+		animList1[0] = (Images.woodenSwordAttackFrames[8]);
+		animList1[1] = (Images.woodenSwordAttackFrames[9]);
+		animList1[2] = (Images.woodenSwordAttackFrames[10]);
+		animList1[3] = (Images.woodenSwordAttackFrames[11]);
+		attackAnim = new Animation(100,animList1);
 
 	}
 
@@ -53,17 +60,26 @@ public class Link extends BaseMovingEntity {
 		//Extra abilities for Link
 		//To Do: add extra weapons if possible or abilities, magic, bow etc.
 		//
-		if(!pickUpAnim.end && hasSword == true && horray == true && celebrateCounter <= 0) {
+		if(hurt) {
+			hurtAnim.tick();
+		}
+		if (hurtCounter > 0 && hurt) {hurtCounter--;}
+		if (hurtCounter <= 0 && hurt) {hurtCounter = 20;hurt = false;}
+		if(attacking) {
+			attackAnim.tick();
+			attack(direction);
+		}
+		if (attackCounter > 0 && attacking) {attackCounter--;}
+		if (attackCounter <= 0 && attacking) {attackCounter = 30; attacking = false;}
+		if(!pickUpAnim.end && hasSword&& horray && celebrateCounter <= 0) {
 			pickUpAnim.end = true;
 			moving=true;
 			horray=false;
 			animation.tick();
 		}
-		else if (!pickUpAnim.end && hasSword == true && horray == true && celebrateCounter > 0) {celebrateCounter--;}
+		else if (!pickUpAnim.end && hasSword&& horray&& celebrateCounter > 0) {celebrateCounter--;}
 		if (handler.getKeyManager().shift == true) {
 			speed = 5;}
-
-
 		else {speed = 4;}
 
 		if (movingMap){
@@ -72,7 +88,7 @@ public class Link extends BaseMovingEntity {
 				handler.getZeldaGameState().cameraOffsetX+=2;
 				newMapX++;
 				if (xExtraCounter>0){
-					x+=2;
+					x-=11;
 					xExtraCounter--;
 					animation.tick();
 
@@ -125,19 +141,29 @@ public class Link extends BaseMovingEntity {
 				newMapY = 0;
 			}
 		}else {
-			if (handler.getKeyManager().up) {
+			if (handler.getKeyManager().up&& !horray) {
 				if (direction != UP) {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = sprites[4];
 					animList[1] = sprites[5];
 					animation = new Animation(animSpeed, animList);
 					direction = UP;
-					sprite = sprites[4];
+					sprite = sprites[4];	
 				}
-				animation.tick();
-				move(direction);
-
-			} else if (handler.getKeyManager().down) {
+				if(attacking) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					int Speed=100;
+					animList1[0] = (Images.woodenSwordAttackFrames[8]);
+					animList1[1] = (Images.woodenSwordAttackFrames[9]);
+					animList1[2] = (Images.woodenSwordAttackFrames[10]);
+					animList1[3] = (Images.woodenSwordAttackFrames[11]);
+					attackAnim = new Animation(Speed, animList1);
+				}
+				if(!attacking&&!horray) {
+					animation.tick();
+					move(direction);
+				}
+			} else if (handler.getKeyManager().down&&!horray) {
 				if (direction != DOWN) {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = sprites[0];
@@ -146,9 +172,21 @@ public class Link extends BaseMovingEntity {
 					direction = DOWN;
 					sprite = sprites[0];
 				}
-				animation.tick();
-				move(direction);
-			} else if (handler.getKeyManager().left) {
+				if(attacking) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					int Speed=100;
+					animList1[0] = (Images.woodenSwordAttackFrames[0]);
+					animList1[1] = (Images.woodenSwordAttackFrames[1]);
+					animList1[2] = (Images.woodenSwordAttackFrames[2]);
+					animList1[3] = (Images.woodenSwordAttackFrames[3]);
+					attackAnim = new Animation(Speed, animList1);
+					//attacking=false;
+				}
+				if(!attacking&&!horray) {
+					animation.tick();
+					move(direction);
+				}
+			} else if (handler.getKeyManager().left&&!horray) {
 				if (direction != Direction.LEFT) {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = Images.flipHorizontal(sprites[2]);
@@ -157,9 +195,21 @@ public class Link extends BaseMovingEntity {
 					direction = Direction.LEFT;
 					sprite = Images.flipHorizontal(sprites[3]);
 				}
-				animation.tick();
-				move(direction);
-			} else if (handler.getKeyManager().right) {
+				if(attacking) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					int Speed=100;
+					animList1[0] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[4]));
+					animList1[1] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[5]));
+					animList1[2] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[6]));
+					animList1[3] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[7]));
+					attackAnim = new Animation(Speed, animList1);
+					//attacking=false;
+				}
+				if(!attacking&&!horray) {
+					animation.tick();
+					move(direction);
+				}
+			} else if (handler.getKeyManager().right&&!horray) {
 				if (direction != Direction.RIGHT) {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = (sprites[2]);
@@ -168,12 +218,30 @@ public class Link extends BaseMovingEntity {
 					direction = Direction.RIGHT;
 					sprite = (sprites[3]);
 				}
-				animation.tick();
-				move(direction);
+				if(attacking) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					int Speed=100;
+					animList1[0] = (Images.woodenSwordAttackFrames[4]);
+					animList1[1] = (Images.woodenSwordAttackFrames[5]);
+					animList1[2] = (Images.woodenSwordAttackFrames[6]);
+					animList1[3] = (Images.woodenSwordAttackFrames[7]);
+					attackAnim = new Animation(Speed, animList1);
+					//attacking=false;
+				}
+				if(!attacking&&!horray) {
+					animation.tick();
+					move(direction);
+				}
+				
 			} else {
 				moving = false;
 			}
 		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
+			attack(direction);
+		}
+
+		
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && life < 3) {
 			setLife(getLife() + 0.5);
 		}
@@ -184,18 +252,24 @@ public class Link extends BaseMovingEntity {
 
 	@Override
 	public void render(Graphics g) {
-		if (moving) {
+		if (moving&&!attacking) {
 			g.drawImage(animation.getCurrentFrame(),x , y, width , height  , null);
 
 		} else {
-			if (movingMap){
+			if (movingMap&&!attacking){
 				g.drawImage(animation.getCurrentFrame(),x , y, width, height  , null);
 			}
 			g.drawImage(sprite, x , y, width , height , null);
 		}
-		if(horray) {
+		if(horray&&!attacking) {
 			g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
-			g.drawImage(Images.npc[4],x+10 , y -40, width/2 , height  , null);
+			g.drawImage(Images.npc[4],x , y -40, width/2 , height  , null);
+		}
+		if (attacking) {
+			g.drawImage(attackAnim.getCurrentFrame(),x , y, attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
+		}
+		if (hurt&& !attacking) {
+			g.drawImage(hurtAnim.getCurrentFrame(),x , y, width , height, null);
 		}
 
 
@@ -213,10 +287,7 @@ public class Link extends BaseMovingEntity {
 					pickUpAnim.tick();
 					horray = true;
 					moving=false;
-					
 				}
-
-
 				if ((objects instanceof DungeonDoor) && objects.bounds.intersects(bounds) && direction == ((DungeonDoor) objects).direction) {
 					if (((DungeonDoor) objects).name.equals("caveStartLeave")) {
 						ZeldaGameState.inCave = false;
@@ -231,6 +302,81 @@ public class Link extends BaseMovingEntity {
 			}
 		}
 		else {
+			for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
+				if((objects instanceof Moblin)&&objects.bounds.intersects(bounds)) {
+					hurt=true;
+					life-=0.5;
+					if(direction == Direction.LEFT) {
+						x+=60;
+					}else if(direction == Direction.RIGHT) {
+						x-=60;
+					}
+					else if(direction == Direction.UP) {
+						y+=60;
+					}else if(direction == Direction.DOWN) {
+						y-=60;
+					}
+
+				}
+				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
+					hurt=true;
+					life-=0.5;
+					if(direction == Direction.LEFT) {
+						x+=60;
+					}else if(direction == Direction.RIGHT) {
+						x-=60;
+					}
+					else if(direction == Direction.UP) {
+						y+=60;
+					}else if(direction == Direction.DOWN) {
+						y-=60;
+					}
+				}
+				if((objects instanceof Zora)&&objects.bounds.intersects(bounds)) {
+					hurt=true;
+					life-=0.5;
+					if(direction == Direction.LEFT) {
+						x+=60;
+					}else if(direction == Direction.RIGHT) {
+						x-=60;
+					}
+					else if(direction == Direction.UP) {
+						y+=60;
+					}else if(direction == Direction.DOWN) {
+						y-=60;
+					}
+				}
+				if((objects instanceof Leever)&&objects.bounds.intersects(bounds)) {
+					hurt=true;
+					life-=0.5;
+					if(direction == Direction.LEFT) {
+						x+=60;
+					}else if(direction == Direction.RIGHT) {
+						x-=60;
+					}
+					else if(direction == Direction.UP) {
+						y+=60;
+					}else if(direction == Direction.DOWN) {
+						y-=60;
+					}
+				}
+				if((objects instanceof BouncyFella)&&objects.bounds.intersects(bounds)) {
+					hurt=true;
+					life-=0.5;
+					if(direction == Direction.LEFT) {
+						x+=60;
+					}else if(direction == Direction.RIGHT) {
+						x-=60;
+					}
+					else if(direction == Direction.UP) {
+						y+=60;
+					}else if(direction == Direction.DOWN) {
+						y-=60;
+					}
+				}
+			}
+
+			
 			for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
 				if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
 					if (!(objects instanceof DungeonDoor)) {
