@@ -80,6 +80,8 @@ public class Images {
     public static BufferedImage[] magicalSwordAttackFrames;
     public static BufferedImage[] magicalRodAttackFrames;
     public static BufferedImage[] linkHearts;
+    public static BufferedImage[] woodenLaser;
+
 
 
 
@@ -146,6 +148,8 @@ public class Images {
         npc = new BufferedImage[5];
         itemPickUpFrames= new BufferedImage[2];
         linkHurtFrames = new BufferedImage[3];
+        woodenLaser = new BufferedImage[3];
+
 
 
 
@@ -317,9 +321,14 @@ public class Images {
             npc[1] = npcSpriteSheet.crop(52, 11, 16, 16); // fire
             npc[2] = npcSpriteSheet.crop(35, 11, 16, 16); // old lady
             npc[3] = npcSpriteSheet.crop(109, 11, 16, 16); // merchant1
-            npc[4] = zeldaLinkSpriteSheet.crop(1,154,8,16);; //sword
             itemImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/items.png"));
             itemSpriteSheet = new SpriteSheet( itemImage);
+            npc[4] = itemSpriteSheet.crop(104, 0, 7, 16); //swordUp
+            //woodenLaser[0] = zeldaLinkSpriteSheet.crop(1,154,8,16); //swordDown
+            //woodenLaser[1] = zeldaLinkSpriteSheet.crop(1,154,8,16); //sword
+            //WoodenLaser[2] = zeldaLinkSpriteSheet.crop(1,154,8,16); //sword
+
+
             linkHearts[0] = itemSpriteSheet.crop(0, 0, 8, 8); // fullHeart 
             linkHearts[1] = itemSpriteSheet.crop(8,0,8,8); // halfHeart
 
@@ -578,8 +587,6 @@ public class Images {
 
 
     }
-
-
     public BufferedImage invertImage(BufferedImage bufferedImage, String name) {
         String path = Objects.requireNonNull(getClass().getClassLoader().getResource(".")).getPath();
         String path2 = path.substring(0,path.indexOf("/bin/"))+"/res/Edited/"+name+".png";

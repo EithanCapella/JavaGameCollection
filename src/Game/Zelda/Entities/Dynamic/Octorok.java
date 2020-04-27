@@ -21,7 +21,10 @@ public class Octorok extends BaseMovingEntity{
 	double distancedToMoveY=0;
 	int count=1;
 	int movecount= 0;
-	boolean bouncy=false;
+	private double life= 3.0;
+
+
+	boolean bouncy=false,hurt=false;
 
 	public Octorok(int x, int y, Handler handler) {
 		super(x, y, Images.octorokEnemyFrames, handler);
@@ -34,6 +37,22 @@ public class Octorok extends BaseMovingEntity{
 		if(!dead) {
 			animation.tick();
 
+		}
+		if(hurt) {
+			life-=1.0;
+			if(direction == Direction.LEFT) {
+				x+=60;
+			}else if(direction == Direction.RIGHT) {
+				x-=60;
+			}
+			else if(direction == Direction.UP) {
+				y+=60;
+			}else if(direction == Direction.DOWN) {
+				y-=60;
+			}
+			}
+		if(life==0) {
+			kill();
 		}
 	}
 
@@ -49,5 +68,18 @@ public class Octorok extends BaseMovingEntity{
 	public void changeIntersectingBounds() {
 		interactBounds = (Rectangle) bounds.clone();
 	}
+	public boolean isHurt() {
+		return hurt;
+	}
+	public void setHurt(boolean hurt) {
+		this.hurt = hurt;
+	}
+	public double getLife() {
+		return life;
+	}
+	public void setLife(double life) {
+		this.life = life;
+	}
+
 
 }

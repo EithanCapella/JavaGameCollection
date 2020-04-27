@@ -316,20 +316,25 @@ public class Link extends BaseMovingEntity {
 					}else if(direction == Direction.DOWN) {
 						y-=60;
 					}
-
 				}
 				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
-					hurt=true;
-					life-=0.5;
-					if(direction == Direction.LEFT) {
-						x+=60;
-					}else if(direction == Direction.RIGHT) {
-						x-=60;
+					if(moving) {
+						hurt=true;
+						life-=0.5;
+						if(direction == Direction.LEFT) {
+							x+=60;
+						}else if(direction == Direction.RIGHT) {
+							x-=60;
+						}
+						else if(direction == Direction.UP) {
+							y+=60;
+						}else if(direction == Direction.DOWN) {
+							y-=60;
+						}
 					}
-					else if(direction == Direction.UP) {
-						y+=60;
-					}else if(direction == Direction.DOWN) {
-						y-=60;
+					if(attacking) {
+						System.out.println("attacking hit");
+						handler.getOctorok().setHurt(true);
 					}
 				}
 				if((objects instanceof Zora)&&objects.bounds.intersects(bounds)) {

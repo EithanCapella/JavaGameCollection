@@ -16,9 +16,7 @@ public class SolidStaticEntities extends BaseEntity {
 	public SolidStaticEntities(int x, int y, BufferedImage sprite, Handler handler) {
         super(x, y, sprite,handler);
         bounds = new Rectangle((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height);
-
     }
-
     @Override
     public void render(Graphics g) {
         g.drawImage(sprite,(x* (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y* (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height,null);

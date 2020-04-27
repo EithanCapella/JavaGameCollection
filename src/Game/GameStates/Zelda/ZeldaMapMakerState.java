@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * Created by AlexVR on 3/14/2020
@@ -215,6 +216,72 @@ public class ZeldaMapMakerState extends State {
             if (linking){
                 handler.getDisplayScreen().confirm("Stopped Linking");
                 linking = false;
+            }
+        }
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_F)){
+            if (linking){
+                handler.getDisplayScreen().confirm("Please click where the last tile will teleport too.");
+            }else {
+            	Random random = new Random();
+                counter = random.nextInt(30);
+                selector=random.nextInt(4);
+            	if (selector > 4) {
+                    selector = 0;
+                }
+                switch (selector) {
+                    case 0:
+                        selectedList = Images.zeldaTiles;
+                        break;
+                    case 1:
+                        selectedList = Images.forestTiles;
+                        break;
+                    case 2:
+                        selectedList = Images.caveTiles;
+                        break;
+                    case 3:
+                        selectedList = Images.mountainTiles;
+                        break;
+                    case 4:
+                        selectedList = Images.graveTiles;
+                        break;
+                }
+            }
+        }
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_R)){
+            if (linking){
+                handler.getDisplayScreen().confirm("Please click where the last tile will teleport too.");
+            }else {
+            	Random random = new Random();
+                switch (selector) {
+                    case 0:
+                        if (selector == 0) {
+                            counter = random.nextInt(30);
+                        }
+                        break;
+                    default:
+                        if (selector != 0) {
+                            counter = random.nextInt(42);
+                        } 
+                        break;
+                }
+            }
+        }
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_B)){
+            if (linking){
+                handler.getDisplayScreen().confirm("Please click where the last tile will teleport too.");
+            }else {
+                switch (selector) {
+                    case 0:
+                        if (selector == 0) {
+                            counter = 15;
+                        }
+                        break;
+                    default:
+                        if (selector != 0) {
+                            counter = 21;
+                        } 
+                        break;
+                }
             }
         }
 
