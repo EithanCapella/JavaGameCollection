@@ -198,7 +198,10 @@ public class Link extends BaseMovingEntity {
 			
 			attackingMethod();
 		}
-
+		
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_L)) {
+			handler.changeState(handler.getZeldaMerchantState());
+		}
 		
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && life < 3) {
 			setLife(getLife() + 0.5);

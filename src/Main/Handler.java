@@ -5,6 +5,7 @@ import Game.GameStates.*;
 import Game.GameStates.Zelda.ZeldaGameState;
 import Game.GameStates.Zelda.ZeldaIntroStates;
 import Game.GameStates.Zelda.ZeldaMapMakerState;
+import Game.GameStates.Zelda.ZeldaMerchantState;
 import Game.PacMan.World.Map;
 import Game.PacMan.entities.Dynamics.PacMan;
 import Game.Zelda.Entities.Dynamic.BouncyFella;
@@ -98,6 +99,10 @@ public class Handler {
         return (PacManState)getGameProperties().pacmanState;
     }
 
+    public ZeldaMerchantState getZeldaMerchantState() {
+    	return (ZeldaMerchantState)getGameProperties().zeldaMerchantState;
+    }
+    
     public ZeldaGameState getZeldaGameState (){
         return (ZeldaGameState)getGameProperties().zeldaGameState;
     }
