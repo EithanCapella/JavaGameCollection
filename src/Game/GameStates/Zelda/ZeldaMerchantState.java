@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
  */
 public class ZeldaMerchantState extends State {
 	public boolean runOnce = false;
-	public int size = 24, choice = 0;
+	public int size = 24, choice = 0, stealingCount = 60*2, stealingCount2 = 60*2;
 	public String shopMode = "Choices";
     public ZeldaMerchantState(Handler handler) {
         super(handler);
@@ -44,6 +44,14 @@ public class ZeldaMerchantState extends State {
     			shopMode = "Leave";
     		}
     	}
+    	if (shopMode == "Steal") {
+    		if (stealingCount > 0) {stealingCount--;}
+    		else if (stealingCount <= 0) {
+    			stealingCount = 60*2;
+    			shopMode = "Punish";
+    		}
+    	}
+    	
     	if (shopMode == "Leave") {
     		shopMode = "Choices";
     		handler.changeState(handler.getZeldaGameState());
@@ -53,7 +61,7 @@ public class ZeldaMerchantState extends State {
     public void render(Graphics g) {    
     	
         g.setColor(Color.WHITE);
-    	g.drawRoundRect((int) (handler.getWidth() - handler.getWidth() * .90), handler.getHeight()/10, 400, 400, 50, 50);
+    	g.drawRect((int) (handler.getWidth() - handler.getWidth() * .90), handler.getHeight()/10 - 64 , 402, 402);//merchantSprite
     	g.drawRect((int) (handler.getWidth() - handler.getWidth() * .90), handler.getHeight()/2, 800, 400);//textbox merchant
     	g.drawRect((int) (handler.getWidth() - handler.getWidth() * .40), handler.getHeight()/2, 400, 400);//choices
     	g.setFont(new Font("TimesRoman", Font.PLAIN, size));
@@ -63,9 +71,31 @@ public class ZeldaMerchantState extends State {
     	g.drawString("* Browse or purchase an item", (int) (handler.getWidth() - handler.getWidth() * .35) , (int) (handler.getHeight()*.55));
     	g.drawString("* Ask about rumors", (int) (handler.getWidth() - handler.getWidth() * .35) , (int) (handler.getHeight()*.60));
     	g.drawString("* Steal (You are not very nice)", (int) (handler.getWidth() - handler.getWidth() * .35) , (int) (handler.getHeight()*.65));
-    	g.drawString("* Leave", (int) (handler.getWidth() - handler.getWidth() * .35) , (int) (handler.getHeight()*.70));}
+    	g.drawString("* Leave", (int) (handler.getWidth() - handler.getWidth() * .35) , (int) (handler.getHeight()*.70));
+    	g.drawImage(Images.morshuWelcome,(int) (handler.getWidth() - handler.getWidth() * .90), handler.getHeight()/10 - 64 ,400,400,null);
+    	}
     	
-    	
+    	if (shopMode == "Wares") {
+    		g.drawImage(Images.morshuSketchy,(int) (handler.getWidth() - handler.getWidth() * .90), handler.getHeight()/10 - 64 ,400,400,null);
+    		g.drawString("Oh you want to shop, I have the goods as long as you have the coin!", (int) (handler.getWidth() - handler.getWidth() * .85) , (int) (handler.getHeight()*.60));
+    	}
+    	if (shopMode == "Info") {
+    		g.drawImage(Images.morshuSpeaking,(int) (handler.getWidth() - handler.getWidth() * .90), handler.getHeight()/10 - 64 ,400,400,null);
+    		g.drawString("I see you seek information, what do you want?", (int) (handler.getWidth() - handler.getWidth() * .85) , (int) (handler.getHeight()*.60));
+    	}
+    	if (shopMode == "Steal") {
+    		if (stealingCount > 0) {
+    		g.drawImage(Images.morshuThreat,(int) (handler.getWidth() - handler.getWidth() * .90), handler.getHeight()/10 - 64 ,400,400,null);
+    		g.drawString("Keep your hands to yourself buddy!", (int) (handler.getWidth() - handler.getWidth() * .85) , (int) (handler.getHeight()*.60));
+    		}
+    	}
+    	if (shopMode == "Punish") {
+    		g.setFont(new Font("TimesRoman", Font.PLAIN, 36));
+    		g.drawString("WHAT ARE YOU DOING!?!?!?!", (int) (handler.getWidth() - handler.getWidth() * .85) , (int) (handler.getHeight()*.60));
+    		//damage link
+    		g.drawImage(Images.morshuStealing,(int) (handler.getWidth() - handler.getWidth() * .90), handler.getHeight()/10 - 64 ,400,400,null);
+    			
+    		}
     	
     	if (choice == 0) {
     		 g.drawImage(Images.galagaSelect,(int) (handler.getWidth() - handler.getWidth() * .38),(int) (handler.getHeight()* .52),32,32,null);
