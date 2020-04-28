@@ -14,9 +14,12 @@ import Game.Zelda.Entities.Dynamic.Zora;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.Fire;
 import Game.Zelda.Entities.Statics.oldMan;
+import Game.Zelda.Entities.Statics.whiteSword;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
 import Game.Zelda.Entities.Statics.caveSword;
+import Game.Zelda.Entities.Statics.magicalRod;
+import Game.Zelda.Entities.Statics.magicalSword;
 import Main.Handler;
 import Resources.Images;
 
@@ -87,10 +90,14 @@ public class ZeldaGameState extends State {
 			}
 				if(link.hasSword&& beginAdventure==false) {	
 					handler.getMusicHandler().playEffect("newItem.wav");
-					caveObjects.remove(92);
 		        	handler.getMusicHandler().changeMusic("OverWorld.wav");
-					beginAdventure=true;					
-				}
+					beginAdventure=true;
+					if(link.wooden) {caveObjects.remove(92);}
+					if(link.white) {caveObjects.remove(93);}
+					if(link.magical) {caveObjects.remove(94);}
+					if(link.rod) {caveObjects.remove(95);}
+
+				}//else {beginAdventure=false;}
         }else {
             if (!link.movingMap) {
                 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
@@ -188,7 +195,13 @@ public class ZeldaGameState extends State {
         caveObjects.add(new oldMan(8,4,handler));
         caveObjects.add(new Fire(5,4,handler));
         caveObjects.add(new Fire(11,4,handler));
-        caveObjects.add(new caveSword(8,5,handler));
+        caveObjects.add(new caveSword(8,5,handler,Images.npc[4])); 
+        caveObjects.add(new whiteSword(4,5,handler,Images.otherWeapons[0]));
+        caveObjects.add(new magicalSword(6,5,handler,Images.otherWeapons[1]));
+        caveObjects.add(new magicalRod(10,5,handler,Images.otherWeapons[2]));
+
+
+
 
 
         //7,7
