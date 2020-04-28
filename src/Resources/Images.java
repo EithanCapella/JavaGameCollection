@@ -101,6 +101,8 @@ public class Images {
     public static BufferedImage[] zoraEnemyFrames;
     public static BufferedImage[] moblinArrow;
     public static BufferedImage octoBall;
+    public static BufferedImage[] otherWeapons;
+
 
 
 
@@ -149,6 +151,8 @@ public class Images {
         itemPickUpFrames= new BufferedImage[2];
         linkHurtFrames = new BufferedImage[3];
         woodenLaser = new BufferedImage[3];
+        otherWeapons = new BufferedImage[3];
+
 
 
 
@@ -296,7 +300,7 @@ public class Images {
             linkHurtFrames[2] = zeldaLinkSpriteSheet.crop(58,224,16,16);
             
             woodenSwordAttackFrames[0] = zeldaLinkSpriteSheet.crop(1,47,16,16); //attackDownStart
-            woodenSwordAttackFrames[1] = zeldaLinkSpriteSheet.crop(18,47,16,28); //attackDownEnd
+            woodenSwordAttackFrames[1] = zeldaLinkSpriteSheet.crop(18,47,16,28); 
             woodenSwordAttackFrames[2] = zeldaLinkSpriteSheet.crop(35,47,16,23);
             woodenSwordAttackFrames[3] = zeldaLinkSpriteSheet.crop(52,47,16,19); //downAnimEnd
             woodenSwordAttackFrames[4] = zeldaLinkSpriteSheet.crop(1,77,16,16);
@@ -311,10 +315,63 @@ public class Images {
             woodenSwordAttackFrames[13] = zeldaLinkSpriteSheet.crop(18,128,16,19); //unknown 
             woodenSwordAttackFrames[14] = zeldaLinkSpriteSheet.crop(35,128,23,17);//unknown 
             woodenSwordAttackFrames[15] = zeldaLinkSpriteSheet.crop(59,128,19,17);//unknown 
+            
+            whiteSwordAttackFrames[0] = zeldaLinkSpriteSheet.crop(1,47,16,16); // attackDownStart
+            whiteSwordAttackFrames[1] = zeldaLinkSpriteSheet.crop(111,47,16,28); 
+            whiteSwordAttackFrames[2] = zeldaLinkSpriteSheet.crop(128,47,16,23);
+            whiteSwordAttackFrames[3] = zeldaLinkSpriteSheet.crop(146,47,16,19); //downAnimEnd
+            whiteSwordAttackFrames[4] = zeldaLinkSpriteSheet.crop(1,77,16,16);
+            whiteSwordAttackFrames[5] = zeldaLinkSpriteSheet.crop(111,77,27,17); 
+            whiteSwordAttackFrames[6] = zeldaLinkSpriteSheet.crop(139,77,23,17);
+            whiteSwordAttackFrames[7] = zeldaLinkSpriteSheet.crop(163,77,19,17); //sideAnimEnd
+            whiteSwordAttackFrames[8] = zeldaLinkSpriteSheet.crop(95,109,16,16);
+            whiteSwordAttackFrames[9] = zeldaLinkSpriteSheet.crop(111,98,16,28); 
+            whiteSwordAttackFrames[10] = zeldaLinkSpriteSheet.crop(128,98,16,19);
+            whiteSwordAttackFrames[11] = zeldaLinkSpriteSheet.crop(145,108,16,19); //upAnimEnd
+            whiteSwordAttackFrames[12] = zeldaLinkSpriteSheet.crop(93,128,16,23);//unknown 
+            whiteSwordAttackFrames[13] = zeldaLinkSpriteSheet.crop(111,128,16,19); //unknown 
+            whiteSwordAttackFrames[14] = zeldaLinkSpriteSheet.crop(128,128,23,17);//unknown 
+            whiteSwordAttackFrames[15] = zeldaLinkSpriteSheet.crop(152,128,19,17);//unknown 
+            
+            magicalSwordAttackFrames[0] = zeldaLinkSpriteSheet.crop(1,47,16,16); // attackDownStart
+            magicalSwordAttackFrames[1] = zeldaLinkSpriteSheet.crop(203,47,16,28); 
+            magicalSwordAttackFrames[2] = zeldaLinkSpriteSheet.crop(221,47,16,23);
+            magicalSwordAttackFrames[3] = zeldaLinkSpriteSheet.crop(238,47,16,19); //downAnimEnd
+            magicalSwordAttackFrames[4] = zeldaLinkSpriteSheet.crop(1,77,16,16);
+            magicalSwordAttackFrames[5] = zeldaLinkSpriteSheet.crop(204,77,27,17); 
+            magicalSwordAttackFrames[6] = zeldaLinkSpriteSheet.crop(222,77,23,17);
+            magicalSwordAttackFrames[7] = zeldaLinkSpriteSheet.crop(256,77,19,17); //sideAnimEnd
+            magicalSwordAttackFrames[8] = zeldaLinkSpriteSheet.crop(95,109,16,16);
+            magicalSwordAttackFrames[9] = zeldaLinkSpriteSheet.crop(203,98,16,28); 
+            magicalSwordAttackFrames[10] = zeldaLinkSpriteSheet.crop(222,98,16,19);
+            magicalSwordAttackFrames[11] = zeldaLinkSpriteSheet.crop(237,108,16,19); //upAnimEnd
+            magicalSwordAttackFrames[12] = zeldaLinkSpriteSheet.crop(93,128,16,23);//unknown 
+            magicalSwordAttackFrames[13] = zeldaLinkSpriteSheet.crop(111,128,16,19); //unknown 
+            magicalSwordAttackFrames[14] = zeldaLinkSpriteSheet.crop(128,128,23,17);//unknown 
+            magicalSwordAttackFrames[15] = zeldaLinkSpriteSheet.crop(152,128,19,17);//unknown
+            
+            magicalRodAttackFrames[0] = zeldaLinkSpriteSheet.crop(1,47,16,16); // attackDownStart
+            magicalRodAttackFrames[1] = zeldaLinkSpriteSheet.crop(296,47,16,28); 
+            magicalRodAttackFrames[2] = zeldaLinkSpriteSheet.crop(314,47,16,23);
+            magicalRodAttackFrames[3] = zeldaLinkSpriteSheet.crop(330,47,16,19); //downAnimEnd
+            magicalRodAttackFrames[4] = zeldaLinkSpriteSheet.crop(1,77,16,16);
+            magicalRodAttackFrames[5] = zeldaLinkSpriteSheet.crop(297,77,27,17); 
+            magicalRodAttackFrames[6] = zeldaLinkSpriteSheet.crop(325,77,23,17);
+            magicalRodAttackFrames[7] = zeldaLinkSpriteSheet.crop(348,77,19,17); //sideAnimEnd
+            magicalRodAttackFrames[8] = zeldaLinkSpriteSheet.crop(95,109,16,16);
+            magicalRodAttackFrames[9] = zeldaLinkSpriteSheet.crop(298,98,16,28); 
+            magicalRodAttackFrames[10] = zeldaLinkSpriteSheet.crop(314,98,16,19);
+            magicalRodAttackFrames[11] = zeldaLinkSpriteSheet.crop(331,108,16,19); //upAnimEnd
+            magicalRodAttackFrames[12] = zeldaLinkSpriteSheet.crop(93,128,16,23);//unknown 
+            magicalRodAttackFrames[13] = zeldaLinkSpriteSheet.crop(111,128,16,19); //unknown 
+            magicalRodAttackFrames[14] = zeldaLinkSpriteSheet.crop(128,128,23,17);//unknown 
+            magicalRodAttackFrames[15] = zeldaLinkSpriteSheet.crop(152,128,19,17);//unknown
 
 
             
-            
+            otherWeapons[0] = zeldaLinkSpriteSheet.crop(36,154,8,16); // attackDownStart
+            otherWeapons[1] = zeldaLinkSpriteSheet.crop(71,154,8,16); 
+            otherWeapons[2] = zeldaLinkSpriteSheet.crop(145,154,8,16);
             npcImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc1.png"));
             npcSpriteSheet = new SpriteSheet( npcImage);
             npc[0] = npcSpriteSheet.crop(18, 11, 16, 16); // oldman 
