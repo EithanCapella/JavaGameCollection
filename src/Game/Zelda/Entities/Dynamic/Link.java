@@ -256,7 +256,9 @@ public class Link extends BaseMovingEntity {
 			if (movingMap&&!attacking){
 				g.drawImage(animation.getCurrentFrame(),x , y, width, height  , null);
 			}
-			g.drawImage(sprite, x , y, width , height , null);
+			if (!attacking) {
+				g.drawImage(sprite, x , y, width , height , null);
+			}
 		}
 		if(horray&&!attacking) {
 			g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
@@ -381,8 +383,6 @@ public class Link extends BaseMovingEntity {
 					}
 				}
 			}
-
-			
 			for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
 				if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
 					if (!(objects instanceof DungeonDoor)) {
