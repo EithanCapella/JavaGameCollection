@@ -5,6 +5,9 @@ import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
 import Game.Zelda.Entities.Statics.caveSword;
+import Game.Zelda.Entities.Statics.magicalRod;
+import Game.Zelda.Entities.Statics.magicalSword;
+import Game.Zelda.Entities.Statics.whiteSword;
 import Main.Handler;
 import Resources.Animation;
 import Resources.Images;
@@ -22,19 +25,14 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
  */
 public class Link extends BaseMovingEntity {
 
-
 	private final int animSpeed = 120;
 	private double life=3.0;
-
-
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-	int celebrateCounter = 60,attackCounter=30,hurtCounter=20;
-	public boolean movingMap = false,hasSword=false,horray=false,hurt=false;
+	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,count=0;
+	public boolean movingMap = false,hasSword=false,horray=false,hurt=false,wooden=false,white=false,magical=false,rod=false;
 	Direction movingTo;
 	Animation pickUpAnim,attackAnim,hurtAnim;
-
-
-
+	
 	public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
 		super(x, y, sprite, handler);
 		speed = 4;
@@ -42,9 +40,10 @@ public class Link extends BaseMovingEntity {
 		BufferedImage[] animList = new BufferedImage[2];
 		animList[0] = sprite[4];
 		animList[1] = sprite[5];
-		
 		animation = new Animation(animSpeed,animList);
-		pickUpAnim = new Animation(500,Images.itemPickUpFrames);
+		animList[0] = Images.itemPickUpFrames[0];
+		animList[1] = Images.itemPickUpFrames[1];
+		pickUpAnim = new Animation(120,animList);
 		hurtAnim = new Animation(90,Images.linkHurtFrames);
 		BufferedImage[] animList1 = new BufferedImage[4];
 		animList1[0] = (Images.woodenSwordAttackFrames[8]);
@@ -58,26 +57,23 @@ public class Link extends BaseMovingEntity {
 		//System.out.println("Link pos " + x + "," + y );
 		//Extra abilities for Link
 		//To Do: add extra weapons if possible or abilities, magic, bow etc.
-
 		if(hurt) {
 			hurtAnim.tick();
 		}
 		if (hurtCounter > 0 && hurt) {hurtCounter--;}
 		if (hurtCounter <= 0 && hurt) {hurtCounter = 20;hurt = false;}
-
 		if (attackCounter > 0 && attacking) {attackCounter--;}
 		if (attackCounter <= 0 && attacking) {attackCounter = 30; attacking = false;}
-		if(!pickUpAnim.end && hasSword&& horray && celebrateCounter <= 0) {
+		if(!pickUpAnim.end&& horray && celebrateCounter <= 0) {
 			pickUpAnim.end = true;
 			moving=true;
 			horray=false;
 			animation.tick();
 		}
-		else if (!pickUpAnim.end && hasSword&& horray&& celebrateCounter > 0) {celebrateCounter--;}
+		else if (!pickUpAnim.end&& horray&& celebrateCounter > 0 && (wooden||rod||magical||white)) {pickUpAnim.tick();celebrateCounter--;}
 		if (handler.getKeyManager().shift == true) {
 			speed = 5;}
 		else {speed = 4;}
-
 		if (movingMap){
 			switch (movingTo) {
 			case RIGHT:
@@ -186,8 +182,7 @@ public class Link extends BaseMovingEntity {
 				if(!attacking&&!horray) {
 					animation.tick();
 					move(direction);
-				}
-				
+				}	
 			} else {
 				moving = false;
 			}
@@ -214,46 +209,144 @@ public class Link extends BaseMovingEntity {
 	public void attackingMethod() {
 		if(attacking) {
 			if (direction == direction.UP) {
-				BufferedImage[] animList1 = new BufferedImage[4];
-				animList1[0] = (Images.woodenSwordAttackFrames[8]);
-				animList1[1] = (Images.woodenSwordAttackFrames[9]);
-				animList1[2] = (Images.woodenSwordAttackFrames[10]);
-				animList1[3] = (Images.woodenSwordAttackFrames[11]);
-				attackAnim = new Animation(animSpeed, animList1);
+				if(wooden && !(white&&magical&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.woodenSwordAttackFrames[8]);
+					animList1[1] = (Images.woodenSwordAttackFrames[9]);
+					animList1[2] = (Images.woodenSwordAttackFrames[10]);
+					animList1[3] = (Images.woodenSwordAttackFrames[11]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(white&& !(wooden&&magical&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.whiteSwordAttackFrames[8]);
+					animList1[1] = (Images.whiteSwordAttackFrames[9]);
+					animList1[2] = (Images.whiteSwordAttackFrames[10]);
+					animList1[3] = (Images.whiteSwordAttackFrames[11]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(magical&& !(white&&wooden&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.magicalSwordAttackFrames[8]);
+					animList1[1] = (Images.magicalSwordAttackFrames[9]);
+					animList1[2] = (Images.magicalSwordAttackFrames[10]);
+					animList1[3] = (Images.magicalSwordAttackFrames[11]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(rod&& !(white&&magical&&wooden)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.magicalRodAttackFrames[8]);
+					animList1[1] = (Images.magicalRodAttackFrames[9]);
+					animList1[2] = (Images.magicalRodAttackFrames[10]);
+					animList1[3] = (Images.magicalRodAttackFrames[11]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
 				}
 			
 			else if (direction == direction.DOWN) {
-				BufferedImage[] animList1 = new BufferedImage[4];			
-				animList1[0] = (Images.woodenSwordAttackFrames[0]);
-				animList1[1] = (Images.woodenSwordAttackFrames[1]);
-				animList1[2] = (Images.woodenSwordAttackFrames[2]);
-				animList1[3] = (Images.woodenSwordAttackFrames[3]);
-				attackAnim = new Animation(animSpeed, animList1);
-				
-			}
-			
+				if(wooden && !(white&&magical&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];			
+					animList1[0] = (Images.woodenSwordAttackFrames[0]);
+					animList1[1] = (Images.woodenSwordAttackFrames[1]);
+					animList1[2] = (Images.woodenSwordAttackFrames[2]);
+					animList1[3] = (Images.woodenSwordAttackFrames[3]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(white&& !(wooden&&magical&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];			
+					animList1[0] = (Images.whiteSwordAttackFrames[0]);
+					animList1[1] = (Images.whiteSwordAttackFrames[1]);
+					animList1[2] = (Images.whiteSwordAttackFrames[2]);
+					animList1[3] = (Images.whiteSwordAttackFrames[3]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(magical&& !(white&&wooden&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];			
+					animList1[0] = (Images.magicalSwordAttackFrames[0]);
+					animList1[1] = (Images.magicalSwordAttackFrames[1]);
+					animList1[2] = (Images.magicalSwordAttackFrames[2]);
+					animList1[3] = (Images.magicalSwordAttackFrames[3]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(rod&& !(white&&magical&&wooden)) {
+					BufferedImage[] animList1 = new BufferedImage[4];			
+					animList1[0] = (Images.magicalRodAttackFrames[0]);
+					animList1[1] = (Images.magicalRodAttackFrames[1]);
+					animList1[2] = (Images.magicalRodAttackFrames[2]);
+					animList1[3] = (Images.magicalRodAttackFrames[3]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+			}	
 			else if (direction == direction.LEFT) {
-				BufferedImage[] animList1 = new BufferedImage[4];
-				animList1[0] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[4]));
-				animList1[1] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[5]));
-				animList1[2] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[6]));
-				animList1[3] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[7]));
-				attackAnim = new Animation(animSpeed, animList1);
-				
+				if(wooden && !(white&&magical&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[4]));
+					animList1[1] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[5]));
+					animList1[2] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[6]));
+					animList1[3] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[7]));
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(white&& !(wooden&&magical&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.flipHorizontal(Images.whiteSwordAttackFrames[4]));
+					animList1[1] = (Images.flipHorizontal(Images.whiteSwordAttackFrames[5]));
+					animList1[2] = (Images.flipHorizontal(Images.whiteSwordAttackFrames[6]));
+					animList1[3] = (Images.flipHorizontal(Images.whiteSwordAttackFrames[7]));
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(magical&& !(white&&wooden&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.flipHorizontal(Images.magicalSwordAttackFrames[4]));
+					animList1[1] = (Images.flipHorizontal(Images.magicalSwordAttackFrames[5]));
+					animList1[2] = (Images.flipHorizontal(Images.magicalSwordAttackFrames[6]));
+					animList1[3] = (Images.flipHorizontal(Images.magicalSwordAttackFrames[7]));
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(rod&& !(white&&magical&&wooden)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.flipHorizontal(Images.magicalRodAttackFrames[4]));
+					animList1[1] = (Images.flipHorizontal(Images.magicalRodAttackFrames[5]));
+					animList1[2] = (Images.flipHorizontal(Images.magicalRodAttackFrames[6]));
+					animList1[3] = (Images.flipHorizontal(Images.magicalRodAttackFrames[7]));
+					attackAnim = new Animation(animSpeed, animList1);
+				}
 			}
 			else {
-				BufferedImage[] animList1 = new BufferedImage[4];
-				animList1[0] = (Images.woodenSwordAttackFrames[4]);
-				animList1[1] = (Images.woodenSwordAttackFrames[5]);
-				animList1[2] = (Images.woodenSwordAttackFrames[6]);
-				animList1[3] = (Images.woodenSwordAttackFrames[7]);
-				attackAnim = new Animation(animSpeed, animList1);
-				
+				if(wooden && !(white&&magical&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.woodenSwordAttackFrames[4]);
+					animList1[1] = (Images.woodenSwordAttackFrames[5]);
+					animList1[2] = (Images.woodenSwordAttackFrames[6]);
+					animList1[3] = (Images.woodenSwordAttackFrames[7]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(white&& !(wooden&&magical&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.whiteSwordAttackFrames[4]);
+					animList1[1] = (Images.whiteSwordAttackFrames[5]);
+					animList1[2] = (Images.whiteSwordAttackFrames[6]);
+					animList1[3] = (Images.whiteSwordAttackFrames[7]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(magical&& !(white&&wooden&&rod)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.magicalSwordAttackFrames[4]);
+					animList1[1] = (Images.magicalSwordAttackFrames[5]);
+					animList1[2] = (Images.magicalSwordAttackFrames[6]);
+					animList1[3] = (Images.magicalSwordAttackFrames[7]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
+				if(rod&& !(white&&magical&&wooden)) {
+					BufferedImage[] animList1 = new BufferedImage[4];
+					animList1[0] = (Images.magicalRodAttackFrames[4]);
+					animList1[1] = (Images.magicalRodAttackFrames[5]);
+					animList1[2] = (Images.magicalRodAttackFrames[6]);
+					animList1[3] = (Images.magicalRodAttackFrames[7]);
+					attackAnim = new Animation(animSpeed, animList1);
+				}
 			}
-			
 		}
 	}
-	
 	@Override
 	public void render(Graphics g) {
 		if (moving&&!attacking) {
@@ -268,8 +361,22 @@ public class Link extends BaseMovingEntity {
 			}
 		}
 		if(horray&&!attacking) {
-			g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
-			g.drawImage(Images.npc[4],x , y -40, width/2 , height  , null);
+			if(wooden && !(white&&magical&&rod)) {
+				g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
+				g.drawImage(Images.npc[4],x , y -40, width/2 , height  , null);
+			}
+			if(white&& !(wooden&&magical&&rod)) {
+				g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
+				g.drawImage(Images.otherWeapons[0],x , y -40, width/2 , height  , null);
+			}
+			if(magical&& !(white&&wooden&&rod)) {
+				g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
+				g.drawImage(Images.otherWeapons[1],x , y -40, width/2 , height  , null);
+			}
+			if(rod&& !(white&&magical&&wooden)) {
+				g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
+				g.drawImage(Images.otherWeapons[2],x , y -40, width/2 , height  , null);
+			}
 		}
 		if (attacking) {  
 			attackAnim.tick();
@@ -298,7 +405,53 @@ public class Link extends BaseMovingEntity {
 					pickUpAnim.tick();
 					horray = true;
 					moving=false;
+					wooden=true;
+					count++;
+					rod=false;
+					white=false;
+					magical=false;
+					handler.getZeldaGameState().caveObjects.remove(objects);
 				}
+				if ((objects instanceof whiteSword) && objects.bounds.intersects(interactBounds)) {
+					hasSword=true;
+					pickUpAnim.tick();
+					horray = true;
+					moving=false;
+					white=true;
+					count++;
+					rod=false;
+					wooden=false;
+					magical=false;
+					handler.getZeldaGameState().caveObjects.remove(objects);
+
+				}
+				if ((objects instanceof magicalSword) && objects.bounds.intersects(interactBounds)) {
+					hasSword=true;
+					pickUpAnim.tick();
+					horray = true;
+					moving=false;
+					magical=true;
+					count++;
+					rod=false;
+					white=false;
+					wooden=false;
+					handler.getZeldaGameState().caveObjects.remove(objects);
+
+				}
+				if ((objects instanceof magicalRod) && objects.bounds.intersects(interactBounds)) {
+					hasSword=true;
+					pickUpAnim.tick();
+					horray = true;
+					moving=false;
+					rod=true;
+					count++;
+					wooden=false;
+					white=false;
+					magical=false;
+					handler.getZeldaGameState().caveObjects.remove(objects);
+
+				}
+
 				if ((objects instanceof DungeonDoor) && objects.bounds.intersects(bounds) && direction == ((DungeonDoor) objects).direction) {
 					if (((DungeonDoor) objects).name.equals("caveStartLeave")) {
 						ZeldaGameState.inCave = false;
@@ -460,6 +613,12 @@ public class Link extends BaseMovingEntity {
 		bounds.y = y;
 		changeIntersectingBounds();
 
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
 	}
 	public double getLife() {
 		return life;

@@ -8,10 +8,10 @@ import Game.GameStates.Zelda.ZeldaGameState;
 import Main.Handler;
 import Resources.Images;
 
-public class caveSword extends SolidStaticEntities{
+public class magicalSword extends SolidStaticEntities{
 	
 
-	public caveSword(int x, int y, Handler handler,BufferedImage BuffedImage) {
+	public magicalSword(int x, int y, Handler handler,BufferedImage BuffedImage) {
 		super(x, y, BuffedImage, handler);
 	}
 	@Override

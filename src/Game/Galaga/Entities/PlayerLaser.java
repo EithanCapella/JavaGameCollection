@@ -16,7 +16,6 @@ public class PlayerLaser extends BaseEntity {
         super(x, y, width, height, sprite, handler);
         this.enemies=enemies;
     }
-
     @Override
     public void tick() {
         if (!remove) {
