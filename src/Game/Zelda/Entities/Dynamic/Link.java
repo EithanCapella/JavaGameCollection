@@ -25,21 +25,14 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
  */
 public class Link extends BaseMovingEntity {
 
-
 	private final int animSpeed = 120;
 	private double life=3.0;
-
-
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
 	int celebrateCounter = 60,attackCounter=30,hurtCounter=20,count=0;
-
-
 	public boolean movingMap = false,hasSword=false,horray=false,hurt=false,wooden=false,white=false,magical=false,rod=false;
 	Direction movingTo;
 	Animation pickUpAnim,attackAnim,hurtAnim;
-
-
-
+	
 	public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
 		super(x, y, sprite, handler);
 		speed = 4;
@@ -47,7 +40,6 @@ public class Link extends BaseMovingEntity {
 		BufferedImage[] animList = new BufferedImage[2];
 		animList[0] = sprite[4];
 		animList[1] = sprite[5];
-		
 		animation = new Animation(animSpeed,animList);
 		pickUpAnim = new Animation(500,Images.itemPickUpFrames);
 		hurtAnim = new Animation(90,Images.linkHurtFrames);
@@ -63,13 +55,11 @@ public class Link extends BaseMovingEntity {
 		//System.out.println("Link pos " + x + "," + y );
 		//Extra abilities for Link
 		//To Do: add extra weapons if possible or abilities, magic, bow etc.
-
 		if(hurt) {
 			hurtAnim.tick();
 		}
 		if (hurtCounter > 0 && hurt) {hurtCounter--;}
 		if (hurtCounter <= 0 && hurt) {hurtCounter = 20;hurt = false;}
-
 		if (attackCounter > 0 && attacking) {attackCounter--;}
 		if (attackCounter <= 0 && attacking) {attackCounter = 30; attacking = false;}
 		if(!pickUpAnim.end&& horray && celebrateCounter <= 0) {
@@ -78,11 +68,10 @@ public class Link extends BaseMovingEntity {
 			horray=false;
 			animation.tick();
 		}
-		else if (!pickUpAnim.end&& horray&& celebrateCounter > 0||(wooden||rod||magical||white)) {celebrateCounter--;}
+		else if (!pickUpAnim.end&& horray&& celebrateCounter > 0 && (wooden||rod||magical||white)) {celebrateCounter--;}
 		if (handler.getKeyManager().shift == true) {
 			speed = 5;}
 		else {speed = 4;}
-
 		if (movingMap){
 			switch (movingTo) {
 			case RIGHT:
@@ -191,8 +180,7 @@ public class Link extends BaseMovingEntity {
 				if(!attacking&&!horray) {
 					animation.tick();
 					move(direction);
-				}
-				
+				}	
 			} else {
 				moving = false;
 			}
@@ -329,7 +317,6 @@ public class Link extends BaseMovingEntity {
 					animList1[2] = (Images.woodenSwordAttackFrames[6]);
 					animList1[3] = (Images.woodenSwordAttackFrames[7]);
 					attackAnim = new Animation(animSpeed, animList1);
-
 				}
 				if(white&& !(wooden&&magical&&rod)) {
 					BufferedImage[] animList1 = new BufferedImage[4];
@@ -355,12 +342,9 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.magicalRodAttackFrames[7]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				
 			}
-			
 		}
 	}
-	
 	@Override
 	public void render(Graphics g) {
 		if (moving&&!attacking) {
@@ -421,6 +405,9 @@ public class Link extends BaseMovingEntity {
 					moving=false;
 					wooden=true;
 					count++;
+					rod=false;
+					white=false;
+					magical=false;
 				}
 				if ((objects instanceof whiteSword) && objects.bounds.intersects(interactBounds)) {
 					hasSword=true;
@@ -429,6 +416,9 @@ public class Link extends BaseMovingEntity {
 					moving=false;
 					white=true;
 					count++;
+					rod=false;
+					wooden=false;
+					magical=false;
 				}
 				if ((objects instanceof magicalSword) && objects.bounds.intersects(interactBounds)) {
 					hasSword=true;
@@ -437,6 +427,9 @@ public class Link extends BaseMovingEntity {
 					moving=false;
 					magical=true;
 					count++;
+					rod=false;
+					white=false;
+					wooden=false;
 				}
 				if ((objects instanceof magicalRod) && objects.bounds.intersects(interactBounds)) {
 					hasSword=true;
@@ -445,6 +438,9 @@ public class Link extends BaseMovingEntity {
 					moving=false;
 					rod=true;
 					count++;
+					wooden=false;
+					white=false;
+					magical=false;
 				}
 
 				if ((objects instanceof DungeonDoor) && objects.bounds.intersects(bounds) && direction == ((DungeonDoor) objects).direction) {

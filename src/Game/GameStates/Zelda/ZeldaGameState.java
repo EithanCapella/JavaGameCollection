@@ -97,7 +97,7 @@ public class ZeldaGameState extends State {
 					if(link.magical) {caveObjects.remove(94);}
 					if(link.rod) {caveObjects.remove(95);}
 
-				}//else {beginAdventure=false;}
+				}
         }else {
             if (!link.movingMap) {
                 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
