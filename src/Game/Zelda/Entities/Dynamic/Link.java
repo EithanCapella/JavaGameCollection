@@ -28,7 +28,7 @@ public class Link extends BaseMovingEntity {
 	private final int animSpeed = 120;
 	private double life=3.0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-	int celebrateCounter = 60,attackCounter=30,hurtCounter=20,count=0;
+	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,count=0;
 	public boolean movingMap = false,hasSword=false,horray=false,hurt=false,wooden=false,white=false,magical=false,rod=false;
 	Direction movingTo;
 	Animation pickUpAnim,attackAnim,hurtAnim;
@@ -41,7 +41,9 @@ public class Link extends BaseMovingEntity {
 		animList[0] = sprite[4];
 		animList[1] = sprite[5];
 		animation = new Animation(animSpeed,animList);
-		pickUpAnim = new Animation(500,Images.itemPickUpFrames);
+		animList[0] = Images.itemPickUpFrames[0];
+		animList[1] = Images.itemPickUpFrames[1];
+		pickUpAnim = new Animation(120,animList);
 		hurtAnim = new Animation(90,Images.linkHurtFrames);
 		BufferedImage[] animList1 = new BufferedImage[4];
 		animList1[0] = (Images.woodenSwordAttackFrames[8]);
@@ -68,7 +70,7 @@ public class Link extends BaseMovingEntity {
 			horray=false;
 			animation.tick();
 		}
-		else if (!pickUpAnim.end&& horray&& celebrateCounter > 0 && (wooden||rod||magical||white)) {celebrateCounter--;}
+		else if (!pickUpAnim.end&& horray&& celebrateCounter > 0 && (wooden||rod||magical||white)) {pickUpAnim.tick();celebrateCounter--;}
 		if (handler.getKeyManager().shift == true) {
 			speed = 5;}
 		else {speed = 4;}
@@ -408,6 +410,7 @@ public class Link extends BaseMovingEntity {
 					rod=false;
 					white=false;
 					magical=false;
+					handler.getZeldaGameState().caveObjects.remove(objects);
 				}
 				if ((objects instanceof whiteSword) && objects.bounds.intersects(interactBounds)) {
 					hasSword=true;
@@ -419,6 +422,8 @@ public class Link extends BaseMovingEntity {
 					rod=false;
 					wooden=false;
 					magical=false;
+					handler.getZeldaGameState().caveObjects.remove(objects);
+
 				}
 				if ((objects instanceof magicalSword) && objects.bounds.intersects(interactBounds)) {
 					hasSword=true;
@@ -430,6 +435,8 @@ public class Link extends BaseMovingEntity {
 					rod=false;
 					white=false;
 					wooden=false;
+					handler.getZeldaGameState().caveObjects.remove(objects);
+
 				}
 				if ((objects instanceof magicalRod) && objects.bounds.intersects(interactBounds)) {
 					hasSword=true;
@@ -441,6 +448,8 @@ public class Link extends BaseMovingEntity {
 					wooden=false;
 					white=false;
 					magical=false;
+					handler.getZeldaGameState().caveObjects.remove(objects);
+
 				}
 
 				if ((objects instanceof DungeonDoor) && objects.bounds.intersects(bounds) && direction == ((DungeonDoor) objects).direction) {
