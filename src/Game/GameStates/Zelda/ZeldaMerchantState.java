@@ -18,7 +18,7 @@ public class ZeldaMerchantState extends State {
     public ZeldaMerchantState(Handler handler) {
         super(handler);
     }
-
+    //TODO add shop mechanics
     @Override
     public void tick() {
     	if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_UP)){
