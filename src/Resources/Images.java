@@ -81,7 +81,12 @@ public class Images {
     public static BufferedImage[] magicalRodAttackFrames;
     public static BufferedImage[] linkHearts;
     public static BufferedImage[] woodenLaser;
-
+    public static BufferedImage morshuSketchy;
+    public static BufferedImage morshuNoMoney;
+    public static BufferedImage morshuSpeaking;
+    public static BufferedImage morshuStealing;
+    public static BufferedImage morshuThreat;
+    public static BufferedImage morshuWelcome;
 
 
 
@@ -261,6 +266,14 @@ public class Images {
             intro = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/PacMan/intro.png"));
             start = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/startScreen.png"));
 
+            //MORSHU POWER
+            morshuSketchy = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/MorshuBeingSketchy.png"));
+            morshuNoMoney = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/MorshuNoMoney.png"));
+            morshuSpeaking = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/MorshuSpeaking.png"));
+            morshuStealing = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/MorshuStealing.png"));
+            morshuThreat = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/MorshuThreat.png"));
+            morshuWelcome = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/MorshuWelcome.png"));
+            
             zeldaImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/tileSet.png"));
             zeldaTriforceLogo = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/triforceLogo.png"));
             zeldaMap = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/map.png"));
