@@ -55,6 +55,7 @@ public class Link extends BaseMovingEntity {
 	}
 	@Override
 	public void tick() {
+		//System.out.println("Link pos " + x + "," + y );
 		//Extra abilities for Link
 		//To Do: add extra weapons if possible or abilities, magic, bow etc.
 		//
@@ -83,10 +84,10 @@ public class Link extends BaseMovingEntity {
 		if (movingMap){
 			switch (movingTo) {
 			case RIGHT:
-				handler.getZeldaGameState().cameraOffsetX+=2;
+				handler.getZeldaGameState().cameraOffsetX+=3;
 				newMapX++;
 				if (xExtraCounter>0){
-					x-=11;
+					x-=2;
 					xExtraCounter--;
 					animation.tick();
 
@@ -95,7 +96,7 @@ public class Link extends BaseMovingEntity {
 				}
 				break;
 			case LEFT:
-				handler.getZeldaGameState().cameraOffsetX-=2;
+				handler.getZeldaGameState().cameraOffsetX-=3;
 				newMapX--;
 				if (xExtraCounter>0){
 					x-=2;
@@ -106,7 +107,7 @@ public class Link extends BaseMovingEntity {
 				}
 				break;
 			case UP:
-				handler.getZeldaGameState().cameraOffsetY-=2;
+				handler.getZeldaGameState().cameraOffsetY-=3;
 				newMapY++;
 				if (yExtraCounter>0){
 					y-=2;
@@ -117,7 +118,7 @@ public class Link extends BaseMovingEntity {
 				}
 				break;
 			case DOWN:
-				handler.getZeldaGameState().cameraOffsetY+=2;
+				handler.getZeldaGameState().cameraOffsetY+=3;
 				newMapY--;
 				if (yExtraCounter>0){
 					y+=2;
@@ -263,11 +264,11 @@ public class Link extends BaseMovingEntity {
 		}
 		if (attacking) {    
 			if(direction == Direction.LEFT) {
-				g.drawImage(attackAnim.getCurrentFrame(),this.x -(attackAnim.getCurrentFrame().getWidth()*2-this.width) , y,attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
+				g.drawImage(attackAnim.getCurrentFrame(),this.x -(attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale-this.width) , y,attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale ,attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale, null);
 			}
 			if(direction == Direction.UP) {
-				g.drawImage(attackAnim.getCurrentFrame(),x , this.y -(attackAnim.getCurrentFrame().getHeight()*2 -this.height), attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
-			}else {g.drawImage(attackAnim.getCurrentFrame(),x , y, attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null); }
+				g.drawImage(attackAnim.getCurrentFrame(),x , this.y -(attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale -this.height), attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale ,attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale, null);
+			}else {g.drawImage(attackAnim.getCurrentFrame(),x , y, attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale ,attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale, null); }
 		}
 		if (hurt&& !attacking) {
 			g.drawImage(hurtAnim.getCurrentFrame(),x , y, width , height, null); 
@@ -334,7 +335,7 @@ public class Link extends BaseMovingEntity {
 					}
 					if(attacking) {
 						System.out.println("attacking hit");
-						handler.getOctorok().setHurt(true);
+						//handler.getOctorok().setHurt(true);
 					}
 				}
 				if((objects instanceof Zora)&&objects.bounds.intersects(bounds)) {
@@ -389,26 +390,26 @@ public class Link extends BaseMovingEntity {
 						movingTo = ((SectionDoor) objects).direction;
 						switch (((SectionDoor) objects).direction) {
 						case RIGHT:
-							newMapX = -(((handler.getZeldaGameState().mapWidth) + 1) * 1/2 * worldScale);
+							newMapX = -(((handler.getZeldaGameState().mapWidth) + 1) * 1/3 * worldScale);
 							newMapY = 0;
 							handler.getZeldaGameState().mapX++;
 							xExtraCounter = 8 * worldScale + (2 * worldScale);
 							break;
 						case LEFT:
-							newMapX = (((handler.getZeldaGameState().mapWidth) + 1) * 1/2 * worldScale);
+							newMapX = (((handler.getZeldaGameState().mapWidth) + 1) * 1/3 * worldScale);
 							newMapY = 0;
 							handler.getZeldaGameState().mapX--;
 							xExtraCounter = 8 * worldScale + (2 * worldScale);
 							break;
 						case UP:
 							newMapX = 0;
-							newMapY = -(((handler.getZeldaGameState().mapHeight) + 1) * 1/2 * worldScale);
+							newMapY = -(((handler.getZeldaGameState().mapHeight) + 1) * 1/3 * worldScale);
 							handler.getZeldaGameState().mapY--;
 							yExtraCounter = 8 * worldScale + (2 * worldScale);
 							break;
 						case DOWN:
 							newMapX = 0;
-							newMapY = (((handler.getZeldaGameState().mapHeight) + 1) * 1/2 * worldScale);
+							newMapY = (((handler.getZeldaGameState().mapHeight) + 1) * 1/3 * worldScale);
 							handler.getZeldaGameState().mapY++;
 							yExtraCounter = 8 * worldScale + (2 * worldScale);
 							break;
