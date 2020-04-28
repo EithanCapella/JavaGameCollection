@@ -58,16 +58,13 @@ public class Link extends BaseMovingEntity {
 		//System.out.println("Link pos " + x + "," + y );
 		//Extra abilities for Link
 		//To Do: add extra weapons if possible or abilities, magic, bow etc.
-		//
+
 		if(hurt) {
 			hurtAnim.tick();
 		}
 		if (hurtCounter > 0 && hurt) {hurtCounter--;}
 		if (hurtCounter <= 0 && hurt) {hurtCounter = 20;hurt = false;}
-		if(attacking) {
-			attackAnim.tick();
-			attack(direction);
-		}
+
 		if (attackCounter > 0 && attacking) {attackCounter--;}
 		if (attackCounter <= 0 && attacking) {attackCounter = 30; attacking = false;}
 		if(!pickUpAnim.end && hasSword&& horray && celebrateCounter <= 0) {
@@ -147,15 +144,6 @@ public class Link extends BaseMovingEntity {
 					direction = UP;
 					sprite = sprites[4];	
 				}
-				if(attacking) {
-					BufferedImage[] animList1 = new BufferedImage[4];
-					int Speed=100;
-					animList1[0] = (Images.woodenSwordAttackFrames[8]);
-					animList1[1] = (Images.woodenSwordAttackFrames[9]);
-					animList1[2] = (Images.woodenSwordAttackFrames[10]);
-					animList1[3] = (Images.woodenSwordAttackFrames[11]);
-					attackAnim = new Animation(Speed, animList1);
-				}
 				if(!attacking&&!horray) {
 					animation.tick();
 					move(direction);
@@ -168,16 +156,6 @@ public class Link extends BaseMovingEntity {
 					animation = new Animation(animSpeed, animList);
 					direction = DOWN;
 					sprite = sprites[0];
-				}
-				if(attacking) {
-					BufferedImage[] animList1 = new BufferedImage[4];
-					int Speed=100;
-					animList1[0] = (Images.woodenSwordAttackFrames[0]);
-					animList1[1] = (Images.woodenSwordAttackFrames[1]);
-					animList1[2] = (Images.woodenSwordAttackFrames[2]);
-					animList1[3] = (Images.woodenSwordAttackFrames[3]);
-					attackAnim = new Animation(Speed, animList1);
-					//attacking=false;
 				}
 				if(!attacking&&!horray) {
 					animation.tick();
@@ -192,16 +170,6 @@ public class Link extends BaseMovingEntity {
 					direction = Direction.LEFT;
 					sprite = Images.flipHorizontal(sprites[3]);
 				}
-				if(attacking) {
-					BufferedImage[] animList1 = new BufferedImage[4];
-					int Speed=100;
-					animList1[0] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[4]));
-					animList1[1] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[5]));
-					animList1[2] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[6]));
-					animList1[3] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[7]));
-					attackAnim = new Animation(Speed, animList1);
-					//attacking=false;
-				}
 				if(!attacking&&!horray) {
 					animation.tick();
 					move(direction);
@@ -215,16 +183,6 @@ public class Link extends BaseMovingEntity {
 					direction = Direction.RIGHT;
 					sprite = (sprites[3]);
 				}
-				if(attacking) {
-					BufferedImage[] animList1 = new BufferedImage[4];
-					int Speed=100;
-					animList1[0] = (Images.woodenSwordAttackFrames[4]);
-					animList1[1] = (Images.woodenSwordAttackFrames[5]);
-					animList1[2] = (Images.woodenSwordAttackFrames[6]);
-					animList1[3] = (Images.woodenSwordAttackFrames[7]);
-					attackAnim = new Animation(Speed, animList1);
-					//attacking=false;
-				}
 				if(!attacking&&!horray) {
 					animation.tick();
 					move(direction);
@@ -234,8 +192,11 @@ public class Link extends BaseMovingEntity {
 				moving = false;
 			}
 		}
-		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
-			attack(direction);
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && !attacking) {
+			//attack(direction);
+			attacking = true;
+			
+			attackingMethod();
 		}
 
 		
@@ -247,6 +208,49 @@ public class Link extends BaseMovingEntity {
 		}
 	}
 
+	public void attackingMethod() {
+		if(attacking) {
+			if (direction == direction.UP) {
+				BufferedImage[] animList1 = new BufferedImage[4];
+				animList1[0] = (Images.woodenSwordAttackFrames[8]);
+				animList1[1] = (Images.woodenSwordAttackFrames[9]);
+				animList1[2] = (Images.woodenSwordAttackFrames[10]);
+				animList1[3] = (Images.woodenSwordAttackFrames[11]);
+				attackAnim = new Animation(animSpeed, animList1);
+				}
+			
+			else if (direction == direction.DOWN) {
+				BufferedImage[] animList1 = new BufferedImage[4];			
+				animList1[0] = (Images.woodenSwordAttackFrames[0]);
+				animList1[1] = (Images.woodenSwordAttackFrames[1]);
+				animList1[2] = (Images.woodenSwordAttackFrames[2]);
+				animList1[3] = (Images.woodenSwordAttackFrames[3]);
+				attackAnim = new Animation(animSpeed, animList1);
+				
+			}
+			
+			else if (direction == direction.LEFT) {
+				BufferedImage[] animList1 = new BufferedImage[4];
+				animList1[0] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[4]));
+				animList1[1] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[5]));
+				animList1[2] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[6]));
+				animList1[3] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[7]));
+				attackAnim = new Animation(animSpeed, animList1);
+				
+			}
+			else {
+				BufferedImage[] animList1 = new BufferedImage[4];
+				animList1[0] = (Images.woodenSwordAttackFrames[4]);
+				animList1[1] = (Images.woodenSwordAttackFrames[5]);
+				animList1[2] = (Images.woodenSwordAttackFrames[6]);
+				animList1[3] = (Images.woodenSwordAttackFrames[7]);
+				attackAnim = new Animation(animSpeed, animList1);
+				
+			}
+			
+		}
+	}
+	
 	@Override
 	public void render(Graphics g) {
 		if (moving&&!attacking) {
@@ -256,7 +260,7 @@ public class Link extends BaseMovingEntity {
 			if (movingMap&&!attacking){
 				g.drawImage(animation.getCurrentFrame(),x , y, width, height  , null);
 			}
-			if (!attacking) {
+			if (!attacking && !horray) {
 				g.drawImage(sprite, x , y, width , height , null);
 			}
 		}
@@ -264,11 +268,12 @@ public class Link extends BaseMovingEntity {
 			g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
 			g.drawImage(Images.npc[4],x , y -40, width/2 , height  , null);
 		}
-		if (attacking) {    
+		if (attacking) {  
+			attackAnim.tick();
 			if(direction == Direction.LEFT) {
 				g.drawImage(attackAnim.getCurrentFrame(),this.x -(attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale-this.width) , y,attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale ,attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale, null);
 			}
-			if(direction == Direction.UP) {
+			else if(direction == Direction.UP) {
 				g.drawImage(attackAnim.getCurrentFrame(),x , this.y -(attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale -this.height), attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale ,attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale, null);
 			}else {g.drawImage(attackAnim.getCurrentFrame(),x , y, attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale ,attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale, null); }
 		}
