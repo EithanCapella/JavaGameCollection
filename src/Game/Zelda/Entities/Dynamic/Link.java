@@ -192,7 +192,7 @@ public class Link extends BaseMovingEntity {
 				moving = false;
 			}
 		}
-		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && !attacking) {
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && !attacking&&hasSword) {
 			//attack(direction);
 			attacking = true;
 			
