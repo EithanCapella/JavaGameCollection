@@ -71,14 +71,17 @@ public class Images {
     public static BufferedImage itemImage;
     public static BufferedImage[] npc;
     public SpriteSheet zeldaLinkSpriteSheet;
+    public SpriteSheet zeldaLinkSpriteSheet1;
     public SpriteSheet npcSpriteSheet;
     public SpriteSheet itemSpriteSheet;
     public static BufferedImage[] zeldaLinkFrames;
+    public static BufferedImage[] superLinkFrames;
     public static BufferedImage[] linkHurtFrames;
     public static BufferedImage[] woodenSwordAttackFrames;
     public static BufferedImage[] whiteSwordAttackFrames;
     public static BufferedImage[] magicalSwordAttackFrames;
     public static BufferedImage[] magicalRodAttackFrames;
+    public static BufferedImage[] superSwordAttackFrames;
     public static BufferedImage[] linkHearts;
     public static BufferedImage[] woodenLaser;
     public static BufferedImage morshuSketchy;
@@ -141,10 +144,12 @@ public class Images {
         mountainTiles = new ArrayList<>();
 
         zeldaLinkFrames = new BufferedImage[6];
+        superLinkFrames = new BufferedImage[6];
         woodenSwordAttackFrames = new BufferedImage[16];
         whiteSwordAttackFrames = new BufferedImage[16];
         magicalSwordAttackFrames = new BufferedImage[16];
         magicalRodAttackFrames = new BufferedImage[16];
+        superSwordAttackFrames = new BufferedImage[16];
         linkHearts= new BufferedImage[2];
         bouncyEnemyFrames = new BufferedImage[2];
         octorokEnemyFrames = new BufferedImage[4];
@@ -156,7 +161,7 @@ public class Images {
         itemPickUpFrames= new BufferedImage[2];
         linkHurtFrames = new BufferedImage[3];
         woodenLaser = new BufferedImage[3];
-        otherWeapons = new BufferedImage[3];
+        otherWeapons = new BufferedImage[4];
 
 
 
@@ -302,12 +307,20 @@ public class Images {
             zeldaLinkImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/link.png"));
             zeldaLinkImage = createImageTransparent(zeldaLinkImage,"link_0,128,0_green",new Color(0,128,0).getRGB());
             zeldaLinkSpriteSheet = new SpriteSheet(createImageTransparent(zeldaLinkImage,"link_116,116,116_gray",new Color(116,116,116).getRGB()));
+            zeldaLinkSpriteSheet1 = new SpriteSheet(ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/link1.png")));
+
             zeldaLinkFrames[0] = zeldaLinkSpriteSheet.crop(1,11,16,16);
             zeldaLinkFrames[1] = zeldaLinkSpriteSheet.crop(18,11,16,16);
             zeldaLinkFrames[2] = zeldaLinkSpriteSheet.crop(35,11,16,16);
             zeldaLinkFrames[3] = zeldaLinkSpriteSheet.crop(52,11,16,16);
             zeldaLinkFrames[4] = zeldaLinkSpriteSheet.crop(69,11,16,16);
             zeldaLinkFrames[5] = zeldaLinkSpriteSheet.crop(86,11,16,16);
+            superLinkFrames[0] = zeldaLinkSpriteSheet1.crop(1,11,16,16);
+            superLinkFrames[1] = zeldaLinkSpriteSheet1.crop(18,11,16,16);
+            superLinkFrames[2] = zeldaLinkSpriteSheet1.crop(35,11,16,16);
+            superLinkFrames[3] = zeldaLinkSpriteSheet1.crop(52,11,16,16);
+            superLinkFrames[4] = zeldaLinkSpriteSheet1.crop(69,11,16,16);
+            superLinkFrames[5] = zeldaLinkSpriteSheet1.crop(86,11,16,16);
             linkHurtFrames[0] = zeldaLinkSpriteSheet.crop(92,224,16,16);
             linkHurtFrames[1] = zeldaLinkSpriteSheet.crop(75,224,16,16);
             linkHurtFrames[2] = zeldaLinkSpriteSheet.crop(58,224,16,16);
@@ -327,13 +340,30 @@ public class Images {
             woodenSwordAttackFrames[12] = zeldaLinkSpriteSheet.crop(1,128,16,23);//unknown 
             woodenSwordAttackFrames[13] = zeldaLinkSpriteSheet.crop(18,128,16,19); //unknown 
             woodenSwordAttackFrames[14] = zeldaLinkSpriteSheet.crop(35,128,23,17);//unknown 
-            woodenSwordAttackFrames[15] = zeldaLinkSpriteSheet.crop(59,128,19,17);//unknown 
+            woodenSwordAttackFrames[15] = zeldaLinkSpriteSheet.crop(59,128,19,17);//unknown
             
-            whiteSwordAttackFrames[0] = zeldaLinkSpriteSheet.crop(1,47,16,16); // attackDownStart
+            superSwordAttackFrames[0] = zeldaLinkSpriteSheet1.crop(95,47,16,16); // attackDownStart
+            superSwordAttackFrames[1] = zeldaLinkSpriteSheet1.crop(111,47,16,28); 
+            superSwordAttackFrames[2] = zeldaLinkSpriteSheet1.crop(128,47,16,23);
+            superSwordAttackFrames[3] = zeldaLinkSpriteSheet1.crop(146,47,16,19); //downAnimEnd
+            superSwordAttackFrames[4] = zeldaLinkSpriteSheet1.crop(95,77,16,16);
+            superSwordAttackFrames[5] = zeldaLinkSpriteSheet1.crop(111,77,27,17); 
+            superSwordAttackFrames[6] = zeldaLinkSpriteSheet1.crop(139,77,23,17);
+            superSwordAttackFrames[7] = zeldaLinkSpriteSheet1.crop(163,77,19,17); //sideAnimEnd
+            superSwordAttackFrames[8] = zeldaLinkSpriteSheet1.crop(95,109,16,16);
+            superSwordAttackFrames[9] = zeldaLinkSpriteSheet1.crop(111,98,16,28); 
+            superSwordAttackFrames[10] = zeldaLinkSpriteSheet1.crop(128,98,16,27);
+            superSwordAttackFrames[11] = zeldaLinkSpriteSheet1.crop(145,108,16,19); //upAnimEnd
+            superSwordAttackFrames[12] = zeldaLinkSpriteSheet1.crop(93,128,16,23);//unknown 
+            superSwordAttackFrames[13] = zeldaLinkSpriteSheet1.crop(111,128,16,19); //unknown 
+            superSwordAttackFrames[14] = zeldaLinkSpriteSheet1.crop(128,128,23,17);//unknown 
+            superSwordAttackFrames[15] = zeldaLinkSpriteSheet1.crop(152,128,19,17);//unknown 
+            
+            whiteSwordAttackFrames[0] = zeldaLinkSpriteSheet.crop(95,47,16,16); // attackDownStart
             whiteSwordAttackFrames[1] = zeldaLinkSpriteSheet.crop(111,47,16,28); 
             whiteSwordAttackFrames[2] = zeldaLinkSpriteSheet.crop(128,47,16,23);
             whiteSwordAttackFrames[3] = zeldaLinkSpriteSheet.crop(146,47,16,19); //downAnimEnd
-            whiteSwordAttackFrames[4] = zeldaLinkSpriteSheet.crop(1,77,16,16);
+            whiteSwordAttackFrames[4] = zeldaLinkSpriteSheet.crop(95,77,16,16);
             whiteSwordAttackFrames[5] = zeldaLinkSpriteSheet.crop(111,77,27,17); 
             whiteSwordAttackFrames[6] = zeldaLinkSpriteSheet.crop(139,77,23,17);
             whiteSwordAttackFrames[7] = zeldaLinkSpriteSheet.crop(163,77,19,17); //sideAnimEnd
@@ -382,9 +412,11 @@ public class Images {
 
 
             
-            otherWeapons[0] = zeldaLinkSpriteSheet.crop(36,154,8,16); // attackDownStart
-            otherWeapons[1] = zeldaLinkSpriteSheet.crop(71,154,8,16); 
-            otherWeapons[2] = zeldaLinkSpriteSheet.crop(145,154,8,16);
+            otherWeapons[0] = zeldaLinkSpriteSheet.crop(36,154,8,16); // white
+            otherWeapons[1] = zeldaLinkSpriteSheet.crop(71,154,8,16); //magical
+            otherWeapons[2] = zeldaLinkSpriteSheet.crop(145,154,8,16); //rod 
+            otherWeapons[3] = zeldaLinkSpriteSheet1.crop(36,154,8,16); //superSword 
+
             npcImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc1.png"));
             npcSpriteSheet = new SpriteSheet( npcImage);
             npc[0] = npcSpriteSheet.crop(18, 11, 16, 16); // oldman 
