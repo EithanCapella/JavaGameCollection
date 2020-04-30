@@ -1,8 +1,10 @@
 package Game.GameStates;
 
 import Main.Handler;
+import Resources.Images;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * Created by AlexVR on 7/1/2018.

@@ -49,7 +49,7 @@ public class ZeldaGameState extends State {
         yOffset = handler.getHeight()/4;
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
-        worldScale = 2;
+        worldScale = 3;
         mapX = 7;
         mapY = 7;
         mapWidth = 256;
@@ -247,7 +247,7 @@ public class ZeldaGameState extends State {
         solids.add(new SolidStaticEntities(9,0,Images.forestTiles.get(5),handler));
         objects.get(7).set(7,solids);
         monster = new ArrayList<>();
-        monster.add(new BouncyFella(4,6,handler));
+        monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));
         monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames, handler));
         monster.add(new Moblin(6,7,handler));
         monster.add(new Leever(8,2,handler));
