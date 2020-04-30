@@ -67,8 +67,11 @@ public class Link extends BaseMovingEntity {
 		if (hurtCounter <= 0 && hurt) {hurtCounter = 20;hurt = false;}
 		if (attackCounter > 0 && attacking) {attackCounter--;}
 		if (attackCounter <= 0 && attacking) {attackCounter = 30; attacking = false;}
+		if (horray && celebrateCounter == 60) {pickUpAnim.tick();}
 		if (horray && celebrateCounter > 0) {celebrateCounter--;}
-		if (horray && celebrateCounter <= 0) {horray = false; celebratingMethod();}
+		if (horray && celebrateCounter <= 0) {pickUpAnim.tick(); horray = false; celebratingMethod();}
+		
+		
 	
 		if (handler.getKeyManager().shift == true) {
 			speed = 5;}
@@ -208,7 +211,7 @@ public class Link extends BaseMovingEntity {
 	public void celebratingMethod() {
 		if (horray == true) {
 			handler.getZeldaGameState().beginAdventure = false;			
-			pickUpAnim.tick();
+			
 			celebrateCounter = 60;
 		}
 		else if (horray == false) {
