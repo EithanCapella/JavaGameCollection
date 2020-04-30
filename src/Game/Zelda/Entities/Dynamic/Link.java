@@ -38,12 +38,14 @@ public class Link extends BaseMovingEntity {
 		speed = 4;
 		health = 6;
 		BufferedImage[] animList = new BufferedImage[2];
+		BufferedImage[] animListPick = new BufferedImage[2];
+
 		animList[0] = sprite[4];
 		animList[1] = sprite[5];
 		animation = new Animation(animSpeed,animList);
-		animList[0] = Images.itemPickUpFrames[0];
-		animList[1] = Images.itemPickUpFrames[1];
-		pickUpAnim = new Animation(120,animList);
+		animListPick[0] = Images.itemPickUpFrames[0];
+		animListPick[1] = Images.itemPickUpFrames[1];
+		pickUpAnim = new Animation(120,animListPick);
 		hurtAnim = new Animation(90,Images.linkHurtFrames);
 		BufferedImage[] animList1 = new BufferedImage[4];
 		animList1[0] = (Images.woodenSwordAttackFrames[8]);
@@ -60,17 +62,14 @@ public class Link extends BaseMovingEntity {
 		if(hurt) {
 			hurtAnim.tick();
 		}
+		//CounterArea
 		if (hurtCounter > 0 && hurt) {hurtCounter--;}
 		if (hurtCounter <= 0 && hurt) {hurtCounter = 20;hurt = false;}
 		if (attackCounter > 0 && attacking) {attackCounter--;}
 		if (attackCounter <= 0 && attacking) {attackCounter = 30; attacking = false;}
-		if(!pickUpAnim.end&& horray && celebrateCounter <= 0) {
-			pickUpAnim.end = true;
-			moving=true;
-			horray=false;
-			animation.tick();
-		}
-		else if (!pickUpAnim.end&& horray&& celebrateCounter > 0 && (wooden||rod||magical||white)) {pickUpAnim.tick();celebrateCounter--;}
+		if (horray && celebrateCounter > 0) {celebrateCounter--;}
+		if (horray && celebrateCounter <= 0) {horray = false; celebratingMethod();}
+	
 		if (handler.getKeyManager().shift == true) {
 			speed = 5;}
 		else {speed = 4;}
@@ -206,6 +205,18 @@ public class Link extends BaseMovingEntity {
 		}
 	}
 
+	public void celebratingMethod() {
+		if (horray == true) {
+			handler.getZeldaGameState().beginAdventure = false;			
+			pickUpAnim.tick();
+			celebrateCounter = 60;
+		}
+		else if (horray == false) {
+			animation.tick();
+			
+		}
+	}
+	
 	public void attackingMethod() {
 		if(attacking) {
 			if (direction == direction.UP) {
@@ -349,36 +360,33 @@ public class Link extends BaseMovingEntity {
 	}
 	@Override
 	public void render(Graphics g) {
-		if (moving&&!attacking) {
+		if (moving && !attacking && !horray) {
 			g.drawImage(animation.getCurrentFrame(),x , y, width , height  , null);
 
 		} else {
-			if (movingMap&&!attacking){
+			if (movingMap && !attacking){
 				g.drawImage(animation.getCurrentFrame(),x , y, width, height  , null);
 			}
 			if (!attacking && !horray) {
 				g.drawImage(sprite, x , y, width , height , null);
 			}
 		}
-		if(horray&&!attacking) {
+		if(horray && !attacking && !moving ) {
+			g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
 			if(wooden && !(white&&magical&&rod)) {
-				g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
 				g.drawImage(Images.npc[4],x , y -40, width/2 , height  , null);
 			}
 			if(white&& !(wooden&&magical&&rod)) {
-				g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
 				g.drawImage(Images.otherWeapons[0],x , y -40, width/2 , height  , null);
 			}
 			if(magical&& !(white&&wooden&&rod)) {
-				g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
 				g.drawImage(Images.otherWeapons[1],x , y -40, width/2 , height  , null);
 			}
 			if(rod&& !(white&&magical&&wooden)) {
-				g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
 				g.drawImage(Images.otherWeapons[2],x , y -40, width/2 , height  , null);
 			}
 		}
-		if (attacking) {  
+		if (attacking && !horray) {  
 			attackAnim.tick();
 			if(direction == Direction.LEFT) {
 				g.drawImage(attackAnim.getCurrentFrame(),this.x -(attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale-this.width) , y,attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale ,attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale, null);
@@ -387,7 +395,7 @@ public class Link extends BaseMovingEntity {
 				g.drawImage(attackAnim.getCurrentFrame(),x , this.y -(attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale -this.height), attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale ,attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale, null);
 			}else {g.drawImage(attackAnim.getCurrentFrame(),x , y, attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale ,attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale, null); }
 		}
-		if (hurt&& !attacking) {
+		if (hurt && !attacking && !horray) {
 			g.drawImage(hurtAnim.getCurrentFrame(),x , y, width , height, null); 
 		}
 	}
@@ -401,9 +409,10 @@ public class Link extends BaseMovingEntity {
 		if (ZeldaGameState.inCave){
 			for (SolidStaticEntities objects : handler.getZeldaGameState().caveObjects) {
 				if ((objects instanceof caveSword) && objects.bounds.intersects(interactBounds)) {
-					hasSword=true;
 					pickUpAnim.tick();
+					hasSword=true;
 					horray = true;
+					celebratingMethod();
 					moving=false;
 					wooden=true;
 					count++;
@@ -413,9 +422,10 @@ public class Link extends BaseMovingEntity {
 					handler.getZeldaGameState().caveObjects.remove(objects);
 				}
 				if ((objects instanceof whiteSword) && objects.bounds.intersects(interactBounds)) {
-					hasSword=true;
 					pickUpAnim.tick();
+					hasSword=true;
 					horray = true;
+					celebratingMethod();
 					moving=false;
 					white=true;
 					count++;
@@ -426,9 +436,10 @@ public class Link extends BaseMovingEntity {
 
 				}
 				if ((objects instanceof magicalSword) && objects.bounds.intersects(interactBounds)) {
-					hasSword=true;
 					pickUpAnim.tick();
+					hasSword=true;
 					horray = true;
+					celebratingMethod();
 					moving=false;
 					magical=true;
 					count++;
@@ -439,9 +450,10 @@ public class Link extends BaseMovingEntity {
 
 				}
 				if ((objects instanceof magicalRod) && objects.bounds.intersects(interactBounds)) {
-					hasSword=true;
 					pickUpAnim.tick();
+					hasSword=true;
 					horray = true;
+					celebratingMethod();
 					moving=false;
 					rod=true;
 					count++;

@@ -86,11 +86,11 @@ public class ZeldaGameState extends State {
 				runOnce = true;
 
 			}
-				if(link.hasSword&& !beginAdventure) {	
+				if(link.hasSword && !beginAdventure) {	
 					handler.getMusicHandler().playEffect("newItem.wav");
 		        	handler.getMusicHandler().changeMusic("OverWorld.wav");
 					beginAdventure=true;
-					link.horray=true;
+					
 //					caveSword wood = new caveSword(8,5,handler,Images.npc[4]);
 //			        whiteSword white = new whiteSword(4,5,handler,Images.otherWeapons[0]);
 //			        magicalSword magical = new magicalSword(6,5,handler,Images.otherWeapons[1]);
@@ -101,7 +101,7 @@ public class ZeldaGameState extends State {
 //							if(link.magical) {caveObjects.remove(i);}
 //							if(link.rod) {caveObjects.remove(i);}
 //						}
-					}else {link.horray=false;}
+					}
         }else {
             if (!link.movingMap) {
                 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
