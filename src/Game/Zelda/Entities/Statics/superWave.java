@@ -13,9 +13,9 @@ import Game.Zelda.Entities.Dynamic.Direction;
 import Main.Handler;
 import Resources.Images;
 
-public class swordLaser extends SolidStaticEntities{
+public class superWave extends SolidStaticEntities{
     public Direction direction;
-	public swordLaser(int x, int y, BufferedImage sprite, Handler handler,Direction direction) {
+	public superWave(int x, int y, BufferedImage sprite, Handler handler,Direction direction) {
 		super(x, y, sprite, handler);
 		this.direction=direction;
 		
@@ -46,5 +46,3 @@ public class swordLaser extends SolidStaticEntities{
 		}
 
 	}
-
-

@@ -32,7 +32,6 @@ public class Images {
     public static BufferedImage[] galagaPlayerDeath;
     public static BufferedImage[] galagaEnemyDeath;
     public static BufferedImage[] galagaEnemyBee;
-
     public static BufferedImage map1;
     public static BufferedImage ghost;
     public static BufferedImage[] pacmanDots;
@@ -43,21 +42,16 @@ public class Images {
     public static BufferedImage[] bound;
     public static BufferedImage intro;
     public static BufferedImage start;
-
     public static BufferedImage galagaImageSheet;
     public SpriteSheet galagaSpriteSheet;
-
     public static BufferedImage pacmanImageSheet;
     public SpriteSheet pacmanSpriteSheet;
-
     public static BufferedImage zeldaImageSheet;
     public static BufferedImage storyImageSheet;
-
     public SpriteSheet zeldaSpriteSheet;
     public SpriteSheet storySpriteSheet;
     public static BufferedImage zeldaTriforceLogo;
     public static BufferedImage zeldaMap;
-
     public static ArrayList<BufferedImage> zeldaTiles;
     public static BufferedImage[] zeldaTitleFrames;
     public static BufferedImage[] zeldaStoryFrames;
@@ -65,7 +59,6 @@ public class Images {
     public static BufferedImage zeldaWorldLayoutTileImage;
     public SpriteSheet zeldaWorldLayoutTileSpriteSheet;
     public static ArrayList<BufferedImage> zeldaWorldLayoutTiles;
-
     public static BufferedImage zeldaLinkImage;
     public static BufferedImage npcImage;
     public static BufferedImage itemImage;
@@ -90,16 +83,10 @@ public class Images {
     public static BufferedImage morshuStealing;
     public static BufferedImage morshuThreat;
     public static BufferedImage morshuWelcome;
-
-
-
-
-
     public static ArrayList<BufferedImage> forestTiles;
     public static ArrayList<BufferedImage> caveTiles;
     public static ArrayList<BufferedImage> mountainTiles;
     public static ArrayList<BufferedImage> graveTiles;
-
     public static BufferedImage EnemyOverwoldImage;
     public SpriteSheet EnemyOverwoldSpriteSheet;
     public static BufferedImage[] bouncyEnemyFrames;
@@ -110,7 +97,6 @@ public class Images {
     public static BufferedImage[] moblinArrow;
     public static BufferedImage octoBall;
     public static BufferedImage[] otherWeapons;
-
 
 
 
@@ -161,7 +147,7 @@ public class Images {
         itemPickUpFrames= new BufferedImage[2];
         linkHurtFrames = new BufferedImage[3];
         woodenLaser = new BufferedImage[3];
-        otherWeapons = new BufferedImage[4];
+        otherWeapons = new BufferedImage[16];
 
 
 
@@ -416,6 +402,21 @@ public class Images {
             otherWeapons[1] = zeldaLinkSpriteSheet.crop(71,154,8,16); //magical
             otherWeapons[2] = zeldaLinkSpriteSheet.crop(145,154,8,16); //rod 
             otherWeapons[3] = zeldaLinkSpriteSheet1.crop(36,154,8,16); //superSword 
+            otherWeapons[4] = zeldaLinkSpriteSheet.crop(45,159,16,8); // white - side
+            otherWeapons[5] = zeldaLinkSpriteSheet.crop(80,159,16,8); //magical -side
+            otherWeapons[6] = zeldaLinkSpriteSheet.crop(290,154,16,16); //rod - side
+            otherWeapons[7] = zeldaLinkSpriteSheet1.crop(45,159,16,8); //superSword - side 
+            otherWeapons[8] = zeldaLinkSpriteSheet1.crop(57,168,8,16); // white - down
+            otherWeapons[9] = zeldaLinkSpriteSheet1.crop(91,170,7,16); //magical -down
+            otherWeapons[10] = zeldaLinkSpriteSheet1.crop(104,170,4,16); //rod - down
+            otherWeapons[11] = zeldaLinkSpriteSheet1.crop(48,168,8,16); //superSword - down 
+            otherWeapons[12] = zeldaLinkSpriteSheet1.crop(222,154,16,16); //rod - Up
+            otherWeapons[13] = zeldaLinkSpriteSheet1.crop(239,154,16,16); //superWave - Up
+            otherWeapons[14] = zeldaLinkSpriteSheet1.crop(258,154,16,16); //superWave - down
+            otherWeapons[15] = zeldaLinkSpriteSheet1.crop(277,154,16,16); //superWave - side
+
+
+
 
             npcImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc1.png"));
             npcSpriteSheet = new SpriteSheet( npcImage);

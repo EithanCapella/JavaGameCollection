@@ -14,6 +14,7 @@ import Game.Zelda.Entities.Dynamic.Zora;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.Fire;
 import Game.Zelda.Entities.Statics.oldMan;
+import Game.Zelda.Entities.Statics.superSword;
 import Game.Zelda.Entities.Statics.whiteSword;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
@@ -30,8 +31,6 @@ import java.util.ArrayList;
  * Created by AlexVR on 3/14/2020
  */
 public class ZeldaGameState extends State {
-
-
     public static int xOffset,yOffset,stageWidth,stageHeight,worldScale;
     public int cameraOffsetX,cameraOffsetY;
     //map is 16 by 7 squares, you start at x=7,y=7 starts counting at 0
@@ -49,7 +48,7 @@ public class ZeldaGameState extends State {
         yOffset = handler.getHeight()/4;
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
-        worldScale = 3;
+        worldScale = 2;
         mapX = 7;
         mapY = 7;
         mapWidth = 256;
@@ -69,11 +68,9 @@ public class ZeldaGameState extends State {
                 //npc.get(i).add(new ArrayList<>());
             }
         }
-
         addWorldObjects();
 
         link = new Link(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.zeldaLinkFrames, handler);
-        
 
     }
     @Override
@@ -90,17 +87,6 @@ public class ZeldaGameState extends State {
 					handler.getMusicHandler().playEffect("newItem.wav");
 		        	handler.getMusicHandler().changeMusic("OverWorld.wav");
 					beginAdventure=true;
-					
-//					caveSword wood = new caveSword(8,5,handler,Images.npc[4]);
-//			        whiteSword white = new whiteSword(4,5,handler,Images.otherWeapons[0]);
-//			        magicalSword magical = new magicalSword(6,5,handler,Images.otherWeapons[1]);
-//			        magicalRod rod =new magicalRod(10,5,handler,Images.otherWeapons[2]);
-//					for(int i =0; i<caveObjects.size();i++){
-//							if(link.wooden) {caveObjects.remove(i);}
-//							if(link.white) {caveObjects.remove(i);}
-//							if(link.magical) {caveObjects.remove(i);}
-//							if(link.rod) {caveObjects.remove(i);}
-//						}
 					}
         }else {
             if (!link.movingMap) {
@@ -171,7 +157,6 @@ public class ZeldaGameState extends State {
 		}
 
     }
-
     private void addWorldObjects() {
         //cave
         for (int i = 0;i < 16;i++){
@@ -203,6 +188,8 @@ public class ZeldaGameState extends State {
         caveObjects.add(new whiteSword(4,5,handler,Images.otherWeapons[0]));
         caveObjects.add(new magicalSword(6,5,handler,Images.otherWeapons[1]));
         caveObjects.add(new magicalRod(10,5,handler,Images.otherWeapons[2]));
+        caveObjects.add(new superSword(12,5,handler,Images.otherWeapons[3]));
+
         
         //7,7
         ArrayList<SolidStaticEntities> solids = new ArrayList<>();
