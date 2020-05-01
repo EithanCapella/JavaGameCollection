@@ -27,9 +27,9 @@ public class BouncyFella extends BaseMovingEntity {
 	private final int animSpeed = 120;
 	private double life=3.0;
 	int randomDirection = 0;
-	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0, nextX = 0, nextY = 0;
-	int directionCounter = 60,attackCounter=30,hurtCounter=20, count = 0;
-	public boolean movingMap = false,hasSword=false,horray=false,hurt=false;
+	int moveX=0,moveY=0,xExtraCounter=0,yExtraCounter=0, nextX= new Random().nextInt(70+50)-50 +x, nextY= new Random().nextInt(70+50)-50 +y;
+	int directionCounter = 120,attackCounter=30,hurtCounter=20, count = 0;
+	public boolean movingMap = false,hasSword=false,horray=false,hurt=false, roll = false, changeSpeed = false;
 	Direction movingTo;
 	Animation pickUpAnim,attackAnim,hurtAnim;
 	Rectangle jumpBounds;
@@ -40,6 +40,8 @@ public class BouncyFella extends BaseMovingEntity {
 	public BouncyFella(int x, int y, Handler handler) {
 		super(x, y, Images.bouncyEnemyFrames, handler);
 		jumpBounds = (Rectangle) bounds.clone();
+		jumpBounds.width= jumpBounds.width +2;
+		jumpBounds.height= jumpBounds.height +2;
 		interactBounds = (Rectangle) bounds.clone();
 		count=new Random().nextInt(6*60)+3*60;
 
@@ -48,6 +50,8 @@ public class BouncyFella extends BaseMovingEntity {
 	public BouncyFella(int x, int y, BufferedImage[] sprite, Handler handler) {
 		super(x, y, sprite, handler);
 		jumpBounds = (Rectangle) bounds.clone();
+		jumpBounds.width= jumpBounds.width;
+		jumpBounds.height= jumpBounds.height;
 		speed = 2;
 		health = 6;
 
@@ -58,26 +62,35 @@ public class BouncyFella extends BaseMovingEntity {
 	
 	@Override
 	public void tick() {
+		if (directionCounter > 0) {
+			directionCounter--;
+			move();
+		}
+		else if (directionCounter <= 0) {
+			
+			nextX= new Random().nextInt(100+70)-70 +x;
+			nextY= new Random().nextInt(100+70)-70 +y;
+			directionCounter = 120;
+			jumpBounds.x = nextX;
+			jumpBounds.y = nextY;
+			
+		}
+		
 		
 		
 		//System.out.println( "Enemy pos" + x + "," + y);
-		if (directionCounter > 0) {
-			directionCounter--;
-		}
-		else if (directionCounter <= 0) {
-			nextX= new Random().nextInt(70+50)-50 +x;
-			nextY= new Random().nextInt(70+50)-50 +y;
-			//randomDirection = new Random().nextInt(4);
-			directionCounter = 60;
+		
+		
 			
-			move();
-		}
+		
+		 
 			
 		
 	}
 
 	@Override
 	public void render(Graphics g) {
+		g.drawRect(jumpBounds.x, jumpBounds.y, jumpBounds.width, jumpBounds.height);
 		if (moving&&!attacking) {
 			g.drawImage(animation.getCurrentFrame(),x , y, width , height  , null);
 
@@ -90,16 +103,7 @@ public class BouncyFella extends BaseMovingEntity {
 		if(horray&&!attacking) {
 			g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
 			g.drawImage(Images.npc[4],x , y -40, width/2 , height  , null);
-		}
-//		if (attacking) {    
-//			if(direction == Direction.LEFT) {
-//				g.drawImage(attackAnim.getCurrentFrame(),this.x -(attackAnim.getCurrentFrame().getWidth()*2-this.width) , y,attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
-//			}
-//			if(direction == Direction.UP) {
-//				g.drawImage(attackAnim.getCurrentFrame(),x , this.y -(attackAnim.getCurrentFrame().getHeight()*2 -this.height), attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
-//			}else {g.drawImage(attackAnim.getCurrentFrame(),x , y, attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null); }
-//		}
-		
+		}		
 	}
 	 
 
@@ -109,45 +113,48 @@ public class BouncyFella extends BaseMovingEntity {
 		changeIntersectingBounds();
 		//chack for collisions
 		
-
-		jumpBounds.x = nextX;
-		jumpBounds.y = nextY;
+		if (directionCounter > 0) {
+			
+			if (interactBounds.intersects(jumpBounds)) {
+				speed = 1;}
+			else {speed = 2;}
+			
+			directionCounter--;
+			if (x < jumpBounds.x) {
+				x += speed;}
+			else if (x > jumpBounds.x) {
+				x -= speed;}	
+			else if (y < jumpBounds.y) {
+				y += speed;}	
+			else if (y > jumpBounds.y) {
+				y -= speed;}
+			else if(x == jumpBounds.x && y == jumpBounds.y) { directionCounter = 0; }
+		}
+		
+		
+	
+		
+		
+		
 			
 			for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
 				if (!(objects instanceof SectionDoor) && objects.bounds.intersects(jumpBounds)) {
-					directionCounter = 0;	
-					//System.out.println("cannot jump");
+					directionCounter = 0;
 					
 				}
-				if (!(objects instanceof SectionDoor) && !(objects.bounds.intersects(jumpBounds))) {
-					directionCounter = 60;	
-					x = nextX;
-					y = nextY;
+				else if (!(objects instanceof SectionDoor) && !(objects.bounds.intersects(jumpBounds))) {
+	
 				}
 				
 			}
 		
 		//Movement
-//		switch (direction) {
-//		case RIGHT:
-//			x += speed;
-//			break;
-//		case LEFT:
-//			x -= speed;
-//
-//			break;
-//		case UP:
-//			y -= speed;
-//			break;
-//		case DOWN:
-//			y += speed;
-//
-//			break;
-//		}
+		
+		
+		
 		bounds.x = x;
 		bounds.y = y;
-		jumpBounds.x = x;
-		jumpBounds.y = y;
+		
 		changeIntersectingBounds();
 
 	}
