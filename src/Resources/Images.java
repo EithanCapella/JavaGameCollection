@@ -81,6 +81,8 @@ public class Images {
     public static BufferedImage[] vaporWaveDown;
     public static BufferedImage[] vaporWaveSide;
     public static BufferedImage[] vaporWaveSideL;
+    public static BufferedImage triforcePointer;
+    public static BufferedImage[] rupees;
 
 
     public static BufferedImage morshuSketchy;
@@ -163,6 +165,7 @@ public class Images {
         vaporWaveDown = new BufferedImage[4];
         vaporWaveSide = new BufferedImage[4];
         vaporWaveSideL = new BufferedImage[4];
+        rupees = new BufferedImage[2];
 
 
 
@@ -291,6 +294,7 @@ public class Images {
             zeldaTitleFrames[2] = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/TitleScreen/frame_3.gif"));
             zeldaTitleFrames[1] = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/TitleScreen/frame_4.gif"));
             zeldaTitleFrames[0] = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/TitleScreen/frame_5.gif"));
+            triforcePointer = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/triforceCursor.png"));
 
             zeldaStoryFrames[0] = storySpriteSheet.crop(1, 250, 256,223);
             zeldaStoryFrames[1] = storySpriteSheet.crop(258, 250, 256,223);
@@ -454,6 +458,8 @@ public class Images {
             itemImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/items.png"));
             itemSpriteSheet = new SpriteSheet( itemImage);
             npc[4] = itemSpriteSheet.crop(104, 0, 7, 16); //swordUp
+            rupees[0] = itemSpriteSheet.crop(72, 0, 8, 16);
+            rupees[1] = itemSpriteSheet.crop(72, 16, 8, 16);
             //woodenLaser[0] = zeldaLinkSpriteSheet.crop(1,154,8,16); //swordDown
             //woodenLaser[1] = zeldaLinkSpriteSheet.crop(1,154,8,16); //sword
             //WoodenLaser[2] = zeldaLinkSpriteSheet.crop(1,154,8,16); //sword
