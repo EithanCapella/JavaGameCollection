@@ -34,12 +34,12 @@ public class ZeldaGameState extends State {
     public static int xOffset,yOffset,stageWidth,stageHeight,worldScale;
     public int cameraOffsetX,cameraOffsetY;
     //map is 16 by 7 squares, you start at x=7,y=7 starts counting at 0
-    public int mapX,mapY,mapWidth,mapHeight;
+    public int mapX,mapY,mapWidth,mapHeight,animCount=0;
     public ArrayList<ArrayList<ArrayList<SolidStaticEntities>>> objects;
     //public ArrayList<ArrayList<ArrayList<BaseEntity>>> npc;
     public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> enemies;
     public Link link;
-    public static boolean inCave = false, runOnce = false, beginAdventure=false;;
+    public static boolean inCave = false, runOnce = false, beginAdventure=false;
     public ArrayList<SolidStaticEntities> caveObjects;
 
     public ZeldaGameState(Handler handler) {

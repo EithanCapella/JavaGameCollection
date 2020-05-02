@@ -165,7 +165,7 @@ public class ZeldaMerchantState extends State {
         g.setColor(Color.WHITE);
     	g.drawRect((int) (handler.getWidth() - handler.getWidth() * .95), handler.getHeight()/10 - 64 , 402, 402);//merchantSprite
     	g.drawRect((int) (handler.getWidth() - handler.getWidth() * .95), handler.getHeight()/2, 750, 400);//textbox merchant
-    	g.drawRect((int) (handler.getWidth() - handler.getWidth() * .53), handler.getHeight()/2, 450, 400);//choices
+    	g.drawRect((int) (handler.getWidth() - handler.getWidth() * .42), handler.getHeight()/2, 450, 400);//choices
     	g.setFont(new Font("TimesRoman", Font.PLAIN, size));
     	
     	if (shopMode == "Choices") {
