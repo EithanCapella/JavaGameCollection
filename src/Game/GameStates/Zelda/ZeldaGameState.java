@@ -235,7 +235,8 @@ public class ZeldaGameState extends State {
         monster = new ArrayList<>();
         monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));
         monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames, handler));
-        monster.add(new Moblin(6,7,handler));
+        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.moblinEnemyFrames,handler));
+        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.dmoblinEnemyFrames,handler));
         monster.add(new Leever(8,2,handler));
         monster.add(new Zora(2,5,handler));
 

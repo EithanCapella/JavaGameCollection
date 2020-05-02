@@ -224,7 +224,6 @@ public class Link extends BaseMovingEntity {
 			handler.getMusicHandler().playEffect("MagicalRod.wav");
 		}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && !attacking&&hasSword) {
-			//attack(direction);
 			attackingMethod();
 			handler.getMusicHandler().playEffect("Sword_Slash.wav");
 		}
@@ -444,7 +443,6 @@ public class Link extends BaseMovingEntity {
 					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
 				}
 			}
-
 		}
 	}
 	public void laserMethod() {

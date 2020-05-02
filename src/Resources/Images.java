@@ -95,12 +95,15 @@ public class Images {
     public static ArrayList<BufferedImage> graveTiles;
     public static BufferedImage EnemyOverwoldImage;
     public SpriteSheet EnemyOverwoldSpriteSheet;
+    public SpriteSheet EnemyOverwoldSpriteSheet1;
     public static BufferedImage[] bouncyEnemyFrames;
     public static BufferedImage[] octorokEnemyFrames;
     public static BufferedImage[] moblinEnemyFrames;
+    public static BufferedImage[] dmoblinEnemyFrames;
     public static BufferedImage[] leeverEnemyFrames;
     public static BufferedImage[] zoraEnemyFrames;
     public static BufferedImage[] moblinArrow;
+    public static BufferedImage[] dmoblinArrow;
     public static BufferedImage octoBall;
     public static BufferedImage[] otherWeapons;
 
@@ -145,10 +148,12 @@ public class Images {
         linkHearts= new BufferedImage[2];
         bouncyEnemyFrames = new BufferedImage[2];
         octorokEnemyFrames = new BufferedImage[4];
-        moblinEnemyFrames = new BufferedImage[4];
+        moblinEnemyFrames = new BufferedImage[6];
+        dmoblinEnemyFrames = new BufferedImage[6];
         leeverEnemyFrames = new BufferedImage[4];
         zoraEnemyFrames = new BufferedImage[4];
-        moblinArrow = new BufferedImage[3];
+        moblinArrow = new BufferedImage[5];
+        dmoblinArrow = new BufferedImage[4];
         npc = new BufferedImage[5];
         itemPickUpFrames= new BufferedImage[2];
         linkHurtFrames = new BufferedImage[3];
@@ -468,6 +473,8 @@ public class Images {
             EnemyOverwoldImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/enemy3.png"));
             EnemyOverwoldImage = createImageTransparent(EnemyOverwoldImage,"enemies_overworld_116,116,116_green",new Color(116,116,116).getRGB());
             EnemyOverwoldSpriteSheet = new SpriteSheet( createImageTransparent(EnemyOverwoldImage,"enemies_overworld_0,128,0_green",new Color(0,128,0).getRGB()));
+            EnemyOverwoldSpriteSheet1 = new SpriteSheet( ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/enemy3_1.png")));
+
 
             bouncyEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(162,90,16,16);
             bouncyEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(179,90,16,16);
@@ -480,9 +487,26 @@ public class Images {
             moblinEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(99,11,16,16);
             moblinEnemyFrames[2] = EnemyOverwoldSpriteSheet.crop(116,11,16,16);
             moblinEnemyFrames[3] = EnemyOverwoldSpriteSheet.crop(133,11,16,16);
+            moblinEnemyFrames[4] = Images.flipHorizontal(EnemyOverwoldSpriteSheet.crop(116,11,16,16));
+            moblinEnemyFrames[5] = Images.flipHorizontal(EnemyOverwoldSpriteSheet.crop(133,11,16,16));
             moblinArrow[0] = EnemyOverwoldSpriteSheet.crop(150,11,8,16); //top
             moblinArrow[1] = EnemyOverwoldSpriteSheet.crop(159,11,16,16); //side
-            moblinArrow[2] = EnemyOverwoldSpriteSheet.crop(176,11,8,16);
+            moblinArrow[2] = EnemyOverwoldSpriteSheet.crop(159,11,16,16); //sideL
+            moblinArrow[3] = EnemyOverwoldSpriteSheet.crop(176,11,8,16);
+            moblinArrow[4] = EnemyOverwoldSpriteSheet1.crop(150,28,8,16); //down
+
+           
+            dmoblinEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(82,28,16,16);
+            dmoblinEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(99,28,16,16);
+            dmoblinEnemyFrames[2] = EnemyOverwoldSpriteSheet.crop(116,28,16,16);
+            dmoblinEnemyFrames[3] = EnemyOverwoldSpriteSheet.crop(133,28,16,16);
+            dmoblinEnemyFrames[4] = Images.flipHorizontal(EnemyOverwoldSpriteSheet.crop(116,28,16,16));
+            dmoblinEnemyFrames[5] = Images.flipHorizontal(EnemyOverwoldSpriteSheet.crop(133,28,16,16));
+            dmoblinArrow[0] = EnemyOverwoldSpriteSheet1.crop(185,28,8,16); //top
+            dmoblinArrow[1] = EnemyOverwoldSpriteSheet1.crop(168,28,16,16); //side
+            dmoblinArrow[2] = EnemyOverwoldSpriteSheet1.crop(168,28,16,16); //sideL
+            dmoblinArrow[3] = EnemyOverwoldSpriteSheet1.crop(160,28,6,16); //down
+            
             leeverEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(1,59,16,16);
             leeverEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(18,59,16,16);
             leeverEnemyFrames[2] = EnemyOverwoldSpriteSheet.crop(36,59,16,16);
