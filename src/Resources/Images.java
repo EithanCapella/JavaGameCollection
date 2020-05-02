@@ -77,6 +77,12 @@ public class Images {
     public static BufferedImage[] superSwordAttackFrames;
     public static BufferedImage[] linkHearts;
     public static BufferedImage[] woodenLaser;
+    public static BufferedImage[] vaporWaveUp;
+    public static BufferedImage[] vaporWaveDown;
+    public static BufferedImage[] vaporWaveSide;
+    public static BufferedImage[] vaporWaveSideL;
+
+
     public static BufferedImage morshuSketchy;
     public static BufferedImage morshuNoMoney;
     public static BufferedImage morshuSpeaking;
@@ -148,10 +154,10 @@ public class Images {
         linkHurtFrames = new BufferedImage[3];
         woodenLaser = new BufferedImage[3];
         otherWeapons = new BufferedImage[16];
-
-
-
-
+        vaporWaveUp = new BufferedImage[4];
+        vaporWaveDown = new BufferedImage[4];
+        vaporWaveSide = new BufferedImage[4];
+        vaporWaveSideL = new BufferedImage[4];
 
 
 
@@ -395,8 +401,26 @@ public class Images {
             magicalRodAttackFrames[13] = zeldaLinkSpriteSheet.crop(111,128,16,19); //unknown 
             magicalRodAttackFrames[14] = zeldaLinkSpriteSheet.crop(128,128,23,17);//unknown 
             magicalRodAttackFrames[15] = zeldaLinkSpriteSheet.crop(152,128,19,17);//unknown
-
-
+            
+            vaporWaveUp[0] = zeldaLinkSpriteSheet1.crop(258,154,16,16); // attackDownStart
+            vaporWaveUp[1] = zeldaLinkSpriteSheet1.crop(258,176,16,16); 
+            vaporWaveUp[2] = zeldaLinkSpriteSheet1.crop(258,196,16,16);
+            vaporWaveUp[3] = zeldaLinkSpriteSheet1.crop(258,219,16,16); //downAnimEnd
+            
+            vaporWaveDown[0] = zeldaLinkSpriteSheet1.crop(280,154,16,16); // attackDownStart
+            vaporWaveDown[1] = zeldaLinkSpriteSheet1.crop(280,176,16,16); 
+            vaporWaveDown[2] = zeldaLinkSpriteSheet1.crop(280,196,16,16);
+            vaporWaveDown[3] = zeldaLinkSpriteSheet1.crop(280,219,16,16); //downAnimEnd
+            
+            vaporWaveSide[0] = zeldaLinkSpriteSheet1.crop(260,240,16,16); // attackDownStart
+            vaporWaveSide[1] = zeldaLinkSpriteSheet1.crop(283,240,16,16); 
+            vaporWaveSide[2] = zeldaLinkSpriteSheet1.crop(303,240,16,16);
+            vaporWaveSide[3] = zeldaLinkSpriteSheet1.crop(325,240,16,16); //downAnimEnd
+            
+            vaporWaveSideL[0] = zeldaLinkSpriteSheet1.crop(260,257,16,16); // attackDownStart
+            vaporWaveSideL[1] = zeldaLinkSpriteSheet1.crop(283,257,16,16); 
+            vaporWaveSideL[2] = zeldaLinkSpriteSheet1.crop(303,257,16,16);
+            vaporWaveSideL[3] = zeldaLinkSpriteSheet1.crop(325,257,16,16); //downAnimEnd
             
             otherWeapons[0] = zeldaLinkSpriteSheet.crop(36,154,8,16); // white
             otherWeapons[1] = zeldaLinkSpriteSheet.crop(71,154,8,16); //magical
@@ -407,15 +431,13 @@ public class Images {
             otherWeapons[6] = zeldaLinkSpriteSheet.crop(290,154,16,16); //rod - side
             otherWeapons[7] = zeldaLinkSpriteSheet1.crop(45,159,16,8); //superSword - side 
             otherWeapons[8] = zeldaLinkSpriteSheet1.crop(57,168,8,16); // white - down
-            otherWeapons[9] = zeldaLinkSpriteSheet1.crop(91,170,7,16); //magical -down
-            otherWeapons[10] = zeldaLinkSpriteSheet1.crop(104,170,4,16); //rod - down
+            otherWeapons[9] = zeldaLinkSpriteSheet1.crop(87,170,8,16); //magical -down
+            otherWeapons[10] = zeldaLinkSpriteSheet1.crop(234,176,16,16); //rod - down
             otherWeapons[11] = zeldaLinkSpriteSheet1.crop(48,168,8,16); //superSword - down 
             otherWeapons[12] = zeldaLinkSpriteSheet1.crop(222,154,16,16); //rod - Up
             otherWeapons[13] = zeldaLinkSpriteSheet1.crop(239,154,16,16); //superWave - Up
             otherWeapons[14] = zeldaLinkSpriteSheet1.crop(258,154,16,16); //superWave - down
             otherWeapons[15] = zeldaLinkSpriteSheet1.crop(277,154,16,16); //superWave - side
-
-
 
 
             npcImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc1.png"));

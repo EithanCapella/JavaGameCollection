@@ -190,7 +190,6 @@ public class ZeldaGameState extends State {
         caveObjects.add(new magicalRod(10,5,handler,Images.otherWeapons[2]));
         caveObjects.add(new superSword(12,5,handler,Images.otherWeapons[3]));
 
-        
         //7,7
         ArrayList<SolidStaticEntities> solids = new ArrayList<>();
         ArrayList<BaseMovingEntity> monster = new ArrayList<>();

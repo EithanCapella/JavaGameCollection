@@ -22,30 +22,23 @@ public class Zora extends BaseMovingEntity{
 	int count=1;
 	int movecount= 0;
 	boolean bouncy=false;
-
 	public Zora(int x, int y, Handler handler) {
 		super(x, y, Images.zoraEnemyFrames, handler);
 		interactBounds = (Rectangle) bounds.clone();
 		count=new Random().nextInt(6*60)+3*60;
-
 	}
 	@Override
 	public void tick() {
 		if(!dead) {
 			animation.tick();
-
 		}
 	}
-
 	@Override
 	public void render(Graphics g) {
 		if(!dead) {
 			g.drawImage(animation.getCurrentFrame(),(x* (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y* (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height,null);
 		}
-
 	}
-
-
 	public void changeIntersectingBounds() {
 		interactBounds = (Rectangle) bounds.clone();
 	}

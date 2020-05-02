@@ -9,7 +9,7 @@ import Game.Zelda.Entities.Statics.magicalRod;
 import Game.Zelda.Entities.Statics.magicalSword;
 import Game.Zelda.Entities.Statics.superSword;
 import Game.Zelda.Entities.Statics.swordLaser;
-import Game.Zelda.Entities.Statics.superWave;
+import Game.Zelda.Entities.Dynamic.superWave;
 import Game.Zelda.Entities.Statics.whiteSword;
 import Main.Handler;
 import Resources.Animation;
@@ -33,12 +33,12 @@ public class Link extends BaseMovingEntity {
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
 	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,count=0;
 	public boolean movingMap = false,hasSword=false,horray=false,hurt=false,wooden=false,
-	white=false,magical=false,rod=false,majora=false;
+			white=false,magical=false,rod=false,majora=false;
 	Direction movingTo;
-    public swordLaser laserSword;
-    public superWave superWave;
+	public swordLaser laserSword;
+	public superWave superWave;
 	Animation pickUpAnim,attackAnim,hurtAnim;
-	
+
 	public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
 		super(x, y, sprite, handler);
 		speed = 4;
@@ -212,19 +212,21 @@ public class Link extends BaseMovingEntity {
 				moving = false;
 			}
 		}
-		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_0) && hasSword && !attacking ) {
-			attackingMethod();
-            handler.getMusicHandler().playEffect("laser.wav");
-            laserMethod();
-		}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_9) && hasSword && !attacking ) {
 			attackingMethod();
-            handler.getMusicHandler().playEffect("laser.wav");
-            superWave();
+			if(rod&& !(white&&magical&&wooden&&majora)) { handler.getMusicHandler().playEffect("MagicalRod.wav");}
+			else {handler.getMusicHandler().playEffect("Sword_Combined.wav");}
+			laserMethod();
+		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_8) && hasSword && !attacking&& majora ) {
+			attackingMethod();
+			superWave();
+			handler.getMusicHandler().playEffect("MagicalRod.wav");
 		}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && !attacking&&hasSword) {
 			//attack(direction);
 			attackingMethod();
+			handler.getMusicHandler().playEffect("Sword_Slash.wav");
 		}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_Z)) {
 			majora=true;
@@ -232,7 +234,7 @@ public class Link extends BaseMovingEntity {
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_L)) {
 			handler.changeState(handler.getZeldaMerchantState());
 		}
-		
+
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && life < 3) {
 			setLife(getLife() + 0.5);
 		}
@@ -293,7 +295,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.superSwordAttackFrames[11]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				}
+			}
 			else if (direction == direction.DOWN) {
 				if(wooden && !(white&&magical&&rod&&majora)) {
 					BufferedImage[] animList1 = new BufferedImage[4];			
@@ -426,23 +428,23 @@ public class Link extends BaseMovingEntity {
 		if(attacking) {
 			if(majora&& !(wooden&&magical&&rod&&white)) {
 				if (direction == direction.UP) {
-					superWave = new superWave(this.x,this.y,Images.otherWeapons[14], handler,direction.UP);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
+					superWave = new superWave(this.x,this.y,Images.vaporWaveUp, handler,direction.UP);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
 				}
 				else if (direction == direction.DOWN) {
-					superWave = new superWave(this.x,this.y,Images.otherWeapons[15], handler,direction.DOWN);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
+					superWave = new superWave(this.x,this.y,Images.vaporWaveDown, handler,direction.DOWN);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
 				}
 				else if (direction == direction.LEFT) {
-					superWave = new superWave(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[13]), handler,direction.LEFT);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
+					superWave = new superWave(this.x,this.y,Images.vaporWaveSideL, handler,direction.LEFT);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
 				}
 				else {
-					superWave = new superWave(this.x,this.y,Images.otherWeapons[13], handler,direction.RIGHT);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
+					superWave = new superWave(this.x,this.y,Images.vaporWaveSide, handler,direction.RIGHT);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
 				}
 			}
-			
+
 		}
 	}
 	public void laserMethod() {
@@ -470,7 +472,6 @@ public class Link extends BaseMovingEntity {
 				if(white&& !(wooden&&magical&&rod&&majora)) {
 					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[8], handler,direction.DOWN);
 					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
-
 				}
 				if(magical&& !(white&&wooden&&rod&&majora)) {
 					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[9], handler,direction.DOWN);
@@ -489,34 +490,34 @@ public class Link extends BaseMovingEntity {
 				if(white&& !(wooden&&magical&&rod&&majora)) {
 					laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[4]), handler,direction.LEFT);
 					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
-//					if(handler.getZeldaGameState().inCave) {
-//						laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[4]), handler,direction.LEFT);
-//						handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
-//					}
+					//					if(handler.getZeldaGameState().inCave) {
+					//						laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[4]), handler,direction.LEFT);
+					//						handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
+					//					}
 				}
 				if(magical&& !(white&&wooden&&rod&&majora)) {
 					laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[5]), handler,direction.LEFT);
 					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
-//					if(handler.getZeldaGameState().inCave) {
-//						laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[5]), handler,direction.LEFT);
-//						handler.getZeldaGameState().caveObjects.add(laserSword);
-//					}
+					//					if(handler.getZeldaGameState().inCave) {
+					//						laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[5]), handler,direction.LEFT);
+					//						handler.getZeldaGameState().caveObjects.add(laserSword);
+					//					}
 				}
 				if(rod&& !(white&&magical&&wooden&&majora)) {
 					laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[6]), handler,direction.LEFT);
 					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
-//					if(handler.getZeldaGameState().inCave) {
-//						laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[6]), handler,direction.LEFT);
-//						handler.getZeldaGameState().caveObjects.add(laserSword);
-//					}
+					//					if(handler.getZeldaGameState().inCave) {
+					//						laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[6]), handler,direction.LEFT);
+					//						handler.getZeldaGameState().caveObjects.add(laserSword);
+					//					}
 				}
 				if(majora&& !(wooden&&magical&&rod&&white)) {
 					laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[7]), handler,direction.LEFT);
 					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
-//					if(handler.getZeldaGameState().inCave) {
-//						laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[7]), handler,direction.LEFT);
-//						handler.getZeldaGameState().caveObjects.add(laserSword);
-//					}
+					//					if(handler.getZeldaGameState().inCave) {
+					//						laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[7]), handler,direction.LEFT);
+					//						handler.getZeldaGameState().caveObjects.add(laserSword);
+					//					}
 				}
 			}
 			else {
