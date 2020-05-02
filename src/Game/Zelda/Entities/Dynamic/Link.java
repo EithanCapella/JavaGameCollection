@@ -31,7 +31,7 @@ public class Link extends BaseMovingEntity {
 	private final int animSpeed = 120;
 	private double life=3.0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,count=0;
+	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,count=0, rupees=300, potions = 0;
 	public boolean movingMap = false,hasSword=false,horray=false,hurt=false,wooden=false,
 			white=false,magical=false,rod=false,majora=false;
 	Direction movingTo;
@@ -832,5 +832,14 @@ public class Link extends BaseMovingEntity {
 
 	public void setLife(double life) {
 		this.life = life;
+	}
+	public int getRupees() {
+		return rupees;
+	}
+	public int setRupees(int rup) {
+		return this.rupees = rup;
+	}
+	public int addPotions(int pot) {
+		return this.potions += pot;
 	}
 }
