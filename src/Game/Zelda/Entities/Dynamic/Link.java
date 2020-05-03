@@ -653,6 +653,8 @@ public class Link extends BaseMovingEntity {
 					return;
 				}
 			}
+		}else if (ZeldaGameState.inTest) {
+			
 		}
 		else {
 			for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
@@ -774,10 +776,10 @@ public class Link extends BaseMovingEntity {
 							direction = UP;
 						}
 						if (((DungeonDoor) objects).name.equals("inn")) {
-							//ZeldaGameState.inTest = true;
-							handler.changeState(handler.getZeldaMerchantState());
+							ZeldaGameState.inTest = true;
+							//handler.changeState(handler.getZeldaMerchantState());
 							x = ((DungeonDoor) objects).nLX + 10;
-							y = ((DungeonDoor) objects).nLY - 40;
+							y = ((DungeonDoor) objects).nLY - 70;
 							direction = UP;
 						}
 					}

@@ -495,8 +495,8 @@ public class Images {
             linkHearts[0] = itemSpriteSheet.crop(0, 0, 8, 8); // fullHeart 
             linkHearts[1] = itemSpriteSheet.crop(8,0,8,8); // halfHeart
     
-            innSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/yadooInn.png")));
-            inn[0]= innSpriteSheet.crop(17,204,439,200);
+            innSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/inn.png")));
+            inn[0]= innSpriteSheet.crop(2,4,320,125);
 
             zeldaWorldLayoutTileImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/layout.png"));
             zeldaWorldLayoutTileSpriteSheet = new SpriteSheet( createImageTransparent(zeldaWorldLayoutTileImage,"layout_0,128,0_green",new Color(0,128,0).getRGB()));
