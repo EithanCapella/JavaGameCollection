@@ -36,6 +36,7 @@ public class Link extends BaseMovingEntity {
 			white=false,magical=false,rod=false,majora=false;
 	Direction movingTo;
 	public swordLaser laserSword;
+	public swordProyectile swordProyectile;
 	public superWave superWave;
 	Animation pickUpAnim,attackAnim,hurtAnim;
 
@@ -449,13 +450,13 @@ public class Link extends BaseMovingEntity {
 		if(attacking) {
 			if (direction == direction.UP) {
 				if(white&& !(wooden&&magical&&rod&&majora)) {
-					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[0], handler,direction.UP);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
+					swordProyectile = new swordProyectile(this.x,this.y,Images.whiteProyectileUp, handler,direction.UP);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 
 				}
 				if(magical&& !(white&&wooden&&rod&&majora)) {
-					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[1], handler,direction.UP);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
+					swordProyectile = new swordProyectile(this.x,this.y,Images.magicalProyectileUp, handler,direction.UP);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 				}
 				if(rod&& !(white&&magical&&wooden&&majora)) {
 					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[12], handler,direction.UP);
@@ -468,12 +469,12 @@ public class Link extends BaseMovingEntity {
 			}
 			else if (direction == direction.DOWN) {
 				if(white&& !(wooden&&magical&&rod&&majora)) {
-					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[8], handler,direction.DOWN);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
+					swordProyectile = new swordProyectile(this.x,this.y,Images.whiteProyectileDown, handler,direction.DOWN);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 				}
 				if(magical&& !(white&&wooden&&rod&&majora)) {
-					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[9], handler,direction.DOWN);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
+					swordProyectile = new swordProyectile(this.x,this.y,Images.magicalProyectileDown, handler,direction.DOWN);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 				}
 				if(rod&& !(white&&magical&&wooden&&majora)) {
 					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[10], handler,direction.DOWN);
@@ -486,16 +487,16 @@ public class Link extends BaseMovingEntity {
 			}	
 			else if (direction == direction.LEFT) {
 				if(white&& !(wooden&&magical&&rod&&majora)) {
-					laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[4]), handler,direction.LEFT);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
+					swordProyectile = new swordProyectile(this.x,this.y,Images.whiteProyectileSideL, handler,direction.LEFT);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					//					if(handler.getZeldaGameState().inCave) {
 					//						laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[4]), handler,direction.LEFT);
 					//						handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
 					//					}
 				}
 				if(magical&& !(white&&wooden&&rod&&majora)) {
-					laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[5]), handler,direction.LEFT);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
+					swordProyectile = new swordProyectile(this.x,this.y,Images.magicalProyectileSideL, handler,direction.LEFT);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					//					if(handler.getZeldaGameState().inCave) {
 					//						laserSword = new swordLaser(this.x,this.y,Images.flipHorizontal(Images.otherWeapons[5]), handler,direction.LEFT);
 					//						handler.getZeldaGameState().caveObjects.add(laserSword);
@@ -520,12 +521,12 @@ public class Link extends BaseMovingEntity {
 			}
 			else {
 				if(white&& !(wooden&&magical&&rod&&majora)) {
-					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[4], handler,direction.RIGHT);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
+					swordProyectile = new swordProyectile(this.x,this.y,Images.whiteProyectileSide, handler,direction.RIGHT);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 				}
 				if(magical&& !(white&&wooden&&rod&&majora)) {
-					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[5], handler,direction.RIGHT);
-					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
+					swordProyectile = new swordProyectile(this.x,this.y,Images.magicalProyectileSide, handler,direction.RIGHT);
+					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 				}
 				if(rod&& !(white&&magical&&wooden&&majora)) {
 					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[6], handler,direction.RIGHT);

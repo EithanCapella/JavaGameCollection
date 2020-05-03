@@ -104,10 +104,24 @@ public class Images {
     public static BufferedImage[] dmoblinEnemyFrames;
     public static BufferedImage[] leeverEnemyFrames;
     public static BufferedImage[] zoraEnemyFrames;
+    public static BufferedImage[] lynelEnemyFrames;
+    public static BufferedImage[] dlynelEnemyFrames;
     public static BufferedImage[] moblinArrow;
     public static BufferedImage[] dmoblinArrow;
     public static BufferedImage octoBall;
     public static BufferedImage[] otherWeapons;
+    public static BufferedImage[] whiteProyectileUp;
+    public static BufferedImage[] whiteProyectileDown;
+    public static BufferedImage[] whiteProyectileSide;
+    public static BufferedImage[] whiteProyectileSideL;
+    public static BufferedImage[] magicalProyectileUp;
+    public static BufferedImage[] magicalProyectileDown;
+    public static BufferedImage[] magicalProyectileSide;
+    public static BufferedImage[] magicalProyectileSideL;
+    public static BufferedImage[] superProyectile;
+
+
+
 
 
 
@@ -154,6 +168,8 @@ public class Images {
         dmoblinEnemyFrames = new BufferedImage[6];
         leeverEnemyFrames = new BufferedImage[4];
         zoraEnemyFrames = new BufferedImage[4];
+        lynelEnemyFrames = new BufferedImage[4];
+        dlynelEnemyFrames = new BufferedImage[4];
         moblinArrow = new BufferedImage[5];
         dmoblinArrow = new BufferedImage[4];
         npc = new BufferedImage[5];
@@ -166,8 +182,14 @@ public class Images {
         vaporWaveSide = new BufferedImage[4];
         vaporWaveSideL = new BufferedImage[4];
         rupees = new BufferedImage[2];
-
-
+        whiteProyectileUp= new BufferedImage[2];
+        whiteProyectileDown= new BufferedImage[2];
+        whiteProyectileSide= new BufferedImage[2];
+        whiteProyectileSideL= new BufferedImage[2];
+        magicalProyectileUp= new BufferedImage[2];
+        magicalProyectileDown= new BufferedImage[2];
+        magicalProyectileSide= new BufferedImage[2];
+        magicalProyectileSideL= new BufferedImage[2];
 
         try {
 
@@ -449,6 +471,8 @@ public class Images {
             otherWeapons[15] = zeldaLinkSpriteSheet1.crop(277,154,16,16); //superWave - side
 
 
+
+
             npcImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc1.png"));
             npcSpriteSheet = new SpriteSheet( npcImage);
             npc[0] = npcSpriteSheet.crop(18, 11, 16, 16); // oldman 
@@ -463,7 +487,6 @@ public class Images {
             //woodenLaser[0] = zeldaLinkSpriteSheet.crop(1,154,8,16); //swordDown
             //woodenLaser[1] = zeldaLinkSpriteSheet.crop(1,154,8,16); //sword
             //WoodenLaser[2] = zeldaLinkSpriteSheet.crop(1,154,8,16); //sword
-
 
             linkHearts[0] = itemSpriteSheet.crop(0, 0, 8, 8); // fullHeart 
             linkHearts[1] = itemSpriteSheet.crop(8,0,8,8); // halfHeart
@@ -480,8 +503,25 @@ public class Images {
             EnemyOverwoldImage = createImageTransparent(EnemyOverwoldImage,"enemies_overworld_116,116,116_green",new Color(116,116,116).getRGB());
             EnemyOverwoldSpriteSheet = new SpriteSheet( createImageTransparent(EnemyOverwoldImage,"enemies_overworld_0,128,0_green",new Color(0,128,0).getRGB()));
             EnemyOverwoldSpriteSheet1 = new SpriteSheet( ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/enemy3_1.png")));
+            
+            whiteProyectileUp[0]=zeldaLinkSpriteSheet.crop(36,154,8,16);
+            whiteProyectileUp[1]=EnemyOverwoldSpriteSheet.crop(100,93,7,16);
+            whiteProyectileSide[0]=zeldaLinkSpriteSheet.crop(45,159,16,8);
+            whiteProyectileSide[1]=EnemyOverwoldSpriteSheet.crop(107,115,16,7);
+            whiteProyectileSideL[0]=Images.flipHorizontal(zeldaLinkSpriteSheet.crop(45,159,16,8));
+            whiteProyectileSideL[1]=Images.flipHorizontal(EnemyOverwoldSpriteSheet.crop(107,115,16,7));
+            whiteProyectileDown[0]=EnemyOverwoldSpriteSheet1.crop(135,93,8,16);
+            whiteProyectileDown[1]=EnemyOverwoldSpriteSheet1.crop(127,93,7,16);
 
-
+            magicalProyectileUp[0]=zeldaLinkSpriteSheet.crop(71,154,8,16);
+            magicalProyectileUp[1]=EnemyOverwoldSpriteSheet.crop(100,93,7,16);
+            magicalProyectileSide[0]=zeldaLinkSpriteSheet.crop(80,159,16,8);
+            magicalProyectileSide[1]=EnemyOverwoldSpriteSheet.crop(107,115,16,7);
+            magicalProyectileSideL[0]=Images.flipHorizontal(zeldaLinkSpriteSheet.crop(80,159,16,8));
+            magicalProyectileSideL[1]=Images.flipHorizontal(EnemyOverwoldSpriteSheet.crop(107,115,16,7));
+            magicalProyectileDown[0]=EnemyOverwoldSpriteSheet1.crop(144,93,8,16);
+            magicalProyectileDown[1]=EnemyOverwoldSpriteSheet1.crop(127,93,7,16);
+            
             bouncyEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(162,90,16,16);
             bouncyEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(179,90,16,16);
             octorokEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(1,11,16,16);
@@ -521,6 +561,15 @@ public class Images {
             zoraEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(206,11,16,16);
             zoraEnemyFrames[2] = EnemyOverwoldSpriteSheet.crop(224,11,16,16);
             zoraEnemyFrames[3] = EnemyOverwoldSpriteSheet.crop(240,11,16,16);
+            lynelEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(90,59,16,16);
+            lynelEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(107,59,16,16);
+            lynelEnemyFrames[2] = EnemyOverwoldSpriteSheet.crop(124,59,16,16);
+            lynelEnemyFrames[3] = EnemyOverwoldSpriteSheet.crop(142,59,16,16);
+            dlynelEnemyFrames[0] = EnemyOverwoldSpriteSheet.crop(90,76,16,16);
+            dlynelEnemyFrames[1] = EnemyOverwoldSpriteSheet.crop(107,76,16,16);
+            dlynelEnemyFrames[2] = EnemyOverwoldSpriteSheet.crop(124,76,16,16);
+            dlynelEnemyFrames[3] = EnemyOverwoldSpriteSheet.crop(142,76,16,16);
+
             itemPickUpFrames[0] = zeldaLinkSpriteSheet.crop(213,11,16,16);
             itemPickUpFrames[1] = zeldaLinkSpriteSheet.crop(230,11,16,16);
             

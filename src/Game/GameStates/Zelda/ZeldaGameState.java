@@ -8,6 +8,7 @@ import Game.Zelda.Entities.Dynamic.BouncyFella;
 import Game.Zelda.Entities.Dynamic.Direction;
 import Game.Zelda.Entities.Dynamic.Leever;
 import Game.Zelda.Entities.Dynamic.Link;
+import Game.Zelda.Entities.Dynamic.Lynel;
 import Game.Zelda.Entities.Dynamic.Moblin;
 import Game.Zelda.Entities.Dynamic.Octorok;
 import Game.Zelda.Entities.Dynamic.Zora;
@@ -34,12 +35,12 @@ public class ZeldaGameState extends State {
     public static int xOffset,yOffset,stageWidth,stageHeight,worldScale;
     public int cameraOffsetX,cameraOffsetY;
     //map is 16 by 7 squares, you start at x=7,y=7 starts counting at 0
-    public int mapX,mapY,mapWidth,mapHeight,animCount=0;
+    public int mapX,mapY,mapWidth,mapHeight;
     public ArrayList<ArrayList<ArrayList<SolidStaticEntities>>> objects;
     //public ArrayList<ArrayList<ArrayList<BaseEntity>>> npc;
     public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> enemies;
     public Link link;
-    public static boolean inCave = false, runOnce = false, beginAdventure=false;
+    public static boolean inCave = false, runOnce = false, beginAdventure=false;;
     public ArrayList<SolidStaticEntities> caveObjects;
 
     public ZeldaGameState(Handler handler) {
@@ -131,21 +132,6 @@ public class ZeldaGameState extends State {
             g.fillRect(0, 0, handler.getWidth(), yOffset);
             g.fillRect(0, yOffset + stageHeight, handler.getWidth(), handler.getHeight());
         }
-	    
-	    //rupees counter
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 48));
-		g.drawString(Integer.toString(link.getRupees()),handler.getWidth()/2 + (handler.getWidth()/6)+100,handler.getHeight()/3 - handler.getHeight()/16 + 10);
-		
-		if (animCount >= 0) {
-		g.drawImage(Images.rupees[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/3 - handler.getHeight()/11,8*4,16*4,null);
-		animCount-= 3;
-		}
-		else if (animCount < 0){
-			g.drawImage(Images.rupees[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/3 - handler.getHeight()/11,8*4,16*4,null);
-			animCount+= 2;
-		}
-	    
         if(link.getLife() == 3) {
 			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
 			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
@@ -250,10 +236,12 @@ public class ZeldaGameState extends State {
         monster = new ArrayList<>();
         monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));
         monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames, handler));
-        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.moblinEnemyFrames,handler));
-        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.dmoblinEnemyFrames,handler));
         monster.add(new Leever(8,2,handler));
-        monster.add(new Zora(2,5,handler));
+        monster.add(new Zora(4,6,handler)); 
+//        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.moblinEnemyFrames,handler));
+//        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.dmoblinEnemyFrames,handler));
+//        monster.add(new Lynel(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.lynelEnemyFrames ,handler));
+//        monster.add(new Lynel(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.dlynelEnemyFrames ,handler));
 
         enemies.get(7).set(7,monster);
         
@@ -273,8 +261,12 @@ public class ZeldaGameState extends State {
         objects.get(6).set(7,solids);
         monster.add(new BouncyFella(2,4,handler));
         monster.add(new BouncyFella(3,2,handler));
-        monster.add(new BouncyFella(4,3,handler));
-        monster.add(new BouncyFella(2,5,handler));
+        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.moblinEnemyFrames,handler));
+        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.dmoblinEnemyFrames,handler));
+        monster.add(new Lynel(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.lynelEnemyFrames ,handler));
+        monster.add(new Lynel(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.dlynelEnemyFrames ,handler));
+
+
         enemies.get(6).set(7,monster);
          
       //8,7
