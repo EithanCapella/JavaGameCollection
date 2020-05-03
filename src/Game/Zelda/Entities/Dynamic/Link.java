@@ -31,7 +31,7 @@ public class Link extends BaseMovingEntity {
 	private final int animSpeed = 120;
 	private double life=3.0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,count=0, rupees=300, potions = 0;
+	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,count=0, rupees=300, potions = 0, hitCount=29;
 	public boolean movingMap = false,hasSword=false,horray=false,hurt=false,wooden=false,
 			white=false,magical=false,rod=false,majora=false;
 	Direction movingTo;
@@ -39,6 +39,7 @@ public class Link extends BaseMovingEntity {
 	public swordProyectile swordProyectile;
 	public superWave superWave;
 	Animation pickUpAnim,attackAnim,hurtAnim;
+	public Rectangle swordBounds = (Rectangle) bounds.clone();
 
 	public Link(int x, int y, BufferedImage[] sprite, Handler handler) {
 		super(x, y, sprite, handler);
@@ -66,6 +67,7 @@ public class Link extends BaseMovingEntity {
 		//System.out.println("Link pos " + x + "," + y );
 		//Extra abilities for Link
 		//To Do: add extra weapons if possible or abilities, magic, bow etc.
+		if (attacking) {swordAttack(this.direction);}
 		if(hurt) {
 			hurtAnim.tick();
 		}
@@ -539,7 +541,28 @@ public class Link extends BaseMovingEntity {
 			}
 		}
 	}
-
+	//spawns swords hitbox depending the direction
+	public void swordAttack(Direction direction) {
+		swordBounds = (Rectangle) bounds.clone();
+		if (direction == Direction.LEFT) {
+			swordBounds.x-= 32;
+		}
+		else if (direction == Direction.RIGHT) {
+			swordBounds.x+= 32;
+		}
+		else if (direction == Direction.UP) {
+			swordBounds.y-= 32;
+		}
+		else if (direction == Direction.DOWN) {
+			swordBounds.y+= 32;
+		}
+		if (hitCount > 0) {hitCount--;}
+		else if (hitCount <= 0) {
+		hitCount = 29; 
+		swordBounds.x = 0;
+		swordBounds.y = 0;}
+	}
+	
 	@Override
 	public void move(Direction direction) {
 		moving = true;
@@ -637,14 +660,14 @@ public class Link extends BaseMovingEntity {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=60;
+						x+=30;
 					}else if(direction == Direction.RIGHT) {
-						x-=60;
+						x-=30;
 					}
 					else if(direction == Direction.UP) {
-						y+=60;
+						y+=30;
 					}else if(direction == Direction.DOWN) {
-						y-=60;
+						y-=30;
 					}
 				}
 				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
@@ -786,6 +809,7 @@ public class Link extends BaseMovingEntity {
 	}
 	@Override
 	public void render(Graphics g) {
+		g.drawRect(swordBounds.x, swordBounds.y, swordBounds.width, swordBounds.height);
 		if (moving && !attacking && !horray) {
 			g.drawImage(animation.getCurrentFrame(),x , y, width , height  , null);
 
@@ -817,6 +841,7 @@ public class Link extends BaseMovingEntity {
 		}
 		if (attacking && !horray) {  
 			attackAnim.tick();
+			
 			if(direction == Direction.LEFT) {
 				g.drawImage(attackAnim.getCurrentFrame(),this.x -(attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale-this.width) , y,attackAnim.getCurrentFrame().getWidth()*handler.getZeldaGameState().worldScale ,attackAnim.getCurrentFrame().getHeight()*handler.getZeldaGameState().worldScale, null);
 			}

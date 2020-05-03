@@ -79,6 +79,23 @@ public class Octorok extends BaseMovingEntity {
 			break;
 			
 		}
+		if (handler.getZeldaGameState().link.hasSword) {
+			if (bounds.intersects(handler.getZeldaGameState().link.swordBounds)) {
+				if (handler.getZeldaGameState().link.wooden) {
+					life -= 1;
+				}
+				if(direction == Direction.LEFT) {
+					x+=40;
+				}else if(direction == Direction.RIGHT) {
+					x-=40;
+				}
+				else if(direction == Direction.UP) {
+					y+=40;
+				}else if(direction == Direction.DOWN) {
+					y-=40;
+				}
+			}
+		}
 		
 //			if (handler.getKeyManager().up&& !horray) {
 //				if (direction != UP) {
@@ -245,8 +262,8 @@ public class Octorok extends BaseMovingEntity {
 			
 			for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
 				if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
-					
-					
+					directionCounter = 0;
+					return;
 						
 					
 				}
