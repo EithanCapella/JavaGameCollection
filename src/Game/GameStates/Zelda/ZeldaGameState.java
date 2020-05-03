@@ -40,7 +40,7 @@ public class ZeldaGameState extends State {
     //public ArrayList<ArrayList<ArrayList<BaseEntity>>> npc;
     public ArrayList<ArrayList<ArrayList<BaseMovingEntity>>> enemies;
     public Link link;
-    public static boolean inCave = false, runOnce = false, beginAdventure=false;;
+    public static boolean inCave = false, runOnce = false, beginAdventure=false,inTest=false;
     public ArrayList<SolidStaticEntities> caveObjects;
 
     public ZeldaGameState(Handler handler) {
@@ -90,17 +90,19 @@ public class ZeldaGameState extends State {
 					beginAdventure=true;
 					}
         }else {
-            if (!link.movingMap) {
-                for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
-                    entity.tick();
-                }
-                for (BaseMovingEntity entity : enemies.get(mapX).get(mapY)) {
-                    entity.tick();
-                    if (entity.getInteractBounds().intersects(link.getInteractBounds())){
-                        link.damage(1);
-                    }
-                }
-            }
+        	if(!inTest) {
+        		if (!link.movingMap) {
+        			for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
+        				entity.tick();
+        			}
+        			for (BaseMovingEntity entity : enemies.get(mapX).get(mapY)) {
+        				entity.tick();
+        				if (entity.getInteractBounds().intersects(link.getInteractBounds())){
+        					link.damage(1);
+        				}
+        			}
+        		}
+        	}
         }
     }
 
@@ -115,6 +117,15 @@ public class ZeldaGameState extends State {
             g.drawString("  IT ' S  DANGEROUS  TO  GO",(3 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(2 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset+ ((16*worldScale)));
             g.drawString("  ALONE !   TAKE  THIS",(5 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(4 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset- ((16*worldScale)/2));
             link.render(g);
+        }else if(inTest) {
+//        	g.drawImage(Images.inn[0], xOffset ,yOffset ,handler.getWidth()/2, handler.getHeight()/2,null);
+//            link.render(g);
+//            g.setColor(Color.BLACK);
+//            g.fillRect(0, 0, xOffset, handler.getHeight());
+//            g.fillRect(xOffset + stageWidth, 0, handler.getWidth(), handler.getHeight());
+//            g.fillRect(0, 0, handler.getWidth(), yOffset);
+//            g.fillRect(0, yOffset + stageHeight, handler.getWidth(), handler.getHeight());
+    
         }else {
             g.drawImage(Images.zeldaMap, -cameraOffsetX + xOffset, -cameraOffsetY + yOffset, Images.zeldaMap.getWidth() * worldScale, Images.zeldaMap.getHeight() * worldScale, null);
             if (!link.movingMap) {
@@ -132,6 +143,7 @@ public class ZeldaGameState extends State {
             g.fillRect(0, 0, handler.getWidth(), yOffset);
             g.fillRect(0, yOffset + stageHeight, handler.getWidth(), handler.getHeight());
         }
+
         if(link.getLife() == 3) {
 			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
 			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
@@ -250,6 +262,7 @@ public class ZeldaGameState extends State {
         solids = new ArrayList<>();
         solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*7, Direction.RIGHT,handler));
         solids.add(new SectionDoor( 4,0,16*worldScale,16*worldScale,Direction.UP,handler));
+        solids.add(new DungeonDoor( 2,1,16*worldScale,16*worldScale,Direction.UP,"inn",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
         objects.get(5).set(7,solids);
 
         //6,7

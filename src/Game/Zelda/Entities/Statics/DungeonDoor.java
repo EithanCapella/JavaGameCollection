@@ -33,7 +33,7 @@ public class DungeonDoor extends SectionDoor {
     @Override
     public void render(Graphics g) {
 
-        g.setColor(Color.orange);
+        g.setColor(Color.blue);
         g.fillRect((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height);
 
     }

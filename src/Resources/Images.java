@@ -67,6 +67,7 @@ public class Images {
     public SpriteSheet zeldaLinkSpriteSheet1;
     public SpriteSheet npcSpriteSheet;
     public SpriteSheet itemSpriteSheet;
+    public SpriteSheet innSpriteSheet;
     public static BufferedImage[] zeldaLinkFrames;
     public static BufferedImage[] superLinkFrames;
     public static BufferedImage[] linkHurtFrames;
@@ -83,6 +84,8 @@ public class Images {
     public static BufferedImage[] vaporWaveSideL;
     public static BufferedImage triforcePointer;
     public static BufferedImage[] rupees;
+    public static BufferedImage[] inn;
+
 
 
     public static BufferedImage morshuSketchy;
@@ -182,6 +185,7 @@ public class Images {
         vaporWaveSide = new BufferedImage[4];
         vaporWaveSideL = new BufferedImage[4];
         rupees = new BufferedImage[2];
+        inn = new BufferedImage[4];
         whiteProyectileUp= new BufferedImage[2];
         whiteProyectileDown= new BufferedImage[2];
         whiteProyectileSide= new BufferedImage[2];
@@ -490,6 +494,9 @@ public class Images {
 
             linkHearts[0] = itemSpriteSheet.crop(0, 0, 8, 8); // fullHeart 
             linkHearts[1] = itemSpriteSheet.crop(8,0,8,8); // halfHeart
+    
+            innSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/yadooInn.png")));
+            inn[0]= innSpriteSheet.crop(17,204,439,200);
 
             zeldaWorldLayoutTileImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/layout.png"));
             zeldaWorldLayoutTileSpriteSheet = new SpriteSheet( createImageTransparent(zeldaWorldLayoutTileImage,"layout_0,128,0_green",new Color(0,128,0).getRGB()));
