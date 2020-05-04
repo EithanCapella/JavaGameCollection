@@ -118,7 +118,7 @@ public class ZeldaGameState extends State {
             g.drawString("  ALONE !   TAKE  THIS",(5 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(4 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset- ((16*worldScale)/2));
             link.render(g);
         }else if(inTest) {
-        	g.drawImage(Images.inn[0], xOffset ,yOffset ,handler.getWidth()/3, handler.getHeight()/3,null);
+        	g.drawImage(Images.inn[0], xOffset ,yOffset ,handler.getWidth()/3 + 100, handler.getHeight()/3 + 100,null);
             link.render(g);
 //            g.setColor(Color.BLACK);
 //            g.fillRect(0, 0, xOffset, handler.getHeight());

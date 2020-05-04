@@ -778,7 +778,7 @@ public class Link extends BaseMovingEntity {
 						if (((DungeonDoor) objects).name.equals("inn")) {
 							ZeldaGameState.inTest = true;
 							//handler.changeState(handler.getZeldaMerchantState());
-							x = ((DungeonDoor) objects).nLX + 10;
+							x = ((DungeonDoor) objects).nLX - 165;
 							y = ((DungeonDoor) objects).nLY - 70;
 							direction = UP;
 						}
