@@ -568,6 +568,13 @@ public class Link extends BaseMovingEntity {
 		moving = true;
 		changeIntersectingBounds();
 		//chack for collisions
+		if (ZeldaGameState.inTest) {
+			for (SolidStaticEntities objects : handler.getZeldaGameState().innObjects) {
+				if(objects.bounds.intersects(interactBounds)) {
+					return;
+				}
+			}
+		}
 		if (ZeldaGameState.inCave){
 			for (SolidStaticEntities objects : handler.getZeldaGameState().caveObjects) {
 				if ((objects instanceof caveSword) && objects.bounds.intersects(interactBounds)) {
