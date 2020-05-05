@@ -19,6 +19,7 @@ import Game.Zelda.Entities.Statics.superSword;
 import Game.Zelda.Entities.Statics.whiteSword;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
+import Game.Zelda.Entities.Statics.blockBound;
 import Game.Zelda.Entities.Statics.caveSword;
 import Game.Zelda.Entities.Statics.magicalRod;
 import Game.Zelda.Entities.Statics.magicalSword;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
  * Created by AlexVR on 3/14/2020
  */
 public class ZeldaGameState extends State {
-    public static int xOffset,yOffset,stageWidth,stageHeight,worldScale, animCount=0;
+    public static int xOffset,yOffset,stageWidth,stageHeight,worldScale, animCount=0, deathCount=0;
     public int cameraOffsetX,cameraOffsetY;
     //map is 16 by 7 squares, you start at x=7,y=7 starts counting at 0
     public int mapX,mapY,mapWidth,mapHeight;
@@ -42,6 +43,11 @@ public class ZeldaGameState extends State {
     public Link link;
     public static boolean inCave = false, runOnce = false, beginAdventure=false,inTest=false;
     public ArrayList<SolidStaticEntities> caveObjects;
+    public ArrayList<SolidStaticEntities> innObjects;
+    ArrayList<BaseMovingEntity> toRemove;
+   public ArrayList<BaseMovingEntity> monster;
+   public ArrayList<SolidStaticEntities> solids;
+    
 
     public ZeldaGameState(Handler handler) {
         super(handler);
@@ -59,6 +65,8 @@ public class ZeldaGameState extends State {
         objects = new ArrayList<>();
         enemies = new ArrayList<>();
         caveObjects = new ArrayList<>();
+        innObjects = new ArrayList<>();
+        toRemove = new ArrayList<>();
         for (int i =0;i<16;i++){
             objects.add(new ArrayList<>());
             enemies.add(new ArrayList<>());
@@ -101,10 +109,17 @@ public class ZeldaGameState extends State {
         					link.damage(1);
         				}
         			}
-        		}
+        			
+        		                }
+        		            
+        	
         	}
-        }
-    }
+        		        }
+        		}
+        		 
+        	
+        
+    
 
     @Override
     public void render(Graphics g) {
@@ -118,8 +133,11 @@ public class ZeldaGameState extends State {
             g.drawString("  ALONE !   TAKE  THIS",(5 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(4 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset- ((16*worldScale)/2));
             link.render(g);
         }else if(inTest) {
-        	g.drawImage(Images.inn[0], xOffset ,yOffset ,handler.getWidth()/3 + 100, handler.getHeight()/3 + 100,null);
+        	g.drawImage(Images.inn[0], xOffset ,yOffset, Images.inn[0].getWidth() * worldScale, Images.inn[0].getHeight() * worldScale, null);
             link.render(g);
+            for (SolidStaticEntities entity : innObjects) {
+                entity.render(g);
+            }
 //            g.setColor(Color.BLACK);
 //            g.fillRect(0, 0, xOffset, handler.getHeight());
 //            g.fillRect(xOffset + stageWidth, 0, handler.getWidth(), handler.getHeight());
@@ -184,6 +202,37 @@ public class ZeldaGameState extends State {
 		}
 
     }
+   
+public BaseMovingEntity addEnemy() {
+    	
+    	for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
+    	if (enemy instanceof Octorok || enemy.dead) {
+    	
+    		
+    		return enemy;
+    		
+    	
+    		
+    		
+    		}
+    	}
+		return null;
+    }
+    public void removeEnemy() {
+    	
+    	for (BaseMovingEntity enemy : monster) {
+    		if (enemy instanceof Octorok || enemy.dead) {
+    			
+    			enemies.remove(addEnemy());
+    			//enemies.remove(index);
+    			
+    			
+    		}
+    	
+    	}
+		
+    }
+    
     private void addWorldObjects() {
         //cave
         for (int i = 0;i < 16;i++){
@@ -216,10 +265,78 @@ public class ZeldaGameState extends State {
         caveObjects.add(new magicalSword(6,5,handler,Images.otherWeapons[1]));
         caveObjects.add(new magicalRod(10,5,handler,Images.otherWeapons[2]));
         caveObjects.add(new superSword(12,5,handler,Images.otherWeapons[3]));
-
+        
+        //left
+        innObjects.add(new blockBound( 0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 0,3,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 0,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 0,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 0,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 0,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 1,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 1,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        
+        //right
+        innObjects.add(new blockBound( 13,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 13,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 13,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 14,3,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 14,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 14,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 12,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 12,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 12,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        
+        //Down
+        innObjects.add(new blockBound( 13,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 12,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 11,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 10,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 9,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 8,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 7,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 6,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 5,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 4,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 1,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 2,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 13,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 12,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 11,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 10,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        
+        //Up
+        innObjects.add(new blockBound( 13,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 12,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+       // innObjects.add(new blockBound( 12,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 11,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        //innObjects.add(new blockBound( 11,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 10,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+      //  innObjects.add(new blockBound( 10,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 9,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 8,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 7,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 6,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 5,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 4,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 4,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 5,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 3,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 2,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 1,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 9,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 9,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 6,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 6,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 7,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        
+       // innObjects.add(new SolidStaticEntities(2,5, null,handler));
+       // innObjects.add(new SolidStaticEntities(2,4, null,handler));
+        
+        
         //7,7
-        ArrayList<SolidStaticEntities> solids = new ArrayList<>();
-        ArrayList<BaseMovingEntity> monster = new ArrayList<>();
+        solids = new ArrayList<>();
+        monster = new ArrayList<>();
         solids.add(new SectionDoor( 0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
         solids.add(new SectionDoor( 7,0,16*worldScale * 2,16*worldScale,Direction.UP,handler));
         solids.add(new DungeonDoor( 4,1,16*worldScale,16*worldScale,Direction.UP,"caveStartEnter",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
@@ -262,6 +379,7 @@ public class ZeldaGameState extends State {
         monster = new ArrayList<>();
         monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));
         monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames, handler));
+        System.out.println(monster.get(1));
         monster.add(new Leever(8,2,handler));
         monster.add(new Zora(4,6,handler)); 
 //        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.moblinEnemyFrames,handler));
