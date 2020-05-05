@@ -109,13 +109,10 @@ public class ZeldaGameState extends State {
         					link.damage(1);
         				}
         			}
-        			
-        		                }
-        		            
-        	
-        	}
-        		        }
         		}
+        	}
+        }
+    }
         		 
         	
         
