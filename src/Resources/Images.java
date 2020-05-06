@@ -68,6 +68,13 @@ public class Images {
     public SpriteSheet npcSpriteSheet;
     public SpriteSheet itemSpriteSheet;
     public SpriteSheet innSpriteSheet;
+    public SpriteSheet thunderBirdSpriteSheet;
+    public static BufferedImage[] thunderBirdFrames;
+    public static BufferedImage[] attackThunderBirdFrames; //flying
+    public static BufferedImage[] deathThunderBirdFrames;
+
+
+
     public static BufferedImage[] zeldaLinkFrames;
     public static BufferedImage[] superLinkFrames;
     public static BufferedImage[] linkHurtFrames;
@@ -194,6 +201,12 @@ public class Images {
         magicalProyectileDown= new BufferedImage[2];
         magicalProyectileSide= new BufferedImage[2];
         magicalProyectileSideL= new BufferedImage[2];
+        thunderBirdFrames = new BufferedImage[60];
+        attackThunderBirdFrames = new BufferedImage[15];
+        deathThunderBirdFrames = new BufferedImage[4];
+
+
+
 
         try {
 
@@ -580,6 +593,90 @@ public class Images {
             itemPickUpFrames[0] = zeldaLinkSpriteSheet.crop(213,11,16,16);
             itemPickUpFrames[1] = zeldaLinkSpriteSheet.crop(230,11,16,16);
             
+            thunderBirdSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/thunderbird.png")));
+            thunderBirdFrames[0] = thunderBirdSpriteSheet.crop(29,27,67,65);
+            thunderBirdFrames[1] = thunderBirdSpriteSheet.crop(119,26,77,67);
+            thunderBirdFrames[2] = thunderBirdSpriteSheet.crop(213,16,79,78);
+            thunderBirdFrames[3] = thunderBirdSpriteSheet.crop(302,25,91,68);
+            thunderBirdFrames[4] = thunderBirdSpriteSheet.crop(399,26,87,66);
+            thunderBirdFrames[5] = thunderBirdSpriteSheet.crop(504,27,67,73);
+            thunderBirdFrames[6] = thunderBirdSpriteSheet.crop(614,27,67,65);
+            thunderBirdFrames[7] = thunderBirdSpriteSheet.crop(704,26,77,67);
+            thunderBirdFrames[8] = thunderBirdSpriteSheet.crop(798,16,79,78);
+            thunderBirdFrames[9] = thunderBirdSpriteSheet.crop(887,25,91,68);
+            thunderBirdFrames[10] = thunderBirdSpriteSheet.crop(984,26,87,66);
+            thunderBirdFrames[11] = thunderBirdSpriteSheet.crop(1089,27,67,73);
+            thunderBirdFrames[12] = thunderBirdSpriteSheet.crop(29,120,67,65);
+            thunderBirdFrames[13] = thunderBirdSpriteSheet.crop(119,119,77,67);
+            thunderBirdFrames[14] = thunderBirdSpriteSheet.crop(213,109,79,78);
+            thunderBirdFrames[15] = thunderBirdSpriteSheet.crop(302,118,91,68);
+            thunderBirdFrames[16] = thunderBirdSpriteSheet.crop(399,119,87,66);
+            thunderBirdFrames[17] = thunderBirdSpriteSheet.crop(504,120,67,73);
+            thunderBirdFrames[18] = thunderBirdSpriteSheet.crop(614,120,67,65);
+            thunderBirdFrames[19] = thunderBirdSpriteSheet.crop(704,119,77,67);
+            thunderBirdFrames[20] = thunderBirdSpriteSheet.crop(798,109,79,78);
+            thunderBirdFrames[21] = thunderBirdSpriteSheet.crop(887,118,91,68);
+            thunderBirdFrames[22] = thunderBirdSpriteSheet.crop(984,119,87,66);
+            thunderBirdFrames[23] = thunderBirdSpriteSheet.crop(1089,120,67,73);
+            thunderBirdFrames[24] = thunderBirdSpriteSheet.crop(29,213,67,65);
+            thunderBirdFrames[25] = thunderBirdSpriteSheet.crop(119,212,77,67);
+            thunderBirdFrames[26] = thunderBirdSpriteSheet.crop(213,202,79,78);
+            thunderBirdFrames[27] = thunderBirdSpriteSheet.crop(213,202,79,78);
+            thunderBirdFrames[28] = thunderBirdSpriteSheet.crop(399,212,87,66);
+            thunderBirdFrames[29] = thunderBirdSpriteSheet.crop(504,213,67,73);
+            thunderBirdFrames[30] = thunderBirdSpriteSheet.crop(614,213,67,65);
+            thunderBirdFrames[31] = thunderBirdSpriteSheet.crop(704,212,77,67);
+            thunderBirdFrames[32] = thunderBirdSpriteSheet.crop(798,202,79,78);
+            thunderBirdFrames[33] = thunderBirdSpriteSheet.crop(887,211,91,68);
+            thunderBirdFrames[34] = thunderBirdSpriteSheet.crop(984,212,87,66);
+            thunderBirdFrames[35] = thunderBirdSpriteSheet.crop(1089,213,67,73);
+            thunderBirdFrames[36] = thunderBirdSpriteSheet.crop(29,306,67,65);
+            thunderBirdFrames[37] = thunderBirdSpriteSheet.crop(119,305,77,67);
+            thunderBirdFrames[38] = thunderBirdSpriteSheet.crop(213,295,79,78);
+            thunderBirdFrames[39] = thunderBirdSpriteSheet.crop(302,304,91,68);
+            thunderBirdFrames[40] = thunderBirdSpriteSheet.crop(399,305,87,66);
+            thunderBirdFrames[41] = thunderBirdSpriteSheet.crop(504,306,67,73);
+            thunderBirdFrames[42] = thunderBirdSpriteSheet.crop(614,306,67,65);
+            thunderBirdFrames[43] = thunderBirdSpriteSheet.crop(704,305,77,67);
+            thunderBirdFrames[44] = thunderBirdSpriteSheet.crop(798,295,79,78);
+            thunderBirdFrames[45] = thunderBirdSpriteSheet.crop(887,304,91,68);
+            thunderBirdFrames[46] = thunderBirdSpriteSheet.crop(984,305,87,66);
+            thunderBirdFrames[47] = thunderBirdSpriteSheet.crop(1089,306,67,73);
+            thunderBirdFrames[48] = thunderBirdSpriteSheet.crop(29,399,67,65);
+            thunderBirdFrames[49] = thunderBirdSpriteSheet.crop(119,398,77,67);
+            thunderBirdFrames[50] = thunderBirdSpriteSheet.crop(213,388,79,78);
+            thunderBirdFrames[51] = thunderBirdSpriteSheet.crop(302,397,91,68);
+            thunderBirdFrames[52] = thunderBirdSpriteSheet.crop(399,398,87,66);
+            thunderBirdFrames[53] = thunderBirdSpriteSheet.crop(504,399,67,73);
+            thunderBirdFrames[54] = thunderBirdSpriteSheet.crop(614,399,67,65);
+            thunderBirdFrames[55] = thunderBirdSpriteSheet.crop(704,398,77,67);
+            thunderBirdFrames[56] = thunderBirdSpriteSheet.crop(798,388,79,78);
+            thunderBirdFrames[57] = thunderBirdSpriteSheet.crop(887,397,91,68);
+            thunderBirdFrames[58] = thunderBirdSpriteSheet.crop(984,398,87,66);
+            thunderBirdFrames[59] = thunderBirdSpriteSheet.crop(1089,399,67,73);
+            
+            attackThunderBirdFrames[0] = thunderBirdSpriteSheet.crop(24,504,91,61);
+            attackThunderBirdFrames[1] = thunderBirdSpriteSheet.crop(125,493,79,64);
+            attackThunderBirdFrames[2] = thunderBirdSpriteSheet.crop(221,510,77,48);
+            attackThunderBirdFrames[3] = thunderBirdSpriteSheet.crop(321,513,67,48);
+            attackThunderBirdFrames[4] = thunderBirdSpriteSheet.crop(416,515,67,48);
+            attackThunderBirdFrames[5] = thunderBirdSpriteSheet.crop(507,515,75,48);
+            attackThunderBirdFrames[6] = thunderBirdSpriteSheet.crop(600,515,79,47);
+            attackThunderBirdFrames[7] = thunderBirdSpriteSheet.crop(695,516,79,47);
+            attackThunderBirdFrames[8] = thunderBirdSpriteSheet.crop(790,494,79,69);
+            attackThunderBirdFrames[9] = thunderBirdSpriteSheet.crop(885,493,79,70);
+            attackThunderBirdFrames[10] = thunderBirdSpriteSheet.crop(980,492,79,72);
+            attackThunderBirdFrames[11] = thunderBirdSpriteSheet.crop(1075,491,79,72);
+            attackThunderBirdFrames[12] = thunderBirdSpriteSheet.crop(31,584,77,72);
+            attackThunderBirdFrames[13] = thunderBirdSpriteSheet.crop(128,584,73,72);
+            attackThunderBirdFrames[14] = thunderBirdSpriteSheet.crop(223,584,73,72);
+            
+            deathThunderBirdFrames[0] = thunderBirdSpriteSheet.crop(404,596,91,43);
+            deathThunderBirdFrames[1] = thunderBirdSpriteSheet.crop(501,599,87,41);
+            deathThunderBirdFrames[2] = thunderBirdSpriteSheet.crop(607,602,67,55);
+            deathThunderBirdFrames[3] = thunderBirdSpriteSheet.crop(702,602,67,56);
+
+
 
             //dungeon one tiles
             zeldaTiles.add(zeldaSpriteSheet.crop(815,11,32,32));

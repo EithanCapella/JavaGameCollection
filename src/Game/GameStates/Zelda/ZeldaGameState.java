@@ -11,6 +11,7 @@ import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Dynamic.Lynel;
 import Game.Zelda.Entities.Dynamic.Moblin;
 import Game.Zelda.Entities.Dynamic.Octorok;
+import Game.Zelda.Entities.Dynamic.Thunderbird;
 import Game.Zelda.Entities.Dynamic.Zora;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.Fire;
@@ -477,7 +478,11 @@ public BaseMovingEntity addEnemy() {
         solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale*3, Direction.RIGHT,handler));
         solids.add(new SectionDoor( 12,10,16*worldScale * 2,16*worldScale,Direction.DOWN,handler));
         solids.add(new SectionDoor( 0,2,16*worldScale,16*worldScale*6, Direction.LEFT,handler));
+        monster.add(new Thunderbird(xOffset+(stageWidth/2),yOffset + (stageHeight/2),handler));
+
         objects.get(6).set(6,solids);
+        enemies.get(6).set(6,monster);
+
 
         //7,6
         monster = new ArrayList<>();
