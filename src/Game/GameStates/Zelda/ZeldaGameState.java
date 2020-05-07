@@ -45,7 +45,6 @@ public class ZeldaGameState extends State {
     public static boolean inCave = false, runOnce = false, beginAdventure=false,inTest=false;
     public ArrayList<SolidStaticEntities> caveObjects;
     public ArrayList<SolidStaticEntities> innObjects;
-    ArrayList<BaseMovingEntity> toRemove;
    public ArrayList<BaseMovingEntity> monster;
    public ArrayList<SolidStaticEntities> solids;
     
@@ -67,7 +66,6 @@ public class ZeldaGameState extends State {
         enemies = new ArrayList<>();
         caveObjects = new ArrayList<>();
         innObjects = new ArrayList<>();
-        toRemove = new ArrayList<>();
         for (int i =0;i<16;i++){
             objects.add(new ArrayList<>());
             enemies.add(new ArrayList<>());
@@ -86,13 +84,15 @@ public class ZeldaGameState extends State {
     @Override
     public void tick() {
         link.tick();
+		ArrayList<BaseMovingEntity> toRemove = new ArrayList<>();
     	for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
-    	if (enemy instanceof Octorok || enemy.dead) {
+    	if (enemy instanceof Octorok && enemy.dead) {
     		toRemove.add(enemy);
     		}
     	}
     	for(BaseMovingEntity i: toRemove) {
-    		enemies.remove(i);
+    		//enemies.remove(i);
+    		enemies.get(mapX).get(mapY).remove(i);
     	}
 		if (inCave){
 			if (runOnce== false) {

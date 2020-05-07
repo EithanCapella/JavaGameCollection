@@ -45,6 +45,9 @@ public class Octorok extends BaseMovingEntity {
 	}
 	@Override
 	public void tick() {
+		if(life==0) {
+			kill();
+		}
 		//Extra abilities for Link
 		//To Do: add extra weapons if possible or abilities, magic, bow etc.
 		//
@@ -82,6 +85,18 @@ public class Octorok extends BaseMovingEntity {
 		if (handler.getZeldaGameState().link.hasSword) {
 			if (bounds.intersects(handler.getZeldaGameState().link.swordBounds)) {
 				if (handler.getZeldaGameState().link.wooden) {
+					life -= 1;
+				}
+				if (handler.getZeldaGameState().link.white) {
+					life -= 1;
+				}
+				if (handler.getZeldaGameState().link.magical) {
+					life -= 1;
+				}
+				if (handler.getZeldaGameState().link.rod) {
+					life -= 1;
+				}
+				if (handler.getZeldaGameState().link.majora) {
 					life -= 1;
 				}
 				if(direction == Direction.LEFT) {
