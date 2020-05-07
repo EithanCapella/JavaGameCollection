@@ -2,6 +2,7 @@ package Main;
 
 import Display.DisplayScreen;
 import Game.GameStates.*;
+import Game.GameStates.Zelda.ZeldaDungeonState;
 import Game.GameStates.Zelda.ZeldaGameState;
 import Game.GameStates.Zelda.ZeldaIntroStates;
 import Game.GameStates.Zelda.ZeldaMapMakerState;
@@ -105,6 +106,9 @@ public class Handler {
     
     public ZeldaGameState getZeldaGameState (){
         return (ZeldaGameState)getGameProperties().zeldaGameState;
+    }
+    public ZeldaDungeonState getZeldaDungeonState (){
+        return (ZeldaDungeonState)getGameProperties().zeldaDungeonState;
     }
 
     public ZeldaIntroStates getZeldaIntroState (){

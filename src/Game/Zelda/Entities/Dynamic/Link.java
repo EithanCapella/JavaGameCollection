@@ -789,6 +789,14 @@ public class Link extends BaseMovingEntity {
 							y = ((DungeonDoor) objects).nLY - 70;
 							direction = UP;
 						}
+						if (((DungeonDoor) objects).name.equals("dungeon1")) {
+							//ZeldaGameState.inTest = true;
+							//handler.changeState(handler.getZeldaMerchantState());
+							handler.changeState(handler.getZeldaDungeonState());
+							x = ((DungeonDoor) objects).nLX - 100;
+							y = ((DungeonDoor) objects).nLY - 70;
+							direction = UP;
+						}
 					}
 				}
 				else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {

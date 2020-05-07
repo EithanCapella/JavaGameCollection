@@ -86,6 +86,14 @@ public class ZeldaGameState extends State {
     @Override
     public void tick() {
         link.tick();
+    	for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
+    	if (enemy instanceof Octorok || enemy.dead) {
+    		toRemove.add(enemy);
+    		}
+    	}
+    	for(BaseMovingEntity i: toRemove) {
+    		enemies.remove(i);
+    	}
 		if (inCave){
 			if (runOnce== false) {
 				link.x = link.x + 20;
@@ -433,9 +441,17 @@ public BaseMovingEntity addEnemy() {
         solids.add(new SectionDoor( 0,5,16*worldScale,16*worldScale*3, Direction.LEFT,handler));
         solids.add(new SectionDoor( 7,0,16*worldScale * 14,16*worldScale,Direction.UP,handler));
         objects.get(0).set(6,solids);
+      //5,4 -> dungeon 
+        solids = new ArrayList<>();
+        solids.add(new DungeonDoor( 8,3,16*worldScale,16*worldScale*2,Direction.UP,"dungeon1",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
+        solids.add(new SectionDoor( 0,0,16*worldScale,16*worldScale*16, Direction.LEFT,handler));
+        solids.add(new SectionDoor( 16,0,16*worldScale,16*worldScale*16, Direction.RIGHT,handler));
+        solids.add(new SectionDoor( 0,10,16*worldScale*16,16*worldScale,Direction.DOWN,handler));
+        objects.get(5).set(4,solids);
       //5,5
         monster = new ArrayList<>();
         solids = new ArrayList<>();
+        solids.add(new SectionDoor( 0,0,16*worldScale*16,16*worldScale, Direction.UP,handler));
         solids.add(new SectionDoor( 0,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
         solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale, Direction.RIGHT,handler));
         solids.add(new SectionDoor( 2,10,16*worldScale*4,16*worldScale,Direction.DOWN,handler));
