@@ -5,6 +5,7 @@ import Game.Zelda.Entities.BaseEntity;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.MMBaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.MMLink;
+import Game.Zelda.Entities.Statics.MMMoveTile;
 import Game.Zelda.Entities.MMBaseEntity;
 import Main.Handler;
 
@@ -17,6 +18,7 @@ public class Map {
     ArrayList<MMBaseMovingEntity> enemiesOnMap;
     Handler handler;
     public MMLink link;
+    public MMMoveTile MMMove;
     public int xOffset =0,yOffset = 0;
 
     public Map(Handler handler) {
