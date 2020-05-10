@@ -80,7 +80,7 @@ public class ZeldaMapMakerState extends State {
             }else {
 
                 selector++;
-                if (selector > 4) {
+                if (selector > 5) {
                     selector = 0;
                 }
                 counter = 0;
@@ -100,6 +100,9 @@ public class ZeldaMapMakerState extends State {
                     case 4:
                         selectedList = Images.graveTiles;
                         break;
+                    case 5:
+                    	selectedList = Images.recursiveTiles;
+                    	break;
                 }
             }
         }
@@ -225,7 +228,7 @@ public class ZeldaMapMakerState extends State {
             	Random random = new Random();
                 counter = random.nextInt(30);
                 selector=random.nextInt(4);
-            	if (selector > 4) {
+            	if (selector > 5) {
                     selector = 0;
                 }
                 switch (selector) {
@@ -244,6 +247,9 @@ public class ZeldaMapMakerState extends State {
                     case 4:
                         selectedList = Images.graveTiles;
                         break;
+                    case 5:
+                    	selectedList = Images.recursiveTiles;
+                        break;
                 }
             }
         }
@@ -258,6 +264,14 @@ public class ZeldaMapMakerState extends State {
                             counter = random.nextInt(30);
                         }
                         break;
+                        
+                    case 5:
+                    	 if (selector == 5) {
+                    	counter = random.nextInt(4);
+                    	 }
+                    	break;
+
+                        
                     default:
                         if (selector != 0) {
                             counter = random.nextInt(42);
@@ -276,6 +290,16 @@ public class ZeldaMapMakerState extends State {
                             counter = 15;
                         }
                         break;
+                        
+                    case 5:
+                    	if (counter == 3) {
+                            counter = 0;
+                        } else {
+                            counter++;
+                        }
+                    	break;
+
+                        
                     default:
                         if (selector != 0) {
                             counter = 21;
@@ -297,6 +321,15 @@ public class ZeldaMapMakerState extends State {
                             counter++;
                         }
                         break;
+                        
+                    case 5:
+                    	if (counter == 3) {
+                            counter = 0;
+                        } else {
+                            counter++;
+                        }
+                    	break;
+                    	
                     default:
                         if (counter == 41) {
                             counter = 0;
@@ -319,6 +352,15 @@ public class ZeldaMapMakerState extends State {
                             counter--;
                         }
                         break;
+                        
+                    case 5:
+                    	if (counter == 0) {
+                            counter = 3;
+                        } else {
+                            counter--;
+                        }
+                    	break;
+                        
                     default:
                         if (counter == 0) {
                             counter = 41;

@@ -54,6 +54,7 @@ public class Images {
     public static BufferedImage zeldaMap;
     public static BufferedImage zeldaDungeon;
     public static ArrayList<BufferedImage> zeldaTiles;
+    public static ArrayList<BufferedImage> recursiveTiles;
     public static BufferedImage[] zeldaTitleFrames;
     public static BufferedImage[] zeldaStoryFrames;
     public static BufferedImage[] itemPickUpFrames;
@@ -160,6 +161,7 @@ public class Images {
         zeldaStoryFrames = new BufferedImage[8];
         zeldaWorldLayoutTiles = new ArrayList<>();
 
+        recursiveTiles = new ArrayList<>();
         forestTiles = new ArrayList<>();
         caveTiles = new ArrayList<>();
         graveTiles = new ArrayList<>();
@@ -680,6 +682,8 @@ public class Images {
 
 
 
+            
+            
             //dungeon one tiles
             zeldaTiles.add(zeldaSpriteSheet.crop(815,11,32,32));
             zeldaTiles.add(zeldaSpriteSheet.crop(848,11,32,32));
@@ -718,6 +722,13 @@ public class Images {
             SpriteSheet cave = new SpriteSheet(createImageTransparent(zeldaWorldLayoutTiles.get(2),"caveTransparent_252,216,168_crema", new Color(252,216,168).getRGB()));
             SpriteSheet grave = new SpriteSheet(zeldaWorldLayoutTiles.get(3));
 
+            //recursive tiles
+            recursiveTiles.add(mountain.crop(0,0,16,16));
+            recursiveTiles.add(zeldaSpriteSheet.crop(1001,45,16,16));
+            recursiveTiles.add(mountain.crop(136,51,16,16));
+            recursiveTiles.add(cave.crop(34,34,16,16));
+            
+            
             mountainTiles.add(mountain.crop(0,0,16,16));
             mountainTiles.add(mountain.crop(17,0,16,16));
             mountainTiles.add(mountain.crop(34,0,16,16));
