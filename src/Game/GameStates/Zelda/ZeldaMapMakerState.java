@@ -1,6 +1,7 @@
 package Game.GameStates.Zelda;
 
 import Game.GameStates.State;
+import Game.Zelda.Entities.Dynamic.Direction;
 import Game.Zelda.World.Map;
 import Game.Zelda.World.MapBuilder;
 import Main.Handler;
@@ -30,11 +31,13 @@ public class ZeldaMapMakerState extends State {
     public static final BufferedImage unChange = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     ArrayList<int[]> drawStack = new ArrayList<>();
     ArrayList<ArrayList<int[]>> linkedTeleports = new ArrayList<>();
+    ArrayList<ArrayList<int[]>> movingTiles = new ArrayList<>();
     boolean linking = false;
     boolean linkingStarted = false;
     boolean rightClicked = false;
     boolean leftClicked = false;
     boolean linkPlaced = false;
+    boolean recursionStarted = false;
 
     public ZeldaMapMakerState(Handler handler) {
         super(handler);
@@ -53,7 +56,7 @@ public class ZeldaMapMakerState extends State {
 
 
     }
-
+    
     @Override
     public void tick() {
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H)){
@@ -144,11 +147,52 @@ public class ZeldaMapMakerState extends State {
                             grid.get(xCoords + 1).set(yCoords + 1, unChange);
                         }
                         if ((counter == 25 && selector == 0) || (selector != 0 && counter == 41)) {
-                            handler.getDisplayScreen().confirm("Started linking a teleport, click where you want to teleport to.");
+                            handler.getDisplayScreen().confirm("Adding recursiveTiles");
                             linking = true;
                             showingTiles = false;
                             linkedTeleports.add(new ArrayList<>());
                             linkedTeleports.get(linkedTeleports.size() - 1).add(l);
+                        }
+                        if(selector == 5) {
+                        if (recursionStarted) {
+                        //stuffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                        if ((counter == 0 && selector == 5)) {
+                        	int[] l1 = new int[2];
+                            l1[0] = xCoords;
+                            l1[1] = yCoords;
+                            drawStack.add(l1);
+                            showingTiles = false;
+                            movingTiles.add(new ArrayList<>());
+                            movingTiles.get(movingTiles.size() - 1).add(l1);
+                        }
+                        if ((counter == 1 && selector == 5)) {
+                        	int[] l1 = new int[2];
+                            l1[0] = xCoords;
+                            l1[1] = yCoords;
+                            drawStack.add(l1);
+                            showingTiles = false;
+                            movingTiles.add(new ArrayList<>());
+                            movingTiles.get(movingTiles.size() - 1).add(l1);
+                        }
+                        if ((counter == 2 && selector == 5)) {
+                        	int[] l1 = new int[2];
+                            l1[0] = xCoords;
+                            l1[1] = yCoords;
+                            drawStack.add(l1);
+                            showingTiles = false;
+                            movingTiles.add(new ArrayList<>());
+                            movingTiles.get(movingTiles.size() - 1).add(l1);
+                        }
+                        if ((counter == 3 && selector == 5)) {
+                        	int[] l1 = new int[2];
+                            l1[0] = xCoords;
+                            l1[1] = yCoords;
+                            drawStack.add(l1);
+                            showingTiles = false;
+                            movingTiles.add(new ArrayList<>());
+                            movingTiles.get(movingTiles.size() - 1).add(l1);
+                        }
+                        }
                         }
                     }
                 }
@@ -172,6 +216,7 @@ public class ZeldaMapMakerState extends State {
                     handler.getDisplayScreen().confirm("Cant Overwrite Tiles with teleporter");
                 }
             }
+            
         }
         if (rightClicked && !handler.getMouseManager().isRightPressed()){
             rightClicked = false;
