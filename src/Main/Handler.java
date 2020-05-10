@@ -4,6 +4,7 @@ import Display.DisplayScreen;
 import Game.GameStates.*;
 import Game.GameStates.Zelda.ZeldaDungeonState;
 import Game.GameStates.Zelda.ZeldaGameState;
+import Game.GameStates.Zelda.ZeldaMMGameState;
 import Game.GameStates.Zelda.ZeldaIntroStates;
 import Game.GameStates.Zelda.ZeldaMapMakerState;
 import Game.GameStates.Zelda.ZeldaMerchantState;
@@ -14,11 +15,12 @@ import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Dynamic.Moblin;
 import Game.Zelda.Entities.Dynamic.Octorok;
 import Game.Zelda.Entities.Dynamic.Zora;
+import Game.Zelda.Entities.Statics.MMMoveTile;
 import Input.KeyManager;
 import Input.MouseManager;
 import Resources.MusicHandler;
 import Resources.ScoreManager;
-
+import Game.Zelda.Entities.Statics.MMMoveTile;
 import javax.sound.sampled.Clip;
 import java.util.ArrayList;
 
@@ -45,6 +47,7 @@ public class Handler {
     private BouncyFella bouncyFella;
     private Moblin moblin;
     private Zora zora;
+    private MMMoveTile MMMove;
     
 
 	public Handler(GameSetUp game){
@@ -98,6 +101,10 @@ public class Handler {
 
     public PacManState getPacManState (){
         return (PacManState)getGameProperties().pacmanState;
+    }
+    
+    public ZeldaMMGameState getMMGameState() {
+    	return (ZeldaMMGameState)getGameProperties().MMGameState;
     }
 
     public ZeldaMerchantState getZeldaMerchantState() {
@@ -197,6 +204,11 @@ public class Handler {
     public void setPacman(PacMan pacman) {
         this.pacman = pacman;
     }
+    
+    public MMMoveTile getMMMove() {
+    	return MMMove;
+    }
+    
     public Link getLink() {
         return link;
     }
