@@ -26,7 +26,7 @@ public class MMLink extends MMBaseMovingEntity {
 
     private final int animSpeed = 120;
     public Map map;
-    int speedRecur = 16;
+    int speedRecur = 5;
 
     public MMLink(int x, int y, BufferedImage[] sprite, Handler handler) {
         super(x, y, sprite, handler);
@@ -110,16 +110,16 @@ public class MMLink extends MMBaseMovingEntity {
     public void linkRecursionHelper(MMMoveTile MoveTile) {
     	
     	if (MoveTile.sprite == (Images.recursiveTiles.get(0))) {
-     		 y-=2;
+     		 y-=speedRecur;
      	 }
      	 else if (MoveTile.sprite == (Images.recursiveTiles.get(1))) {
-     		 y+=2;
+     		 y+=speedRecur;
      	 }
      	 else if (MoveTile.sprite == (Images.recursiveTiles.get(2))) {
-     		 x-=2;
+     		 x-=speedRecur;
      	 }
      	 else if (MoveTile.sprite == (Images.recursiveTiles.get(3))) {
-     		 x+=2;
+     		 x+=speedRecur;
      	 	}
     	bounds.x = x;
     	bounds.y = y;
