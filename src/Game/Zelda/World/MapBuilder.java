@@ -2,6 +2,7 @@ package Game.Zelda.World;
 
 import Game.GameStates.Zelda.ZeldaMapMakerState;
 import Game.Zelda.Entities.Dynamic.MMLink;
+import Game.Zelda.Entities.Statics.MMMoveTile;
 import Game.Zelda.Entities.Statics.MMSolidStaticEntities;
 import Game.Zelda.Entities.Statics.MMTeleport;
 import Game.Zelda.Entities.Statics.MMWalkingSolidEntities;
@@ -28,7 +29,7 @@ public class MapBuilder {
 		}
 		name+=".txt";
 		String path = Objects.requireNonNull(MapBuilder.class.getClassLoader().getResource(".")).getPath();
-		String path2 = path.substring(0,path.indexOf("/out/"))+"/res/Edited/"+name;
+		String path2 = path.substring(0,path.indexOf("/bin/"))+"/res/Edited/"+name;
 		ArrayList<ArrayList<int[]>> linkedTeli = new ArrayList<>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader( new File(path2)));
@@ -663,6 +664,18 @@ public class MapBuilder {
 					MMTeleport ghost = new MMTeleport(xPos, yPos, Images.graveTiles.get(41), handler);
 					mapInCreation.addBlock(ghost);
 					checkForTeli(ghost,xPos,yPos,linkedTeli);
+				}else if(currentPixel == tileUp) {
+					MMMoveTile ghost = new MMMoveTile(xPos, yPos, Images.recursiveTiles.get(0), handler);
+					mapInCreation.addBlock(ghost);
+				}else if(currentPixel == tileDown) {
+					MMMoveTile ghost = new MMMoveTile(xPos, yPos, Images.recursiveTiles.get(1), handler);
+					mapInCreation.addBlock(ghost);
+				}else if(currentPixel == tileLeft) {
+					MMMoveTile ghost = new MMMoveTile(xPos, yPos, Images.recursiveTiles.get(2), handler);
+					mapInCreation.addBlock(ghost);
+				}else if(currentPixel == tileRight) {
+					MMMoveTile ghost = new MMMoveTile(xPos, yPos, Images.recursiveTiles.get(3), handler);
+					mapInCreation.addBlock(ghost);
 				}else if(currentPixel == Link) {
 					MMLink ghost = new MMLink(xPos, yPos, Images.zeldaLinkFrames, handler);
 					mapInCreation.addEnemy(ghost);
@@ -683,7 +696,7 @@ public class MapBuilder {
 	public static BufferedImage arrayToRGBImage(ArrayList<ArrayList<BufferedImage>> info,String name,ArrayList<ArrayList<int[]>> teleportList){
 
 		String path = Objects.requireNonNull(MapBuilder.class.getClassLoader().getResource(".")).getPath();
-		String path2 = path.substring(0,path.indexOf("/out/"))+"/res/Edited/"+name+".png";
+		String path2 = path.substring(0,path.indexOf("/bin/"))+"/res/Edited/"+name+".png";
 		File imagess = new File(path2.replaceAll("%20"," "));
 		if (imagess.exists()){
 			try {
@@ -1093,6 +1106,14 @@ public class MapBuilder {
 					image.setRGB(x,y,grave41);
 				}else if (Images.zeldaLinkFrames[0].equals(info.get(x).get(y))){
 					image.setRGB(x,y,Link);
+				}else if(Images.recursiveTiles.get(0).equals(info.get(x).get(y))) {
+					image.setRGB(x, y, tileUp);
+				}else if(Images.recursiveTiles.get(1).equals(info.get(x).get(y))) {
+					image.setRGB(x, y, tileDown);
+				}else if(Images.recursiveTiles.get(2).equals(info.get(x).get(y))) {
+					image.setRGB(x, y, tileLeft);
+				}else if(Images.recursiveTiles.get(3).equals(info.get(x).get(y))) {
+					image.setRGB(x, y, tileRight);
 				}
 
 
@@ -1101,8 +1122,8 @@ public class MapBuilder {
 
 		try {
 			path = Objects.requireNonNull(MapBuilder.class.getClassLoader().getResource(".")).getPath();
-			path2 = path.substring(0, path.indexOf("/out/")) + "/res/Edited/" + name + ".png";
-			String path3 = path.substring(0, path.indexOf("/out/")) + "/res/Edited/" + name + ".txt";
+			path2 = path.substring(0, path.indexOf("/bin/")) + "/res/Edited/" + name + ".png";
+			String path3 = path.substring(0, path.indexOf("/bin/")) + "/res/Edited/" + name + ".txt";
 			f = new File(path2.replaceAll("%20", " "));
 			System.out.println("File saved in: " + path2);
 			ImageIO.write(image, "png", f);
@@ -1157,11 +1178,32 @@ public class MapBuilder {
 
 		}
 	}
+	
+	private static void checkForMoveTile(MMMoveTile ghost, int x, int y,ArrayList<ArrayList<int[]>> linkedTeleport) {
+		x=x/pixelMultiplier;
+		y=y/pixelMultiplier;
+		if (linkedTeleport.isEmpty()){
+			System.out.println("List is empty");
+			return;
+		}
+		for (ArrayList<int[]> linkedTelis: linkedTeleport){
+			System.out.println("Linking " + x + " , " + y + " to "+ Arrays.toString(linkedTelis.get(0)) + " or " + Arrays.toString(linkedTelis.get(1)));
+
+			
+			
+
+		}
+	}
 
 	public static int pixelMultiplier = ZeldaMapMakerState.pixelsPerSquare;//change this for size of blocks
 
 	public static int Link = new Color(0, 255, 0).getRGB();
 
+	//RecursiveTiles
+	public static int tileUp = new Color(0,0,255).getRGB();
+	public static int tileDown = new Color(255,0,250).getRGB();
+	public static int tileLeft = new Color(255,0,245).getRGB();
+	public static int tileRight = new Color(255,0,240).getRGB();
 
 	//dungeons
 	public static int Dhole = new Color(0, 0, 0).getRGB();//smalls
@@ -1371,3 +1413,4 @@ public class MapBuilder {
 
 
 }
+
