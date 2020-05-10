@@ -49,6 +49,7 @@ public class GameSetUp implements Runnable {
     public State zeldaMapMakerState;
     public State zeldaIntroState;
     public State zeldaMerchantState;
+    public State MMGameState;
 
 
 
