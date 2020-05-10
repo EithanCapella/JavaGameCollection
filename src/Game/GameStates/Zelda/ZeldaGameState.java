@@ -45,8 +45,8 @@ public class ZeldaGameState extends State {
     public static boolean inCave = false, runOnce = false, beginAdventure=false,inTest=false;
     public ArrayList<SolidStaticEntities> caveObjects;
     public ArrayList<SolidStaticEntities> innObjects;
-   public ArrayList<BaseMovingEntity> monster;
-   public ArrayList<SolidStaticEntities> solids;
+    public ArrayList<BaseMovingEntity> monster;
+    public ArrayList<SolidStaticEntities> solids;
     
 
     public ZeldaGameState(Handler handler) {
@@ -84,6 +84,9 @@ public class ZeldaGameState extends State {
     @Override
     public void tick() {
         link.tick();
+        if(link.dungeon) {
+			handler.changeState(handler.getZeldaDungeonState());
+        }
 		ArrayList<BaseMovingEntity> toRemove = new ArrayList<>();
     	for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
     	if (enemy instanceof Octorok && enemy.dead) {
@@ -150,7 +153,8 @@ public class ZeldaGameState extends State {
 //            g.fillRect(0, 0, handler.getWidth(), yOffset);
 //            g.fillRect(0, yOffset + stageHeight, handler.getWidth(), handler.getHeight());
     
-        }else {
+        }
+        else {
             g.drawImage(Images.zeldaMap, -cameraOffsetX + xOffset, -cameraOffsetY + yOffset, Images.zeldaMap.getWidth() * worldScale, Images.zeldaMap.getHeight() * worldScale, null);
             if (!link.movingMap) {
                 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
@@ -273,68 +277,68 @@ public BaseMovingEntity addEnemy() {
         caveObjects.add(new superSword(12,5,handler,Images.otherWeapons[3]));
         
         //left
-        innObjects.add(new blockBound( 0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 0,3,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 0,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 0,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 0,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 0,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 1,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 1,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 0,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 0,3,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 0,4,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 0,2,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 0,1,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 0,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 1,1,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 1,2,16*worldScale,16*worldScale,handler));
         
         //right
-        innObjects.add(new blockBound( 13,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 13,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 13,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 14,3,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 14,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 14,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 12,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 12,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 12,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 13,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 13,1,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 13,2,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 14,3,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 14,4,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 14,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 12,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 12,1,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 12,2,16*worldScale,16*worldScale,handler));
         
         //Down
-        innObjects.add(new blockBound( 13,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 12,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 11,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 10,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 9,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 8,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 7,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 6,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 5,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 4,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 1,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 2,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 13,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 12,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 11,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 10,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 13,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 12,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 11,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 10,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 9,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 8,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 7,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 6,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 5,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 4,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 1,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 2,5,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 13,4,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 12,4,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 11,4,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 10,4,16*worldScale,16*worldScale,handler));
         
         //Up
-        innObjects.add(new blockBound( 13,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 12,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 13,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 12,0,16*worldScale,16*worldScale,handler));
        // innObjects.add(new blockBound( 12,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 11,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 11,0,16*worldScale,16*worldScale,handler));
         //innObjects.add(new blockBound( 11,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 10,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 10,0,16*worldScale,16*worldScale,handler));
       //  innObjects.add(new blockBound( 10,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 9,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 8,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 7,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 6,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 5,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 4,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 4,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 5,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 3,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 2,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 1,0,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 9,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 9,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 6,1,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 6,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
-        innObjects.add(new blockBound( 7,2,16*worldScale,16*worldScale, Direction.LEFT,handler));
+        innObjects.add(new blockBound( 9,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 8,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 7,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 6,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 5,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 4,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 4,2,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 5,2,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 3,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 2,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 1,0,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 9,1,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 9,2,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 6,1,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 6,2,16*worldScale,16*worldScale,handler));
+        innObjects.add(new blockBound( 7,2,16*worldScale,16*worldScale,handler));
         
        // innObjects.add(new SolidStaticEntities(2,5, null,handler));
        // innObjects.add(new SolidStaticEntities(2,4, null,handler));

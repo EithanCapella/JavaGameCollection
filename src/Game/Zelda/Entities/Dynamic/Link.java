@@ -4,6 +4,7 @@ import Game.GameStates.Zelda.ZeldaGameState;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
+import Game.Zelda.Entities.Statics.blockBound;
 import Game.Zelda.Entities.Statics.caveSword;
 import Game.Zelda.Entities.Statics.magicalRod;
 import Game.Zelda.Entities.Statics.magicalSword;
@@ -32,7 +33,7 @@ public class Link extends BaseMovingEntity {
 	private double life=3.0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
 	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,count=0, rupees=300, potions = 0, hitCount=29;
-	public boolean movingMap = false,hasSword=false,horray=false,hurt=false,wooden=false,
+	public boolean movingMap = false,hasSword=false,horray=false,hurt=false,wooden=false,dungeon=false,
 			white=false,magical=false,rod=false,majora=false;
 	Direction movingTo;
 	public swordLaser laserSword;
@@ -85,10 +86,16 @@ public class Link extends BaseMovingEntity {
 		if (movingMap){
 			switch (movingTo) {
 			case RIGHT:
-				handler.getZeldaGameState().cameraOffsetX+=3;
-				newMapX++;
+				if(dungeon) {
+					handler.getZeldaDungeonState().cameraOffsetX+=3;
+					newMapX++;
+				}else {
+					handler.getZeldaGameState().cameraOffsetX+=3;
+					newMapX++;
+				}
 				if (xExtraCounter>0){
-					x-=2;
+					if(dungeon) {x-=6;}
+					else {x-=12;}
 					xExtraCounter--;
 					animation.tick();
 
@@ -97,10 +104,16 @@ public class Link extends BaseMovingEntity {
 				}
 				break;
 			case LEFT:
-				handler.getZeldaGameState().cameraOffsetX-=3;
-				newMapX--;
+				if(dungeon) {
+					handler.getZeldaDungeonState().cameraOffsetX-=3;
+					newMapX--;
+				}else {
+					handler.getZeldaGameState().cameraOffsetX-=3;
+					newMapX--;
+				}
 				if (xExtraCounter>0){
-					x-=2;
+					if(dungeon) {x+=6;}
+					else {x+=12;}
 					xExtraCounter--;
 					animation.tick();
 				}else{
@@ -108,10 +121,16 @@ public class Link extends BaseMovingEntity {
 				}
 				break;
 			case UP:
-				handler.getZeldaGameState().cameraOffsetY-=3;
-				newMapY++;
+				if(dungeon) {
+					handler.getZeldaDungeonState().cameraOffsetY-=3;
+					newMapY++;
+				}else {
+					handler.getZeldaGameState().cameraOffsetY-=3;
+					newMapY++;
+				}
 				if (yExtraCounter>0){
-					y-=2;
+					if(dungeon) {y+=6;}
+					else {y+=12;}
 					yExtraCounter--;
 					animation.tick();
 				}else{
@@ -119,10 +138,16 @@ public class Link extends BaseMovingEntity {
 				}
 				break;
 			case DOWN:
-				handler.getZeldaGameState().cameraOffsetY+=3;
-				newMapY--;
+				if(dungeon) {
+					handler.getZeldaDungeonState().cameraOffsetY+=3;
+					newMapY--;
+				}else {
+					handler.getZeldaGameState().cameraOffsetY+=3;
+					newMapY--;
+				}
 				if (yExtraCounter>0){
-					y+=2;
+					if(dungeon) {y-=6;}
+					else {y-=12;}
 					yExtraCounter--;
 					animation.tick();
 				}else{
@@ -428,22 +453,43 @@ public class Link extends BaseMovingEntity {
 	}
 	public void superWave() {
 		if(attacking) {
-			if(majora&& !(wooden&&magical&&rod&&white)) {
-				if (direction == direction.UP) {
-					superWave = new superWave(this.x,this.y,Images.vaporWaveUp, handler,direction.UP);
-					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
+			if(dungeon) {
+				if(majora&& !(wooden&&magical&&rod&&white)) {
+					if (direction == direction.UP) {
+						superWave = new superWave(this.x,this.y,Images.vaporWaveUp, handler,direction.UP);
+						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(superWave);
+					}
+					else if (direction == direction.DOWN) {
+						superWave = new superWave(this.x,this.y,Images.vaporWaveDown, handler,direction.DOWN);
+						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(superWave);
+					}
+					else if (direction == direction.LEFT) {
+						superWave = new superWave(this.x,this.y,Images.vaporWaveSideL, handler,direction.LEFT);
+						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(superWave);
+					}
+					else {
+						superWave = new superWave(this.x,this.y,Images.vaporWaveSide, handler,direction.RIGHT);
+						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(superWave);
+					}
 				}
-				else if (direction == direction.DOWN) {
-					superWave = new superWave(this.x,this.y,Images.vaporWaveDown, handler,direction.DOWN);
-					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
-				}
-				else if (direction == direction.LEFT) {
-					superWave = new superWave(this.x,this.y,Images.vaporWaveSideL, handler,direction.LEFT);
-					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
-				}
-				else {
-					superWave = new superWave(this.x,this.y,Images.vaporWaveSide, handler,direction.RIGHT);
-					handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
+			}else {
+				if(majora&& !(wooden&&magical&&rod&&white)) {
+					if (direction == direction.UP) {
+						superWave = new superWave(this.x,this.y,Images.vaporWaveUp, handler,direction.UP);
+						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
+					}
+					else if (direction == direction.DOWN) {
+						superWave = new superWave(this.x,this.y,Images.vaporWaveDown, handler,direction.DOWN);
+						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
+					}
+					else if (direction == direction.LEFT) {
+						superWave = new superWave(this.x,this.y,Images.vaporWaveSideL, handler,direction.LEFT);
+						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
+					}
+					else {
+						superWave = new superWave(this.x,this.y,Images.vaporWaveSide, handler,direction.RIGHT);
+						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
+					}
 				}
 			}
 		}
@@ -660,8 +706,126 @@ public class Link extends BaseMovingEntity {
 					return;
 				}
 			}
-		}else if (ZeldaGameState.inTest) {
-			
+		}else if(dungeon) {
+			for (BaseMovingEntity objects : handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY)) {
+				if((objects instanceof Moblin)&&objects.bounds.intersects(bounds)) {
+					hurt=true;
+					life-=0.5;
+					if(direction == Direction.LEFT) {
+						x+=30;
+					}else if(direction == Direction.RIGHT) {
+						x-=30;
+					}
+					else if(direction == Direction.UP) {
+						y+=30;
+					}else if(direction == Direction.DOWN) {
+						y-=30;
+					}
+				}
+				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
+					if(moving) {
+						hurt=true;
+						life-=0.5;
+						if(direction == Direction.LEFT) {
+							x+=60;
+						}else if(direction == Direction.RIGHT) {
+							x-=60;
+						}
+						else if(direction == Direction.UP) {
+							y+=60;
+						}else if(direction == Direction.DOWN) {
+							y-=60;
+						}
+					}
+				}
+				if((objects instanceof Zora)&&objects.bounds.intersects(bounds)) {
+					hurt=true;
+					life-=0.5;
+					if(direction == Direction.LEFT) {
+						x+=60;
+					}else if(direction == Direction.RIGHT) {
+						x-=60;
+					}
+					else if(direction == Direction.UP) {
+						y+=60;
+					}else if(direction == Direction.DOWN) {
+						y-=60;
+					}
+				}
+				if((objects instanceof Leever)&&objects.bounds.intersects(bounds)) {
+					hurt=true;
+					life-=0.5;
+					if(direction == Direction.LEFT) {
+						x+=60;
+					}else if(direction == Direction.RIGHT) {
+						x-=60;
+					}
+					else if(direction == Direction.UP) {
+						y+=60;
+					}else if(direction == Direction.DOWN) {
+						y-=60;
+					}
+				}
+				if((objects instanceof BouncyFella)&&objects.bounds.intersects(bounds)) {
+					hurt=true;
+					life-=0.5;
+					if(direction == Direction.LEFT) {
+						x+=60;
+					}else if(direction == Direction.RIGHT) {
+						x-=60;
+					}
+					else if(direction == Direction.UP) {
+						y+=60;
+					}else if(direction == Direction.DOWN) {
+						y-=60;
+					}
+				}
+			}
+			for (SolidStaticEntities objects : handler.getZeldaDungeonState().objects.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY)) {
+				if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
+					if (!(objects instanceof DungeonDoor)) {
+						movingMap = true;
+						movingTo = ((SectionDoor) objects).direction;
+						switch (((SectionDoor) objects).direction) {
+						case RIGHT:
+							newMapX = -(((handler.getZeldaDungeonState().mapWidth) + 1) * 1/3 * worldScale);
+							newMapY = 0;
+							handler.getZeldaDungeonState().mapX++;
+							xExtraCounter = 8 * worldScale + (2 * worldScale);
+							break;
+						case LEFT:
+							newMapX = (((handler.getZeldaDungeonState().mapWidth) + 1) * 1/3 * worldScale);
+							newMapY = 0;
+							handler.getZeldaDungeonState().mapX--;
+							xExtraCounter = 8 * worldScale + (2 * worldScale);
+							break;
+						case UP:
+							newMapX = 0;
+							newMapY = -(((handler.getZeldaDungeonState().mapHeight) + 1) * 1/3 * worldScale);
+							handler.getZeldaDungeonState().mapY--;
+							yExtraCounter = 8 * worldScale + (2 * worldScale);
+							break;
+						case DOWN:
+							newMapX = 0;
+							newMapY = (((handler.getZeldaDungeonState().mapHeight) + 1) * 1/3 * worldScale);
+							handler.getZeldaDungeonState().mapY++;
+							yExtraCounter = 8 * worldScale + (2 * worldScale);
+							break;
+						}
+						return;
+					}
+					else {
+						//section doors
+					}
+				}
+				else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
+					//dont move
+					return;
+				}
+				else if(objects instanceof blockBound &&  objects.bounds.intersects(interactBounds)) {
+					return;
+				}
+			}
 		}
 		else {
 			for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
@@ -693,10 +857,6 @@ public class Link extends BaseMovingEntity {
 						}else if(direction == Direction.DOWN) {
 							y-=60;
 						}
-					}
-					if(attacking) {
-						System.out.println("attacking hit");
-						//handler.getOctorok().setHurt(true);
 					}
 				}
 				if((objects instanceof Zora)&&objects.bounds.intersects(bounds)) {
@@ -792,7 +952,7 @@ public class Link extends BaseMovingEntity {
 						if (((DungeonDoor) objects).name.equals("dungeon1")) {
 							//ZeldaGameState.inTest = true;
 							//handler.changeState(handler.getZeldaMerchantState());
-							handler.changeState(handler.getZeldaDungeonState());
+							dungeon=true;
 							x = ((DungeonDoor) objects).nLX - 100;
 							y = ((DungeonDoor) objects).nLY - 70;
 							direction = UP;

@@ -26,7 +26,6 @@ public class SectionDoor extends SolidStaticEntities {
         super.tick();
 
     }
-
     @Override
     public void render(Graphics g) {
 
