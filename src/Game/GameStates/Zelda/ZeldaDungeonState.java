@@ -592,6 +592,7 @@ public BaseMovingEntity addEnemy() {
         objects.get(0).set(2,solids);
         enemies.get(0).set(2,monster);
 
+ 
         
     }
 
