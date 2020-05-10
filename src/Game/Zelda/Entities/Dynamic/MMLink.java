@@ -4,6 +4,7 @@ import Game.GameStates.Zelda.ZeldaMMGameState;
 import Game.GameStates.Zelda.ZeldaMapMakerState;
 import Game.Zelda.Entities.BaseEntity;
 import Game.Zelda.Entities.MMBaseEntity;
+import Game.Zelda.Entities.Statics.MMMoveTile;
 import Game.Zelda.Entities.Statics.MMSolidStaticEntities;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
 import Game.Zelda.World.Map;
@@ -25,7 +26,7 @@ public class MMLink extends MMBaseMovingEntity {
 
     private final int animSpeed = 120;
     public Map map;
-
+    int speedRecur = 16;
 
     public MMLink(int x, int y, BufferedImage[] sprite, Handler handler) {
         super(x, y, sprite, handler);
@@ -41,6 +42,16 @@ public class MMLink extends MMBaseMovingEntity {
 
     @Override
     public void tick() {
+    	
+    	linkRecursion();
+
+        
+        
+    		
+    		
+    			
+    			
+    		
             if (handler.getKeyManager().up) {
                 if (direction != UP) {
                     BufferedImage[] animList = new BufferedImage[2];
@@ -91,7 +102,63 @@ public class MMLink extends MMBaseMovingEntity {
             }
 
     }
+    
+   
+    		
+    			
+    		
+    public void linkRecursionHelper(MMMoveTile MoveTile) {
+    	
+    	if (MoveTile.sprite == (Images.recursiveTiles.get(0))) {
+     		 y-=2;
+     	 }
+     	 else if (MoveTile.sprite == (Images.recursiveTiles.get(1))) {
+     		 y+=2;
+     	 }
+     	 else if (MoveTile.sprite == (Images.recursiveTiles.get(2))) {
+     		 x-=2;
+     	 }
+     	 else if (MoveTile.sprite == (Images.recursiveTiles.get(3))) {
+     		 x+=2;
+     	 	}
+    	bounds.x = x;
+    	bounds.y = y;
+    	changeIntersectingBounds();
+    	
+    }  
+    	
+    //algorithm move link depending on tile THEN RECURSION is he standing on a tile or no
+    boolean  reRun = true;
+    public boolean linkRecursion() {
+    	
+    	if (reRun) {
+    	for (MMBaseEntity entity: map.getBlocksOnMap()){
+            if (entity instanceof MMMoveTile && entity.bounds.intersects(interactBounds)) {
+            	linkRecursionHelper((MMMoveTile)entity);
+            	reRun = false;
+            	return linkRecursion();
+            	
+            }
+           
+    		}
+    	 
+    	}
+    	else{
+         	
+         	return reRun = true;
+         	}
+		return reRun;
+    }		
 
+
+           
+	
+    		    		
+    	
+		
+		
+	
+    
     @Override
     public void render(Graphics g) {
         if (moving) {
