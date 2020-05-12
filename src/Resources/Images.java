@@ -85,6 +85,7 @@ public class Images {
     public static BufferedImage[] magicalSwordAttackFrames;
     public static BufferedImage[] magicalRodAttackFrames;
     public static BufferedImage[] superSwordAttackFrames;
+    public static BufferedImage[] linkRaftFrames;
     public static BufferedImage[] linkHearts;
     public static BufferedImage[] woodenLaser;
     public static BufferedImage[] vaporWaveUp;
@@ -174,6 +175,7 @@ public class Images {
         magicalSwordAttackFrames = new BufferedImage[16];
         magicalRodAttackFrames = new BufferedImage[16];
         superSwordAttackFrames = new BufferedImage[16];
+        linkRaftFrames = new BufferedImage[16];
         linkHearts= new BufferedImage[2];
         bouncyEnemyFrames = new BufferedImage[2];
         octorokEnemyFrames = new BufferedImage[4];
@@ -402,6 +404,31 @@ public class Images {
             superSwordAttackFrames[13] = zeldaLinkSpriteSheet1.crop(111,128,16,19); //unknown 
             superSwordAttackFrames[14] = zeldaLinkSpriteSheet1.crop(128,128,23,17);//unknown 
             superSwordAttackFrames[15] = zeldaLinkSpriteSheet1.crop(152,128,19,17);//unknown 
+            
+            
+            linkRaftFrames[0] = zeldaLinkSpriteSheet1.crop(113,205,14,16);//raft object 
+            linkRaftFrames[1] = zeldaLinkSpriteSheet1.crop(132,205,15,20);//link on raft object start
+            linkRaftFrames[2] = zeldaLinkSpriteSheet1.crop(150,205,14,20);//link on raft object 
+            linkRaftFrames[3] = zeldaLinkSpriteSheet1.crop(166,205,15,20);//link on raft object
+            linkRaftFrames[4] = zeldaLinkSpriteSheet1.crop(183,206,14,19);//link on raft object 
+            linkRaftFrames[5] = zeldaLinkSpriteSheet1.crop(201,205,14,20);//link on raft object 
+            linkRaftFrames[6] = zeldaLinkSpriteSheet1.crop(218,205,14,20);//link on raft object end
+            linkRaftFrames[7] = zeldaLinkSpriteSheet1.crop(132,229,15,25);//superlink on raft object start
+            linkRaftFrames[8] = zeldaLinkSpriteSheet1.crop(150,230,14,24);//superlink on raft object
+            linkRaftFrames[9] = zeldaLinkSpriteSheet1.crop(166,228,15,26);//superlink on raft object
+            linkRaftFrames[10] = zeldaLinkSpriteSheet1.crop(183,229,15,25);//superlink on raft object
+            linkRaftFrames[11] = zeldaLinkSpriteSheet1.crop(201,234,14,20);//superlink on raft object
+            linkRaftFrames[12] = zeldaLinkSpriteSheet1.crop(201,234,14,20);//superlink on raft object end 
+
+
+
+
+
+
+
+
+
+
             
             whiteSwordAttackFrames[0] = zeldaLinkSpriteSheet.crop(95,47,16,16); // attackDownStart
             whiteSwordAttackFrames[1] = zeldaLinkSpriteSheet.crop(111,47,16,28); 

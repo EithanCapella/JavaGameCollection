@@ -57,8 +57,8 @@ public class ZeldaDungeonState extends State {
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
         worldScale = 2;
-        mapX = 7;
-        mapY = 1;
+        mapX = 4;
+        mapY = 4;
         mapWidth = 257;
         mapHeight = 179;
         cameraOffsetX =  ((mapWidth*mapX) + mapX + 1)*worldScale;
@@ -257,7 +257,6 @@ public BaseMovingEntity addEnemy() {
         solids.add(new blockBound( 12,2,16*worldScale,16*worldScale,handler));
         solids.add(new blockBound( 12,4,16*worldScale,16*worldScale,handler));
         solids.add(new blockBound( 12,6,16*worldScale,16*worldScale,handler));
-        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames, handler));
         objects.get(4).set(3,solids);
         enemies.get(4).set(3,monster);
 
@@ -265,8 +264,16 @@ public BaseMovingEntity addEnemy() {
     	//4,2
         solids = new ArrayList<>();
         monster = new ArrayList<>();
-        solids.add(new SectionDoor( 8,1,16*worldScale,16*worldScale,Direction.UP,handler));
-        solids.add(new SectionDoor( 8,8,16*worldScale,16*worldScale,Direction.DOWN,handler));
+        solids.add(new blockBound( 0,0,16*worldScale*7,16*worldScale*2,handler)); // up part1
+        solids.add(new blockBound( 7,2,16*worldScale*2,16*worldScale,handler)); // up 
+        solids.add(new blockBound( 9,0,16*worldScale*6,16*worldScale*2,handler)); // up part2
+        solids.add(new blockBound( 0,7,16*worldScale*7,16*worldScale*2,handler)); // down part1
+        solids.add(new blockBound( 7,6,16*worldScale*2,16*worldScale,handler)); // down
+        solids.add(new blockBound( 9,7,16*worldScale*6,16*worldScale*2,handler)); // down part2
+        solids.add(new blockBound(15,0,16*worldScale,16*worldScale*9,handler)); //full-right side
+        solids.add(new blockBound( 0,0,16*worldScale,16*worldScale*9,handler));//full left side 
+        solids.add(new SectionDoor( 7,1,16*worldScale*2,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 7,8,16*worldScale*2,16*worldScale,Direction.DOWN,handler));
         objects.get(4).set(2,solids);
         enemies.get(4).set(2,monster);
         
@@ -419,8 +426,18 @@ public BaseMovingEntity addEnemy() {
     	//3,2 
         solids = new ArrayList<>();
         monster = new ArrayList<>();
-        solids.add(new SectionDoor( 8,1,16*worldScale,16*worldScale,Direction.UP,handler));
-        solids.add(new SectionDoor( 8,8,16*worldScale,16*worldScale,Direction.DOWN,handler));
+        solids.add(new blockBound( 0,1,16*worldScale*7,16*worldScale,handler)); // up part1
+        solids.add(new blockBound( 3,3,16*worldScale*10,16*worldScale,handler)); // up 
+        solids.add(new blockBound( 3,3,16*worldScale,16*worldScale*3,handler)); // up 
+        solids.add(new blockBound( 12,3,16*worldScale,16*worldScale*3,handler)); // up 
+        solids.add(new blockBound( 9,1,16*worldScale*6,16*worldScale,handler)); // up part2
+        solids.add(new blockBound( 0,8,16*worldScale*7,16*worldScale,handler)); // down part1
+        solids.add(new blockBound( 3,6,16*worldScale*10,16*worldScale,handler)); // down
+        solids.add(new blockBound( 9,8,16*worldScale*6,16*worldScale,handler)); // down part2
+        solids.add(new blockBound(15,0,16*worldScale,16*worldScale*9,handler)); //full-right side
+        solids.add(new blockBound( 0,0,16*worldScale,16*worldScale*9,handler));//full left side 
+        solids.add(new SectionDoor( 7,1,16*worldScale*2,16*worldScale,Direction.UP,handler));
+        solids.add(new SectionDoor( 7,8,16*worldScale*2,16*worldScale,Direction.DOWN,handler));
         objects.get(3).set(2,solids);
         enemies.get(3).set(2,monster);
         

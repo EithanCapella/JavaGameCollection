@@ -16,6 +16,8 @@ import Game.Zelda.Entities.Dynamic.Zora;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.Fire;
 import Game.Zelda.Entities.Statics.oldMan;
+import Game.Zelda.Entities.Statics.raft;
+import Game.Zelda.Entities.Statics.riverBlock;
 import Game.Zelda.Entities.Statics.superSword;
 import Game.Zelda.Entities.Statics.whiteSword;
 import Game.Zelda.Entities.Statics.SectionDoor;
@@ -88,9 +90,16 @@ public class ZeldaGameState extends State {
 			handler.changeState(handler.getZeldaDungeonState());
         }
 		ArrayList<BaseMovingEntity> toRemove = new ArrayList<>();
+		ArrayList<SolidStaticEntities> toRemove1 = new ArrayList<>();
+
     	for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
     	if (enemy instanceof Octorok && enemy.dead) {
     		toRemove.add(enemy);
+    		}
+    	}
+    	for (SolidStaticEntities object : objects.get(mapX).get(mapY)) {
+    	if (object instanceof raft && link.getInteractBounds().intersects(object.getBounds())) {
+    		toRemove1.add(object);
     		}
     	}
     	for(BaseMovingEntity i: toRemove) {
@@ -232,11 +241,8 @@ public BaseMovingEntity addEnemy() {
     	
     	for (BaseMovingEntity enemy : monster) {
     		if (enemy instanceof Octorok || enemy.dead) {
-    			
     			enemies.remove(addEnemy());
     			//enemies.remove(index);
-    			
-    			
     		}
     	
     	}
@@ -390,8 +396,8 @@ public BaseMovingEntity addEnemy() {
         monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));
         monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames, handler));
         System.out.println(monster.get(1));
-        monster.add(new Leever(8,2,handler));
-        monster.add(new Zora(4,6,handler)); 
+        monster.add(new Leever(8,3,handler));
+        monster.add(new Zora(4,7,handler)); 
 //        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.moblinEnemyFrames,handler));
 //        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.dmoblinEnemyFrames,handler));
 //        monster.add(new Lynel(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.lynelEnemyFrames ,handler));
@@ -402,6 +408,12 @@ public BaseMovingEntity addEnemy() {
         //5,7
         monster = new ArrayList<>();
         solids = new ArrayList<>();
+        solids.add(new riverBlock( 5,1,16*worldScale*2,16*worldScale*10,handler)); // river1
+        solids.add(new blockBound( 0,0,16*worldScale,16*worldScale*13,handler)); // left full
+        solids.add(new blockBound( 0,0,16*worldScale*3,16*worldScale,handler)); // top 1 
+        solids.add(new blockBound( 7,1,16*worldScale*10,16*worldScale,handler)); // top 2
+        solids.add(new blockBound( 0,8,16*worldScale*5,16*worldScale,handler)); // down 1 
+        solids.add(new blockBound( 7,8,16*worldScale*10,16*worldScale,handler)); // down 2
         solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*7, Direction.RIGHT,handler));
         solids.add(new SectionDoor( 4,0,16*worldScale,16*worldScale,Direction.UP,handler));
         solids.add(new DungeonDoor( 2,1,16*worldScale,16*worldScale,Direction.UP,"inn",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
@@ -455,6 +467,11 @@ public BaseMovingEntity addEnemy() {
       //5,5
         monster = new ArrayList<>();
         solids = new ArrayList<>();
+        solids.add(new riverBlock( 5,1,16*worldScale*2,16*worldScale*10,handler)); // river1
+        solids.add(new riverBlock( 0,3,16*worldScale*16,16*worldScale,handler)); // river log
+        solids.add(new riverBlock( 1,4,16*worldScale*13,16*worldScale,handler)); // river log
+        solids.add(new raft(8,5,handler,Images.linkRaftFrames[0])); 
+
         solids.add(new SectionDoor( 0,0,16*worldScale*16,16*worldScale, Direction.UP,handler));
         solids.add(new SectionDoor( 0,4,16*worldScale,16*worldScale, Direction.LEFT,handler));
         solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale, Direction.RIGHT,handler));
@@ -482,6 +499,15 @@ public BaseMovingEntity addEnemy() {
       //5,6
         monster = new ArrayList<>();
         solids = new ArrayList<>();
+        solids.add(new riverBlock( 5,0,16*worldScale*2,15*worldScale*5,handler)); // river1
+        solids.add(new riverBlock( 5,5,16*worldScale*2,15*worldScale*5,handler)); // river2
+        solids.add(new blockBound( 0,0,16*worldScale*2,16*worldScale,handler)); // top 1
+        solids.add(new blockBound( 10,0,13*worldScale,16*worldScale*2,handler)); // top 4
+        solids.add(new blockBound( 12,0,8*worldScale*2,16*worldScale*2,handler)); // top 5
+        solids.add(new blockBound( 15,1,16*worldScale*2,16*worldScale,handler)); // top 6
+        
+        solids.add(new blockBound( 0,8,18*worldScale*3,16*worldScale,handler)); // down 1 
+        solids.add(new blockBound( 7,8,16*worldScale*10,16*worldScale,handler)); // down 2
         solids.add(new SectionDoor( 0,2,16*worldScale,16*worldScale*6, Direction.LEFT,handler));
         solids.add(new SectionDoor( 4,10,16*worldScale,16*worldScale,Direction.DOWN,handler));
         solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*6, Direction.RIGHT,handler));
@@ -495,6 +521,21 @@ public BaseMovingEntity addEnemy() {
       //6,6
         monster = new ArrayList<>();
         solids = new ArrayList<>();
+        solids.add(new blockBound( 0,1,16*worldScale*6,16*worldScale,handler)); // up part1
+        solids.add(new blockBound( 8,1,16*worldScale*9,16*worldScale,handler)); // up part2
+        solids.add(new blockBound( 1,8,16*worldScale*11,16*worldScale,handler)); // down part1
+        solids.add(new blockBound( 11,8,16*worldScale,16*worldScale*4,handler)); // down
+        solids.add(new blockBound( 10,7,16*worldScale,16*worldScale*4,handler)); // down
+        solids.add(new blockBound( 15,7,16*worldScale*2,16*worldScale*5,handler)); // down part2
+        solids.add(new blockBound( 16,0,16*worldScale,16*worldScale*4,handler));//right part1
+        solids.add(new blockBound( 16,5,16*worldScale,16*worldScale*4,handler));//right part2
+        //rocks
+//        solids.add(new blockBound( 5,2,16*worldScale*4,16*worldScale,handler));
+//        solids.add(new blockBound( 5,4,16*worldScale*4,16*worldScale,handler));
+//        solids.add(new blockBound( 5,6,16*worldScale*4,16*worldScale,handler));
+//
+
+        solids.add(new DungeonDoor( 7,1,16*worldScale,16*worldScale,Direction.UP,"merchant",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
         solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale*3, Direction.RIGHT,handler));
         solids.add(new SectionDoor( 12,10,16*worldScale * 2,16*worldScale,Direction.DOWN,handler));
         solids.add(new SectionDoor( 0,2,16*worldScale,16*worldScale*6, Direction.LEFT,handler));
@@ -507,6 +548,13 @@ public BaseMovingEntity addEnemy() {
         //7,6
         monster = new ArrayList<>();
         solids = new ArrayList<>();
+        solids.add(new blockBound( 0,1,16*worldScale*16,16*worldScale,handler)); // up part1
+        solids.add(new blockBound( 0,8,16*worldScale*7,16*worldScale,handler)); // down part1
+        solids.add(new blockBound( 9,8,16*worldScale*6,16*worldScale,handler)); // down part2
+        solids.add(new blockBound( 15,0,16*worldScale,16*worldScale*3,handler));//right part1
+        solids.add(new blockBound( 15,5,16*worldScale,16*worldScale*4,handler));//right part2
+        solids.add(new blockBound( 0,0,16*worldScale,16*worldScale*3,handler));//left part1
+        solids.add(new blockBound( 0,5,16*worldScale,16*worldScale*4,handler));//left part2
         solids.add(new SectionDoor( 0,4,16*worldScale,16*worldScale*3, Direction.LEFT,handler));
         solids.add(new SectionDoor( 7,10,16*worldScale * 2,16*worldScale,Direction.DOWN,handler));
         solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale*3,Direction.RIGHT,handler));

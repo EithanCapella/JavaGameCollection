@@ -8,6 +8,8 @@ import Game.Zelda.Entities.Statics.blockBound;
 import Game.Zelda.Entities.Statics.caveSword;
 import Game.Zelda.Entities.Statics.magicalRod;
 import Game.Zelda.Entities.Statics.magicalSword;
+import Game.Zelda.Entities.Statics.raft;
+import Game.Zelda.Entities.Statics.riverBlock;
 import Game.Zelda.Entities.Statics.superSword;
 import Game.Zelda.Entities.Statics.swordLaser;
 import Game.Zelda.Entities.Dynamic.superWave;
@@ -32,8 +34,8 @@ public class Link extends BaseMovingEntity {
 	private final int animSpeed = 120;
 	private double life=3.0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,count=0, rupees=300, potions = 0, hitCount=29;
-	public boolean movingMap = false,hasSword=false,horray=false,hurt=false,wooden=false,dungeon=false,
+	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,raftCounter=20,count=0, rupees=300, potions = 0, hitCount=29;
+	public boolean movingMap = false,hasSword=false,horray=false,hurt=false,wooden=false,dungeon=false,raft=false,hasRaft,
 			white=false,magical=false,rod=false,majora=false;
 	Direction movingTo;
 	public swordLaser laserSword;
@@ -75,6 +77,8 @@ public class Link extends BaseMovingEntity {
 		//CounterArea
 		if (hurtCounter > 0 && hurt) {hurtCounter--;}
 		if (hurtCounter <= 0 && hurt) {hurtCounter = 20;hurt = false;}
+		if (raftCounter > 0 && raft) {raftCounter--; raftMethod();}
+		if (raftCounter <= 0 && raft) {raftCounter = 120;raft = false;}
 		if (attackCounter > 0 && attacking) {attackCounter--;}
 		if (attackCounter <= 0 && attacking) {attackCounter = 30; attacking = false;}
 		if (horray && celebrateCounter == 60) {pickUpAnim.tick();}
@@ -171,7 +175,7 @@ public class Link extends BaseMovingEntity {
 					animList[1] = sprites[5];
 					if(majora) {
 						animList[0] = Images.superLinkFrames[4];
-						animList[1] = Images.superLinkFrames[5];	
+						animList[1] = Images.superLinkFrames[5];
 					}
 					animation = new Animation(animSpeed, animList);
 					direction = UP;
@@ -189,7 +193,7 @@ public class Link extends BaseMovingEntity {
 					animList[1] = sprites[1];
 					if(majora) {
 						animList[0] = Images.superLinkFrames[0];
-						animList[1] = Images.superLinkFrames[1];	
+						animList[1] = Images.superLinkFrames[1];
 					}
 					animation = new Animation(animSpeed, animList);
 					direction = DOWN;
@@ -225,7 +229,7 @@ public class Link extends BaseMovingEntity {
 					animList[1] = (sprites[3]);
 					if(majora) {
 						animList[0] = Images.superLinkFrames[2];
-						animList[1] = Images.superLinkFrames[3];	
+						animList[1] = Images.superLinkFrames[3];
 					}
 					animation = new Animation(animSpeed, animList);
 					direction = Direction.RIGHT;
@@ -251,6 +255,7 @@ public class Link extends BaseMovingEntity {
 			superWave();
 			handler.getMusicHandler().playEffect("MagicalRod.wav");
 		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_R) && hasRaft) {raftMethod();}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && !attacking&&hasSword) {
 			attackingMethod();
 			handler.getMusicHandler().playEffect("Sword_Slash.wav");
@@ -584,6 +589,76 @@ public class Link extends BaseMovingEntity {
 					laserSword = new swordLaser(this.x,this.y,Images.otherWeapons[7], handler,direction.RIGHT);
 					handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(laserSword);
 				}
+			}
+		}
+	}
+	public void raftMethod() {
+		raft=true;
+		if(raft) {
+			if (direction == direction.UP) {
+				if(majora) {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = Images.linkRaftFrames[11]; // superlink raft
+					animList[1] = Images.linkRaftFrames[12]; // superlink raft
+					animation = new Animation(animSpeed, animList);
+					sprite= Images.linkRaftFrames[11];
+				}
+				else {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = Images.linkRaftFrames[5]; // link raft
+					animList[1] = Images.linkRaftFrames[6]; // link raft
+					animation = new Animation(animSpeed, animList);
+					sprite= Images.linkRaftFrames[5];
+				}
+			}
+			else if (direction == direction.DOWN) {
+				if(majora) {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = Images.linkRaftFrames[7]; // superlink raft
+					animList[1] = Images.linkRaftFrames[8]; // superlink raft
+					animation = new Animation(animSpeed, animList);
+					sprite= Images.linkRaftFrames[7];
+				}
+				else {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = Images.linkRaftFrames[1]; // link raft
+					animList[1] = Images.linkRaftFrames[2]; // link raft
+					animation = new Animation(animSpeed, animList);
+					sprite= Images.linkRaftFrames[1];
+				}
+			}	
+			else if (direction == direction.LEFT) {
+				if(majora) {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = Images.flipHorizontal(Images.linkRaftFrames[9]); // superlink raft
+					animList[1] = Images.flipHorizontal(Images.linkRaftFrames[10]); // superlink raft
+					animation = new Animation(animSpeed, animList);
+					sprite= Images.flipHorizontal(Images.linkRaftFrames[9]);
+				}
+				else {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = Images.flipHorizontal(Images.linkRaftFrames[3]); // link raft
+					animList[1] = Images.flipHorizontal(Images.linkRaftFrames[4]); // link raft
+					animation = new Animation(animSpeed, animList);
+					sprite= Images.flipHorizontal(Images.linkRaftFrames[3]);
+				}
+			}
+			else {
+				if(majora) {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = Images.linkRaftFrames[9]; // superlink raft
+					animList[1] = Images.linkRaftFrames[10]; // superlink raft
+					animation = new Animation(animSpeed, animList);
+					sprite= Images.linkRaftFrames[9];
+				}
+				else {
+					BufferedImage[] animList = new BufferedImage[2];
+					animList[0] = Images.linkRaftFrames[3]; // link raft
+					animList[1] = Images.linkRaftFrames[4]; // link raft
+					animation = new Animation(animSpeed, animList);
+					sprite= Images.linkRaftFrames[3];
+				}
+
 			}
 		}
 	}
@@ -949,6 +1024,10 @@ public class Link extends BaseMovingEntity {
 							y = ((DungeonDoor) objects).nLY - 70;
 							direction = UP;
 						}
+						if (((DungeonDoor) objects).name.equals("merchant")) {
+							//ZeldaGameState.inTest = true;
+							handler.changeState(handler.getZeldaMerchantState());
+						}
 						if (((DungeonDoor) objects).name.equals("dungeon1")) {
 							//ZeldaGameState.inTest = true;
 							//handler.changeState(handler.getZeldaMerchantState());
@@ -959,10 +1038,25 @@ public class Link extends BaseMovingEntity {
 						}
 					}
 				}
-				else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
+				else if((objects instanceof riverBlock) &&  objects.bounds.intersects(interactBounds)&& !raft) {
+					return;
+				}
+				else if ((objects instanceof raft) && objects.bounds.intersects(interactBounds)) {
+					hasRaft=true;
+					pickUpAnim.tick();
+					horray = true;
+					celebratingMethod();
+					moving=false;
+					count++;
+				}
+				else if (!(objects instanceof SectionDoor)&&!(objects instanceof riverBlock) && objects.bounds.intersects(interactBounds)) {
 					//dont move
 					return;
 				}
+//				else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
+//				//dont move
+//				return;
+//			}
 			}
 		}
 		//Movement
@@ -1000,6 +1094,9 @@ public class Link extends BaseMovingEntity {
 		}
 		if(horray && !attacking && !moving ) {
 			g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
+			if(hasRaft) {
+				g.drawImage(Images.linkRaftFrames[0],x , y -40, width, height  , null);
+			}
 			if(wooden && !(white&&magical&&rod&&majora)) {
 				g.drawImage(Images.npc[4],x , y -40, width/2 , height  , null);
 			}

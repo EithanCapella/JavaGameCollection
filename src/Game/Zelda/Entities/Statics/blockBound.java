@@ -6,9 +6,7 @@ import Main.Handler;
 
 import java.awt.*;
 
-/**
- * Created by AlexVR on 3/15/2020
- */
+
 public class blockBound extends SolidStaticEntities {
 	
    public blockBound(int x, int y,int widht, int height, Handler handler) {
