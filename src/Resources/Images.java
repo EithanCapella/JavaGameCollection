@@ -70,6 +70,9 @@ public class Images {
     public SpriteSheet zeldaLinkSpriteSheet1;
     public SpriteSheet npcSpriteSheet;
     public SpriteSheet itemSpriteSheet;
+    public static BufferedImage lifeImage;
+    public static BufferedImage[] attackSlots;
+    public SpriteSheet menuSpriteSheet;
     public SpriteSheet innSpriteSheet;
     public SpriteSheet thunderBirdSpriteSheet;
     public static BufferedImage[] thunderBirdFrames;
@@ -90,6 +93,10 @@ public class Images {
     public static BufferedImage[] superSwordAttackFrames;
     public static BufferedImage[] linkRaftFrames;
     public static BufferedImage[] linkHearts;
+    public static BufferedImage[] itemHeart;
+    public static BufferedImage[] itemHeart2;
+    public static BufferedImage[] lifePotion;
+    public static BufferedImage[] lifePotion2;
     public static BufferedImage[] woodenLaser;
     public static BufferedImage[] vaporWaveUp;
     public static BufferedImage[] vaporWaveDown;
@@ -180,6 +187,10 @@ public class Images {
         superSwordAttackFrames = new BufferedImage[16];
         linkRaftFrames = new BufferedImage[16];
         linkHearts= new BufferedImage[2];
+        itemHeart= new BufferedImage[2];
+        itemHeart2= new BufferedImage[2];
+        lifePotion= new BufferedImage[2];
+        lifePotion2= new BufferedImage[2];
         bouncyEnemyFrames = new BufferedImage[2];
         octorokEnemyFrames = new BufferedImage[4];
         moblinEnemyFrames = new BufferedImage[6];
@@ -213,6 +224,9 @@ public class Images {
         attackThunderBirdFrames = new BufferedImage[15];
         deathThunderBirdFrames = new BufferedImage[4];
         superRingFrames = new BufferedImage[7];
+        attackSlots = new BufferedImage[2];
+
+        
 
 
 
@@ -532,9 +546,14 @@ public class Images {
             npc[1] = npcSpriteSheet.crop(52, 11, 16, 16); // fire
             npc[2] = npcSpriteSheet.crop(35, 11, 16, 16); // old lady
             npc[3] = npcSpriteSheet.crop(109, 11, 16, 16); // merchant1
+            menuSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/menus2pause.png")));
+            lifeImage=menuSpriteSheet.crop(442,27,46,7); 
+            attackSlots[0]=menuSpriteSheet.crop(405,30,18,26); //enter attack slot
+            attackSlots[1]=menuSpriteSheet.crop(381,30,18,26); //shift attack slot
+
             itemImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/items.png"));
             itemSpriteSheet = new SpriteSheet( itemImage);
-            npc[4] = itemSpriteSheet.crop(104, 0, 7, 16); //swordUp
+            npc[4] = itemSpriteSheet.crop(111, 0, 7, 16); //swordUp
             rupees[0] = itemSpriteSheet.crop(72, 0, 8, 16);
             rupees[1] = itemSpriteSheet.crop(72, 16, 8, 16);
             //woodenLaser[0] = zeldaLinkSpriteSheet.crop(1,154,8,16); //swordDown
@@ -543,6 +562,14 @@ public class Images {
 
             linkHearts[0] = itemSpriteSheet.crop(0, 0, 8, 8); // fullHeart 
             linkHearts[1] = itemSpriteSheet.crop(8,0,8,8); // halfHeart
+            itemHeart[0] = itemSpriteSheet.crop(0,0,7,8); // heart itemFrame1
+            itemHeart[1] = itemSpriteSheet.crop(0,10,7,8); // heart itemFrame2
+            itemHeart2[0] = itemSpriteSheet.crop(0,21,7,8); // heart2 itemFrame1
+            itemHeart2[1] = itemSpriteSheet.crop(0,30,7,8); // heart2 itemFrame2
+            lifePotion[0] = itemSpriteSheet.crop(83,0,8,16); // potion itemFrame1
+            lifePotion[1] = itemSpriteSheet.crop(83,18,8,16); // potion itemFrame2
+            lifePotion2[0] = itemSpriteSheet.crop(83,39,8,16); // potion itemFrame1
+            lifePotion2[1] = itemSpriteSheet.crop(83,57,8,16); // potion itemFrame2
     
             innSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/inn.png")));
             inn[0]= innSpriteSheet.crop(2,4,320,125);

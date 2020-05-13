@@ -24,7 +24,7 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class Octorok extends BaseMovingEntity {
 
 	private final int animSpeed = 120;
-	private double life=6.0;
+	private double life=3.0;
 
 	int randomDirection = 0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
@@ -36,7 +36,7 @@ public class Octorok extends BaseMovingEntity {
 	public Octorok(int x, int y, BufferedImage[] sprite, Handler handler) {
 		super(x, y, sprite, handler);
 		speed = 2;
-		health = 6;
+		health = 3;
 
 
 	}

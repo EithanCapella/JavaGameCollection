@@ -36,9 +36,9 @@ public class Link extends BaseMovingEntity {
 	private final int animSpeed = 120;
 	private double life=3.0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,raftCounter=20,count=0, rupees=300, potions = 0, hitCount=29;
+	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,raftCounter=20,count=0, rupees=300, potions = 0,otherPotions=0, hitCount=29;
 	public boolean movingMap = false,hasSword=false,horray=false,hurt=false,wooden=false,dungeon=false,otherWorld=false,raft=false,hasRaft=false,
-			rupee=false,removeRaft=false,white=false,magical=false,rod=false,majora=false,superRing=false;
+			itemPickUp=false,removeRaft=false,white=false,magical=false,rod=false,majora=false,superRing=false,projectile=false;
 	Direction movingTo;
 	public swordLaser laserSword;
 	public swordProyectile swordProyectile;
@@ -266,6 +266,7 @@ public class Link extends BaseMovingEntity {
 			if(rod&& !(white&&magical&&wooden&&majora)) { handler.getMusicHandler().playEffect("MagicalRod.wav");}
 			else {handler.getMusicHandler().playEffect("Sword_Combined.wav");}
 			laserMethod();
+			projectile=false;
 		}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_8) && hasSword && !attacking&& majora ) {
 			attackingMethod();
@@ -1190,8 +1191,23 @@ public class Link extends BaseMovingEntity {
 						y-=60;
 					}
 				}
-				if((objects instanceof rupee)&&objects.bounds.intersects(bounds)) {
-					rupee=true;
+				if((objects instanceof Items)&&objects.bounds.intersects(bounds)) {
+					itemPickUp=true;
+					if(objects.sprites==Images.rupees) {
+						setRupees(getRupees()+50);
+					}
+					if(objects.sprites==Images.lifePotion) {
+						addPotions(1);
+					}
+					if(objects.sprites==Images.lifePotion2) {
+						addOtherPotions(1);
+					}
+					if(objects.sprites==Images.itemHeart) {
+						setLife(getLife()+0.5);
+					}
+					if(objects.sprites==Images.itemHeart2) {
+						setLife(getLife()+1.0);
+					}
 				}
 			}
 			for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
@@ -1384,5 +1400,14 @@ public class Link extends BaseMovingEntity {
 	}
 	public int addPotions(int pot) {
 		return this.potions += pot;
+	}
+	public int getPotions() {
+		return potions;
+	}
+	public int addOtherPotions(int pot) {
+		return this.otherPotions += pot;
+	}
+	public int getOtherPotions() {
+		return otherPotions;
 	}
 }

@@ -14,7 +14,8 @@ import Game.Zelda.Entities.Dynamic.Moblin;
 import Game.Zelda.Entities.Dynamic.Octorok;
 import Game.Zelda.Entities.Dynamic.Thunderbird;
 import Game.Zelda.Entities.Dynamic.Zora;
-import Game.Zelda.Entities.Dynamic.rupee;
+import Game.Zelda.Entities.Dynamic.Items;
+import Game.Zelda.Entities.Dynamic.swordProyectile;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.Fire;
 import Game.Zelda.Entities.Statics.oldMan;
@@ -34,6 +35,7 @@ import Resources.Images;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by AlexVR on 3/14/2020
@@ -102,12 +104,35 @@ public class ZeldaGameState extends State {
     	for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
     	if (enemy instanceof Octorok && enemy.dead) {
     		toRemove.add(enemy);
-    		toAdd.add(new rupee(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.rupees, handler));
+    		link.itemPickUp=false;
+    		int items = new Random().nextInt(5);
+    		switch (items) {
+    		case 0:
+        		toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.rupees, handler));
+        		break;
+    		case 1:
+        		toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.itemHeart, handler));
+        		break;
+    			
+    		case 2:
+        		toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.lifePotion, handler));
+        		break;
+    			
+    		case 3:
+        		toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.lifePotion2, handler));
+        		break;
+    		case 4:
+        		toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.itemHeart2, handler));
+        		break;
+  
     		}
-    	if (enemy instanceof rupee && link.rupee) {
+    		}
+    	if (enemy instanceof Items && link.itemPickUp) {
     		toRemove.add(enemy);
-    		link.setRupees(link.getRupees()+50);
     		}
+    	if (enemy instanceof swordProyectile && link.projectile) {
+    		toRemove.add(enemy);
+    	}
     	}
     	for (SolidStaticEntities object : objects.get(mapX).get(mapY)) {
     	if (object instanceof raft && link.removeRaft) {
@@ -201,44 +226,78 @@ public class ZeldaGameState extends State {
             g.fillRect(0, 0, handler.getWidth(), yOffset);
             g.fillRect(0, yOffset + stageHeight, handler.getWidth(), handler.getHeight());
         }
-
-	    //rupees counter
+        //attackSlots 
         g.setColor(Color.WHITE);
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 48));
-		g.drawString(Integer.toString(link.getRupees()),handler.getWidth()/2 + (handler.getWidth()/6)+100,handler.getHeight()/3 - handler.getHeight()/16 + 10);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 10));
+		g.drawString("ENTER ",handler.getWidth()/2 - (handler.getWidth()/3)+400,handler.getHeight()/5);
+		g.drawString("SHIFT ",handler.getWidth()/2 - (handler.getWidth()/3)+445,handler.getHeight()/5);
+
+
+		g.drawImage(Images.attackSlots[1],handler.getWidth()/2 - (handler.getWidth()/3)+400,handler.getHeight()/5,handler.getWidth()/47,handler.getHeight()/47 + 10,null);
+		g.drawImage(Images.attackSlots[0],handler.getWidth()/2 - (handler.getWidth()/3)+445,handler.getHeight()/5,handler.getWidth()/47,handler.getHeight()/47 + 10,null);
+		if(link.wooden && !(link.white&&link.magical&&link.rod&&link.majora)) {
+			g.drawImage(Images.npc[4],handler.getWidth()/2 - (handler.getWidth()/3)+410,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+		}
+		if(link.white&& !(link.wooden&&link.magical&&link.rod&&link.majora)) {
+			g.drawImage(Images.otherWeapons[8],handler.getWidth()/2 - (handler.getWidth()/3)+410,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+		}
+		if(link.magical&& !(link.white&&link.wooden&&link.rod&&link.majora)) {
+			g.drawImage(Images.otherWeapons[9],handler.getWidth()/2 - (handler.getWidth()/3)+410,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+		}
+		if(link.rod&& !(link.white&&link.magical&&link.wooden)) {
+			g.drawImage(Images.otherWeapons[2],handler.getWidth()/2 - (handler.getWidth()/3)+450,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55+ 10,null);
+		}
+		if(link.majora&& !(link.wooden&&link.magical&&link.rod&&link.white)) {
+			g.drawImage(Images.otherWeapons[11],handler.getWidth()/2 - (handler.getWidth()/3)+410,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+		}
+
+	    //item counter
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
+		g.drawString(Integer.toString(link.getRupees()),handler.getWidth()/2 - (handler.getWidth()/3)+230,handler.getHeight()/5+25);
+		g.drawString(Integer.toString(link.getPotions()),handler.getWidth()/2 - (handler.getWidth()/3)+310,handler.getHeight()/5+25);
+		g.drawString(Integer.toString(link.getOtherPotions()),handler.getWidth()/2 - (handler.getWidth()/3)+370,handler.getHeight()/5+25);
+
 
 		if (animCount >= 0) {
-		g.drawImage(Images.rupees[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/3 - handler.getHeight()/11,8*4,16*4,null);
+		g.drawImage(Images.rupees[0],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
+		g.drawImage(Images.lifePotion[0],handler.getWidth()/2 - (handler.getWidth()/3)+280,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
+		g.drawImage(Images.lifePotion2[0],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
+
+
 		animCount-= 3;
 		}
 		else if (animCount < 0){
-			g.drawImage(Images.rupees[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/3 - handler.getHeight()/11,8*4,16*4,null);
+			g.drawImage(Images.rupees[1],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.lifePotion[1],handler.getWidth()/2 - (handler.getWidth()/3)+280,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.lifePotion2[1],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
 			animCount+= 2;
 		}
-	    
-        if(link.getLife() == 3) {
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 150,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+	    //life
+		g.drawImage(Images.lifeImage,handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/7,handler.getWidth()/17,handler.getHeight()/37 + 10,null);
+        if(link.getLife() >= 3 ) {
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+140,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
 		}
         if(link.getLife() == 2.5) {
-			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 150,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+140,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
 		}
 		if(link.getLife() == 2) {
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+140,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
 		}
 		if(link.getLife() == 1.5) {
-			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+140,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
 		}
 		if(link.getLife() == 1) {
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
 		}
 		if(link.getLife() == 0.5) {
-			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
+			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
 		}
 
     }
@@ -462,6 +521,12 @@ public BaseMovingEntity addEnemy() {
       //8,7
         monster = new ArrayList<>();
         solids = new ArrayList<>();
+        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
+        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
+        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
+        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
+        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
+        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
         monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
         monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
         monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));

@@ -56,8 +56,10 @@ public class swordProyectile extends BaseMovingEntity{
 		changeIntersectingBounds();
 		for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
 			if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
-				objects.damage(1);				
+				objects.damage(1);
+				handler.getZeldaGameState().link.projectile=true;
 			}
+
 		}
 	}
 

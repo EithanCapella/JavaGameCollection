@@ -13,9 +13,9 @@ import Main.Handler;
 import Resources.Animation;
 import Resources.Images;
 
-public class rupee extends BaseMovingEntity{
+public class Items extends BaseMovingEntity{
     public Direction direction;
-	public rupee(int x, int y, BufferedImage[] sprite, Handler handler) {
+	public Items(int x, int y, BufferedImage[] sprite, Handler handler) {
 		super(x, y, sprite, handler);
 		BufferedImage[] animList = new BufferedImage[2];
 		animList[0] = sprite[0];
@@ -34,6 +34,12 @@ public class rupee extends BaseMovingEntity{
 		bounds.y = y;
 
 		}
+//	public void item() {
+//		if(this.sprites==Images.rupees) {
+//    		handler.getZeldaGameState().link.setRupees(handler.getZeldaGameState().link.getRupees()+50);
+//		}
+//
+//	}
 
 	}
 
