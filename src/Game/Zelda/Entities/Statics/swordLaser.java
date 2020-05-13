@@ -10,6 +10,7 @@ import Game.Galaga.Entities.PlayerShip;
 import Game.GameStates.Zelda.ZeldaGameState;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.Direction;
+import Game.Zelda.Entities.Dynamic.Octorok;
 import Main.Handler;
 import Resources.Images;
 
@@ -26,6 +27,7 @@ public class swordLaser extends SolidStaticEntities{
 	}
 	@Override
 	public void tick() {
+		collision();
 		switch (direction) {
 		case RIGHT:
 			x+=4;
@@ -44,6 +46,14 @@ public class swordLaser extends SolidStaticEntities{
 		bounds.y = y;
 
 		}
+	public void collision() {
+		for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
+			if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
+				objects.damage(1);
+				
+			}
+		}
+	}
 
 	}
 

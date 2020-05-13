@@ -8,6 +8,7 @@ import Game.GameStates.Zelda.ZeldaMMGameState;
 import Game.GameStates.Zelda.ZeldaIntroStates;
 import Game.GameStates.Zelda.ZeldaMapMakerState;
 import Game.GameStates.Zelda.ZeldaMerchantState;
+import Game.GameStates.Zelda.ZeldaOtherState;
 import Game.PacMan.World.Map;
 import Game.PacMan.entities.Dynamics.PacMan;
 import Game.Zelda.Entities.Dynamic.BouncyFella;
@@ -15,7 +16,7 @@ import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Dynamic.Moblin;
 import Game.Zelda.Entities.Dynamic.Octorok;
 import Game.Zelda.Entities.Dynamic.Zora;
-import Game.Zelda.Entities.Statics.MMMoveTile;
+import Game.Zelda.Entities.Dynamic.swordProyectile;
 import Input.KeyManager;
 import Input.MouseManager;
 import Resources.MusicHandler;
@@ -48,6 +49,7 @@ public class Handler {
     private Moblin moblin;
     private Zora zora;
     private MMMoveTile MMMove;
+    private swordProyectile swordProyectile;
     
 
 	public Handler(GameSetUp game){
@@ -113,6 +115,9 @@ public class Handler {
     
     public ZeldaGameState getZeldaGameState (){
         return (ZeldaGameState)getGameProperties().zeldaGameState;
+    }
+    public ZeldaOtherState getZeldaOtherState (){
+        return (ZeldaOtherState)getGameProperties().zeldaOtherState;
     }
     public ZeldaDungeonState getZeldaDungeonState (){
         return (ZeldaDungeonState)getGameProperties().zeldaDungeonState;
@@ -247,6 +252,14 @@ public class Handler {
 
 	public void setZora(Zora zora) {
 		this.zora = zora;
+	}
+
+	public swordProyectile getSwordProyectile() {
+		return swordProyectile;
+	}
+
+	public void setSwordProyectile(swordProyectile swordProyectile) {
+		this.swordProyectile = swordProyectile;
 	}
 
 }

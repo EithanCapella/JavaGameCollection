@@ -1,7 +1,6 @@
 package Game.GameStates.Zelda;
 
 import Game.GameStates.State;
-
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.Zelda.Entities.BaseEntity;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
@@ -14,13 +13,11 @@ import Game.Zelda.Entities.Dynamic.Moblin;
 import Game.Zelda.Entities.Dynamic.Octorok;
 import Game.Zelda.Entities.Dynamic.Thunderbird;
 import Game.Zelda.Entities.Dynamic.Zora;
-import Game.Zelda.Entities.Dynamic.rupee;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.Fire;
 import Game.Zelda.Entities.Statics.oldMan;
 import Game.Zelda.Entities.Statics.raft;
 import Game.Zelda.Entities.Statics.riverBlock;
-import Game.Zelda.Entities.Statics.superRing;
 import Game.Zelda.Entities.Statics.superSword;
 import Game.Zelda.Entities.Statics.whiteSword;
 import Game.Zelda.Entities.Statics.SectionDoor;
@@ -38,7 +35,7 @@ import java.util.ArrayList;
 /**
  * Created by AlexVR on 3/14/2020
  */
-public class ZeldaGameState extends State {
+public class ZeldaOtherState extends State {
     public static int xOffset,yOffset,stageWidth,stageHeight,worldScale, animCount=0, deathCount=0;
     public int cameraOffsetX,cameraOffsetY;
     //map is 16 by 7 squares, you start at x=7,y=7 starts counting at 0
@@ -52,21 +49,18 @@ public class ZeldaGameState extends State {
     public ArrayList<SolidStaticEntities> innObjects;
     public ArrayList<BaseMovingEntity> monster;
     public ArrayList<SolidStaticEntities> solids;
-    public ArrayList<BaseMovingEntity> toAdd;
-    public ArrayList<BaseMovingEntity> toRemove;
-    public ArrayList<SolidStaticEntities> toRemove1;
     
 
-    public ZeldaGameState(Handler handler) {
+    public ZeldaOtherState(Handler handler) {
         super(handler);
         xOffset = handler.getWidth()/4;
         yOffset = handler.getHeight()/4;
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
         worldScale = 2;
-        mapX = 7;
-        mapY = 7;
-        mapWidth = 256;
+        mapX = 4; 
+        mapY = 4;
+        mapWidth = 257;
         mapHeight = 176;
         cameraOffsetX =  ((mapWidth*mapX) + mapX + 1)*worldScale;
         cameraOffsetY = ((mapHeight*mapY) + mapY + 1)*worldScale;
@@ -86,45 +80,32 @@ public class ZeldaGameState extends State {
         }
         addWorldObjects();
 
-        link = new Link(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.zeldaLinkFrames, handler);
+        link = handler.getZeldaGameState().link;
 
     }
     @Override
     public void tick() {
         link.tick();
-        if(link.dungeon) {
-			handler.changeState(handler.getZeldaDungeonState());
+        link.otherWorld=true;
+        if(link.otherWorld) {
+			handler.changeState(handler.getZeldaOtherState());
         }
-		toRemove = new ArrayList<>();
-		toAdd = new ArrayList<>();
-		toRemove1 = new ArrayList<>();
+		ArrayList<BaseMovingEntity> toRemove = new ArrayList<>();
+		ArrayList<SolidStaticEntities> toRemove1 = new ArrayList<>();
 
     	for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
     	if (enemy instanceof Octorok && enemy.dead) {
     		toRemove.add(enemy);
-    		toAdd.add(new rupee(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.rupees, handler));
-    		}
-    	if (enemy instanceof rupee && link.rupee) {
-    		toRemove.add(enemy);
-    		link.setRupees(link.getRupees()+50);
     		}
     	}
     	for (SolidStaticEntities object : objects.get(mapX).get(mapY)) {
-    	if (object instanceof raft && link.removeRaft) {
+    	if (object instanceof raft && link.getInteractBounds().intersects(object.getBounds())) {
     		toRemove1.add(object);
     		}
-    	}
-    	for(BaseMovingEntity i: toAdd) {
-    		//enemies.remove(i);
-    		enemies.get(mapX).get(mapY).add(i);
     	}
     	for(BaseMovingEntity i: toRemove) {
     		//enemies.remove(i);
     		enemies.get(mapX).get(mapY).remove(i);
-    	}
-    	for(SolidStaticEntities i: toRemove1) {
-    		//enemies.remove(i);
-    		objects.get(mapX).get(mapY).remove(i);
     	}
 		if (inCave){
 			if (runOnce== false) {
@@ -167,8 +148,8 @@ public class ZeldaGameState extends State {
             }
             g.setColor(Color.WHITE);
             g.setFont(new Font("TimesRoman", Font.BOLD, 24));
-            g.drawString("  IT ' S  DANGEROUS  TO  GO",(3 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(2 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset+ ((16*worldScale)));
-            g.drawString("  ALONE !   TAKE  THIS",(5 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(4 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset- ((16*worldScale)/2));
+            g.drawString("  IT ' S  DANGEROUS  TO  GO",(3 * (ZeldaOtherState.stageWidth/16)) + ZeldaOtherState.xOffset,(2 * (ZeldaOtherState.stageHeight/11)) + ZeldaOtherState.yOffset+ ((16*worldScale)));
+            g.drawString("  ALONE !   TAKE  THIS",(5 * (ZeldaOtherState.stageWidth/16)) + ZeldaOtherState.xOffset,(4 * (ZeldaOtherState.stageHeight/11)) + ZeldaOtherState.yOffset- ((16*worldScale)/2));
             link.render(g);
         }else if(inTest) {
         	g.drawImage(Images.inn[0], xOffset ,yOffset, Images.inn[0].getWidth() * worldScale, Images.inn[0].getHeight() * worldScale, null);
@@ -184,7 +165,7 @@ public class ZeldaGameState extends State {
     
         }
         else {
-            g.drawImage(Images.zeldaMap, -cameraOffsetX + xOffset, -cameraOffsetY + yOffset, Images.zeldaMap.getWidth() * worldScale, Images.zeldaMap.getHeight() * worldScale, null);
+            g.drawImage(Images.otherZeldaMap, -cameraOffsetX + xOffset, -cameraOffsetY + yOffset, Images.zeldaMap.getWidth() * worldScale, Images.zeldaMap.getHeight() * worldScale, null);
             if (!link.movingMap) {
                 for (SolidStaticEntities entity : objects.get(mapX).get(mapY)) {
                     entity.render(g);
@@ -292,17 +273,15 @@ public BaseMovingEntity addEnemy() {
                 }
             }
         }
-        caveObjects.add(new DungeonDoor(7,9,16*worldScale*2,16*worldScale * 2,Direction.DOWN,"caveStartLeave",handler,(4 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(2 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
+        caveObjects.add(new DungeonDoor(7,9,16*worldScale*2,16*worldScale * 2,Direction.DOWN,"caveStartLeave",handler,(4 * (ZeldaOtherState.stageWidth/16)) + ZeldaOtherState.xOffset,(2 * (ZeldaOtherState.stageHeight/11)) + ZeldaOtherState.yOffset));
         caveObjects.add(new oldMan(8,4,handler));
         caveObjects.add(new Fire(5,4,handler));
         caveObjects.add(new Fire(11,4,handler));
-        caveObjects.add(new caveSword(9,5,handler,Images.npc[4])); 
-        caveObjects.add(new whiteSword(5,5,handler,Images.otherWeapons[0]));
-        caveObjects.add(new magicalSword(7,5,handler,Images.otherWeapons[1]));
-        caveObjects.add(new magicalRod(11,5,handler,Images.otherWeapons[2]));
-        caveObjects.add(new superSword(13,5,handler,Images.otherWeapons[3]));    
-        caveObjects.add(new superRing(3,5,handler,Images.superRingFrames[0]));
-
+        caveObjects.add(new caveSword(8,5,handler,Images.npc[4])); 
+        caveObjects.add(new whiteSword(4,5,handler,Images.otherWeapons[0]));
+        caveObjects.add(new magicalSword(6,5,handler,Images.otherWeapons[1]));
+        caveObjects.add(new magicalRod(10,5,handler,Images.otherWeapons[2]));
+        caveObjects.add(new superSword(12,5,handler,Images.otherWeapons[3]));
         
         //left
         innObjects.add(new blockBound( 0,5,16*worldScale,16*worldScale,handler));
@@ -377,42 +356,8 @@ public BaseMovingEntity addEnemy() {
         monster = new ArrayList<>();
         solids.add(new SectionDoor( 0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
         solids.add(new SectionDoor( 7,0,16*worldScale * 2,16*worldScale,Direction.UP,handler));
-        solids.add(new DungeonDoor( 4,1,16*worldScale,16*worldScale,Direction.UP,"caveStartEnter",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
+        solids.add(new DungeonDoor( 4,1,16*worldScale,16*worldScale,Direction.UP,"caveStartEnter",handler,(7 * (ZeldaOtherState.stageWidth/16)) + ZeldaOtherState.xOffset,(9 * (ZeldaOtherState.stageHeight/11)) + ZeldaOtherState.yOffset));
         solids.add(new SectionDoor( 15,5,16*worldScale,16*worldScale,Direction.RIGHT,handler));
-        solids.add(new SolidStaticEntities(6,0,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(5,1,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(6,1,Images.forestTiles.get(6),handler));
-        solids.add(new SolidStaticEntities(3,2,Images.forestTiles.get(6),handler));
-        solids.add(new SolidStaticEntities(2,3,Images.forestTiles.get(6),handler));
-        solids.add(new SolidStaticEntities(1,4,Images.forestTiles.get(6),handler));
-        solids.add(new SolidStaticEntities(1,6,Images.forestTiles.get(3),handler));
-        solids.add(new SolidStaticEntities(1,7,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(1,8,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(2,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(3,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(4,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(5,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(6,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(7,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(8,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(9,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(10,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(11,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(12,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(13,9,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(14,8,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(14,7,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(14,6,Images.forestTiles.get(2),handler));
-        solids.add(new SolidStaticEntities(14,4,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(13,4,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(12,4,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(11,4,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(10,4,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(9,4,Images.forestTiles.get(4),handler));
-        solids.add(new SolidStaticEntities(9,3,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(9,2,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(9,1,Images.forestTiles.get(5),handler));
-        solids.add(new SolidStaticEntities(9,0,Images.forestTiles.get(5),handler));
         objects.get(7).set(7,solids);
         monster = new ArrayList<>();
         monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));
@@ -438,7 +383,7 @@ public BaseMovingEntity addEnemy() {
         solids.add(new blockBound( 7,8,16*worldScale*10,16*worldScale,handler)); // down 2
         solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*7, Direction.RIGHT,handler));
         solids.add(new SectionDoor( 4,0,16*worldScale,16*worldScale,Direction.UP,handler));
-        solids.add(new DungeonDoor( 2,1,16*worldScale,16*worldScale,Direction.UP,"inn",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
+        solids.add(new DungeonDoor( 2,1,16*worldScale,16*worldScale,Direction.UP,"inn",handler,(7 * (ZeldaOtherState.stageWidth/16)) + ZeldaOtherState.xOffset,(9 * (ZeldaOtherState.stageHeight/11)) + ZeldaOtherState.yOffset));
         objects.get(5).set(7,solids);
 
         //6,7
@@ -461,17 +406,10 @@ public BaseMovingEntity addEnemy() {
       //8,7
         monster = new ArrayList<>();
         solids = new ArrayList<>();
-        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
-        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
-        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
-        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
-        monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames,handler));
         solids.add(new SectionDoor( 0,5,16*worldScale,16*worldScale, Direction.LEFT,handler));
         solids.add(new SectionDoor( 2,0,16*worldScale * 13,16*worldScale,Direction.UP,handler));
         solids.add(new SectionDoor( 15,2,16*worldScale,16*worldScale*7,Direction.RIGHT,handler));        
         objects.get(8).set(7,solids);
-        enemies.get(8).set(7,monster);
-
         
       //11,7
         monster = new ArrayList<>();
@@ -488,7 +426,7 @@ public BaseMovingEntity addEnemy() {
         objects.get(0).set(6,solids);
       //5,4 -> dungeon 
         solids = new ArrayList<>();
-        solids.add(new DungeonDoor( 8,3,16*worldScale,16*worldScale*2,Direction.UP,"dungeon1",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
+        solids.add(new DungeonDoor( 8,3,16*worldScale,16*worldScale*2,Direction.UP,"dungeon1",handler,(7 * (ZeldaOtherState.stageWidth/16)) + ZeldaOtherState.xOffset,(9 * (ZeldaOtherState.stageHeight/11)) + ZeldaOtherState.yOffset));
         solids.add(new SectionDoor( 0,0,16*worldScale,16*worldScale*16, Direction.LEFT,handler));
         solids.add(new SectionDoor( 16,0,16*worldScale,16*worldScale*16, Direction.RIGHT,handler));
         solids.add(new SectionDoor( 0,10,16*worldScale*16,16*worldScale,Direction.DOWN,handler));
@@ -564,7 +502,7 @@ public BaseMovingEntity addEnemy() {
 //        solids.add(new blockBound( 5,6,16*worldScale*4,16*worldScale,handler));
 //
 
-        solids.add(new DungeonDoor( 7,1,16*worldScale,16*worldScale,Direction.UP,"merchant",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
+        solids.add(new DungeonDoor( 7,1,16*worldScale,16*worldScale,Direction.UP,"merchant",handler,(7 * (ZeldaOtherState.stageWidth/16)) + ZeldaOtherState.xOffset,(9 * (ZeldaOtherState.stageHeight/11)) + ZeldaOtherState.yOffset));
         solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale*3, Direction.RIGHT,handler));
         solids.add(new SectionDoor( 12,10,16*worldScale * 2,16*worldScale,Direction.DOWN,handler));
         solids.add(new SectionDoor( 0,2,16*worldScale,16*worldScale*6, Direction.LEFT,handler));

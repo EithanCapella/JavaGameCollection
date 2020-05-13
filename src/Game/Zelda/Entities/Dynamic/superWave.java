@@ -28,20 +28,32 @@ public class superWave extends BaseMovingEntity{
 		switch (direction) {
 		case RIGHT:
 			x+=4;
+			collision(direction);
 			break;
 		case LEFT:
 			x-=4;
+			collision(direction);
 			break;
 		case UP:
 			y-=4;
+			collision(direction);
 			break;
 		case DOWN:
 			y+=4;
+			collision(direction);
 			break;
 		}
 		bounds.x= x;
 		bounds.y = y;
 
 		}
+	public void collision(Direction direction) {
+		changeIntersectingBounds();
+		for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
+			if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
+				objects.damage(1);
+			}
+		}
+	}
 
 	}

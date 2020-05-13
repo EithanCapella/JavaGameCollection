@@ -45,10 +45,10 @@ public class ZeldaDungeonState extends State {
     public static boolean inCave = false, runOnce = false, beginAdventure=false,inTest=false;
     public ArrayList<SolidStaticEntities> caveObjects;
     public ArrayList<SolidStaticEntities> innObjects;
-    ArrayList<BaseMovingEntity> toRemove;
-   public ArrayList<BaseMovingEntity> monster;
-   public ArrayList<SolidStaticEntities> solids;
-    
+    public ArrayList<BaseMovingEntity> toRemove;
+    public ArrayList<BaseMovingEntity> monster;
+    public ArrayList<SolidStaticEntities> solids;
+
 
     public ZeldaDungeonState(Handler handler) {
         super(handler);
@@ -57,8 +57,8 @@ public class ZeldaDungeonState extends State {
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
         worldScale = 2;
-        mapX = 4;
-        mapY = 4;
+        mapX = 6;
+        mapY = 1;
         mapWidth = 257;
         mapHeight = 179;
         cameraOffsetX =  ((mapWidth*mapX) + mapX + 1)*worldScale;
@@ -386,15 +386,18 @@ public BaseMovingEntity addEnemy() {
         objects.get(7).set(1,solids);
         enemies.get(7).set(1,monster);
     
-        //7,0 
+        //7,0 -> (other area maybe?)
         solids = new ArrayList<>();
         monster = new ArrayList<>();
         solids.add(new blockBound( 0,0,16*worldScale*16,16*worldScale,handler)); // up 
         solids.add(new blockBound( 0,8,16*worldScale*6,16*worldScale,handler)); // down part1
-        solids.add(new blockBound( 9,8,16*worldScale*6,16*worldScale,handler)); // down part2
+        solids.add(new blockBound( 10,8,16*worldScale*6,16*worldScale,handler)); // down part2
         solids.add(new blockBound( 15,0,16*worldScale,16*worldScale*9,handler));//right 
-        solids.add(new blockBound( 0,0,16*worldScale,16*worldScale*9,handler));//left 
-        solids.add(new SectionDoor( 8,8,16*worldScale,16*worldScale,Direction.DOWN,handler));
+        solids.add(new blockBound( 0,0,16*worldScale,16*worldScale*9,handler));//left
+        solids.add(new DungeonDoor( 7,3,16*worldScale,16*worldScale,Direction.UP,"other",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
+
+        solids.add(new SectionDoor( 7,8,16*worldScale*2,16*worldScale,Direction.DOWN,handler));
+        
         objects.get(7).set(0,solids);
         enemies.get(7).set(0,monster);
         

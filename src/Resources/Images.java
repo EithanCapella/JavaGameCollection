@@ -52,6 +52,7 @@ public class Images {
     public SpriteSheet storySpriteSheet;
     public static BufferedImage zeldaTriforceLogo;
     public static BufferedImage zeldaMap;
+    public static BufferedImage otherZeldaMap;
     public static BufferedImage zeldaDungeon;
     public static ArrayList<BufferedImage> zeldaTiles;
     public static ArrayList<BufferedImage> recursiveTiles;
@@ -74,6 +75,8 @@ public class Images {
     public static BufferedImage[] thunderBirdFrames;
     public static BufferedImage[] attackThunderBirdFrames; //flying
     public static BufferedImage[] deathThunderBirdFrames;
+    public static BufferedImage[] superRingFrames;
+
 
 
 
@@ -209,6 +212,8 @@ public class Images {
         thunderBirdFrames = new BufferedImage[60];
         attackThunderBirdFrames = new BufferedImage[15];
         deathThunderBirdFrames = new BufferedImage[4];
+        superRingFrames = new BufferedImage[7];
+
 
 
 
@@ -327,6 +332,7 @@ public class Images {
             zeldaTriforceLogo = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/triforceLogo.png"));
             zeldaMap = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/map.png"));
             zeldaMap = createImageTransparent(zeldaMap,"zelddaMap_0,128,0,green",new Color(0,128,0).getRGB());
+            otherZeldaMap = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/zelda2.png"));
             zeldaDungeon = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/dungeon.png"));
             zeldaImageSheet = createImageTransparent(zeldaImageSheet,"tileSets_0,120,0,green",new Color(0,128,0).getRGB());
             zeldaSpriteSheet = new SpriteSheet(zeldaImageSheet);
@@ -419,15 +425,14 @@ public class Images {
             linkRaftFrames[10] = zeldaLinkSpriteSheet1.crop(183,229,15,25);//superlink on raft object
             linkRaftFrames[11] = zeldaLinkSpriteSheet1.crop(201,234,14,20);//superlink on raft object
             linkRaftFrames[12] = zeldaLinkSpriteSheet1.crop(201,234,14,20);//superlink on raft object end 
-
-
-
-
-
-
-
-
-
+            
+            superRingFrames[0] = zeldaLinkSpriteSheet1.crop(175,29,7,9);//superRing object 
+            superRingFrames[1] = zeldaLinkSpriteSheet1.crop(170,40,17,24);//linkmoving superRing
+            superRingFrames[2] = zeldaLinkSpriteSheet1.crop(190,42,17,24);//linkmoving superRing
+            superRingFrames[3] = zeldaLinkSpriteSheet1.crop(207,41,17,23);//linkmoving superRing
+            superRingFrames[4] = zeldaLinkSpriteSheet1.crop(225,41,17,23);//linkmoving superRing
+            superRingFrames[5] = zeldaLinkSpriteSheet1.crop(244,47,16,17);//linkmoving superRing
+            superRingFrames[6] = zeldaLinkSpriteSheet1.crop(261,47,16,17);//linkmoving superRing
 
             
             whiteSwordAttackFrames[0] = zeldaLinkSpriteSheet.crop(95,47,16,16); // attackDownStart

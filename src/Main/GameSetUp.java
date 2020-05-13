@@ -7,6 +7,7 @@ import Game.GameStates.Zelda.ZeldaGameState;
 import Game.GameStates.Zelda.ZeldaIntroStates;
 import Game.GameStates.Zelda.ZeldaMapMakerState;
 import Game.GameStates.Zelda.ZeldaMerchantState;
+import Game.GameStates.Zelda.ZeldaOtherState;
 import Input.KeyManager;
 import Input.MouseManager;
 import Resources.Images;
@@ -45,6 +46,7 @@ public class GameSetUp implements Runnable {
     public State galagaState;
     public State pacmanState;
     public State zeldaGameState;
+    public State zeldaOtherState;
     public State zeldaDungeonState;
     public State zeldaMapMakerState;
     public State zeldaIntroState;
@@ -86,6 +88,7 @@ public class GameSetUp implements Runnable {
         galagaState = new GalagaState(handler);
         pacmanState = new PacManState(handler);
         zeldaGameState = new ZeldaGameState(handler);
+        zeldaOtherState = new ZeldaOtherState(handler);
         zeldaDungeonState = new ZeldaDungeonState(handler);
         zeldaMapMakerState = new ZeldaMapMakerState(handler);
         zeldaIntroState = new ZeldaIntroStates(handler);

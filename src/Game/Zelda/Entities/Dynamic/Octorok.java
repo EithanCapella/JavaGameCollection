@@ -23,9 +23,8 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
  */
 public class Octorok extends BaseMovingEntity {
 
-
 	private final int animSpeed = 120;
-	private double life=3.0;
+	private double life=6.0;
 
 	int randomDirection = 0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
@@ -33,8 +32,6 @@ public class Octorok extends BaseMovingEntity {
 	public boolean movingMap = false,hasSword=false,horray=false,hurt=false;
 	Direction movingTo;
 	Animation pickUpAnim,attackAnim,hurtAnim;
-
-
 
 	public Octorok(int x, int y, BufferedImage[] sprite, Handler handler) {
 		super(x, y, sprite, handler);
@@ -312,6 +309,13 @@ public class Octorok extends BaseMovingEntity {
 		changeIntersectingBounds();
 
 	}
+	@Override
+    public void damage(int amount){
+        life-=amount;
+        if (life<=0){
+            kill();
+        }
+    }
 	public double getLife() {
 		return life;
 	}
