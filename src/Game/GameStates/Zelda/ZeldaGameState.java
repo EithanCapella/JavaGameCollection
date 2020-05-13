@@ -229,75 +229,99 @@ public class ZeldaGameState extends State {
         //attackSlots 
         g.setColor(Color.WHITE);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 10));
-		g.drawString("ENTER ",handler.getWidth()/2 - (handler.getWidth()/3)+400,handler.getHeight()/5);
-		g.drawString("SHIFT ",handler.getWidth()/2 - (handler.getWidth()/3)+445,handler.getHeight()/5);
+		g.drawString("ENTER ",handler.getWidth()/2 - (handler.getWidth()/3)+113,handler.getHeight()/5);
+		g.drawString("SHIFT ",handler.getWidth()/2 - (handler.getWidth()/3)+165,handler.getHeight()/5);
 
 
-		g.drawImage(Images.attackSlots[1],handler.getWidth()/2 - (handler.getWidth()/3)+400,handler.getHeight()/5,handler.getWidth()/47,handler.getHeight()/47 + 10,null);
-		g.drawImage(Images.attackSlots[0],handler.getWidth()/2 - (handler.getWidth()/3)+445,handler.getHeight()/5,handler.getWidth()/47,handler.getHeight()/47 + 10,null);
+		g.drawImage(Images.attackSlots[1],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/37,handler.getHeight()/27 + 10,null);
+		g.drawImage(Images.attackSlots[0],handler.getWidth()/2 - (handler.getWidth()/3)+160,handler.getHeight()/5,handler.getWidth()/37,handler.getHeight()/27 + 10,null);
 		if(link.wooden && !(link.white&&link.magical&&link.rod&&link.majora)) {
-			g.drawImage(Images.npc[4],handler.getWidth()/2 - (handler.getWidth()/3)+410,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+			g.drawImage(Images.npc[4],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
 		}
 		if(link.white&& !(link.wooden&&link.magical&&link.rod&&link.majora)) {
-			g.drawImage(Images.otherWeapons[8],handler.getWidth()/2 - (handler.getWidth()/3)+410,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+			g.drawImage(Images.otherWeapons[8],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
 		}
 		if(link.magical&& !(link.white&&link.wooden&&link.rod&&link.majora)) {
-			g.drawImage(Images.otherWeapons[9],handler.getWidth()/2 - (handler.getWidth()/3)+410,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+			g.drawImage(Images.otherWeapons[9],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
 		}
 		if(link.rod&& !(link.white&&link.magical&&link.wooden)) {
-			g.drawImage(Images.otherWeapons[2],handler.getWidth()/2 - (handler.getWidth()/3)+450,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55+ 10,null);
+			g.drawImage(Images.otherWeapons[2],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55+ 10,null);
 		}
 		if(link.majora&& !(link.wooden&&link.magical&&link.rod&&link.white)) {
-			g.drawImage(Images.otherWeapons[11],handler.getWidth()/2 - (handler.getWidth()/3)+410,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+			g.drawImage(Images.otherWeapons[11],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
 		}
 
 	    //item counter
         g.setColor(Color.WHITE);
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
-		g.drawString(Integer.toString(link.getRupees()),handler.getWidth()/2 - (handler.getWidth()/3)+230,handler.getHeight()/5+25);
-		g.drawString(Integer.toString(link.getPotions()),handler.getWidth()/2 - (handler.getWidth()/3)+310,handler.getHeight()/5+25);
-		g.drawString(Integer.toString(link.getOtherPotions()),handler.getWidth()/2 - (handler.getWidth()/3)+370,handler.getHeight()/5+25);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 14));
+		g.drawString(Integer.toString(link.getRupees()),handler.getWidth()/2 - (handler.getWidth()/3)+220,handler.getHeight()/7+25);
+		g.drawString(Integer.toString(link.getPotions()),handler.getWidth()/2 - (handler.getWidth()/3)+220,handler.getHeight()/6+30);
+		g.drawString(Integer.toString(link.getOtherPotions()),handler.getWidth()/2 - (handler.getWidth()/3)+220,handler.getHeight()/5+30);
+		g.drawString(Integer.toString(link.getRupees()),handler.getWidth()/2 - (handler.getWidth()/3)+270,handler.getHeight()/7+25);
+		g.drawString(Integer.toString(link.getPotions()),handler.getWidth()/2 - (handler.getWidth()/3)+270,handler.getHeight()/6+30);
+		g.drawString(Integer.toString(link.getOtherPotions()),handler.getWidth()/2 - (handler.getWidth()/3)+270,handler.getHeight()/5+30);
+
+
 
 
 		if (animCount >= 0) {
-		g.drawImage(Images.rupees[0],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
-		g.drawImage(Images.lifePotion[0],handler.getWidth()/2 - (handler.getWidth()/3)+280,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
-		g.drawImage(Images.lifePotion2[0],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
+		g.drawImage(Images.rupees[0],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/7+10,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+		g.drawImage(Images.lifePotion[0],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/6+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+		g.drawImage(Images.lifePotion2[0],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/5+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+		
+		//future items 
+		
+		g.drawImage(Images.rupees[0],handler.getWidth()/2 - (handler.getWidth()/3)+250,handler.getHeight()/7+10,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+		g.drawImage(Images.lifePotion[0],handler.getWidth()/2 - (handler.getWidth()/3)+250,handler.getHeight()/6+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+		g.drawImage(Images.lifePotion2[0],handler.getWidth()/2 - (handler.getWidth()/3)+250,handler.getHeight()/5+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
 
 
 		animCount-= 3;
 		}
 		else if (animCount < 0){
-			g.drawImage(Images.rupees[1],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
-			g.drawImage(Images.lifePotion[1],handler.getWidth()/2 - (handler.getWidth()/3)+280,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
-			g.drawImage(Images.lifePotion2[1],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/67,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.rupees[1],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/7+10,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+			g.drawImage(Images.lifePotion[1],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/6+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+			g.drawImage(Images.lifePotion2[1],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/5+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+			//future items 
+			g.drawImage(Images.rupees[1],handler.getWidth()/2 - (handler.getWidth()/3)+250,handler.getHeight()/7+10,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+			g.drawImage(Images.lifePotion[1],handler.getWidth()/2 - (handler.getWidth()/3)+250,handler.getHeight()/6+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+			g.drawImage(Images.lifePotion2[1],handler.getWidth()/2 - (handler.getWidth()/3)+250,handler.getHeight()/5+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
 			animCount+= 2;
 		}
 	    //life
-		g.drawImage(Images.lifeImage,handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/7,handler.getWidth()/17,handler.getHeight()/37 + 10,null);
+		g.drawImage(Images.lifeImage,handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/7,handler.getWidth()/17,handler.getHeight()/37 + 10,null);
         if(link.getLife() >= 3 ) {
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+140,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+360,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+			//future hearts that will be drawn with powerUps
+//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+380,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+400,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+420,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+440,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+460,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+480,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+
+
 		}
         if(link.getLife() == 2.5) {
-			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+140,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+360,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
 		}
 		if(link.getLife() == 2) {
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+140,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
 		}
 		if(link.getLife() == 1.5) {
-			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+140,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
 		}
 		if(link.getLife() == 1) {
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
 		}
 		if(link.getLife() == 0.5) {
-			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/65,handler.getHeight()/47 + 10,null);
+			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
 		}
 
     }
