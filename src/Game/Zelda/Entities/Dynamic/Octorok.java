@@ -42,7 +42,7 @@ public class Octorok extends BaseMovingEntity {
 	}
 	@Override
 	public void tick() {
-		if(life==0) {
+		if(life<=0) {
 			kill();
 		}
 		//Extra abilities for Link
@@ -108,8 +108,19 @@ public class Octorok extends BaseMovingEntity {
 		}
 		if (handler.getZeldaGameState().link.hasRod) {
 			if (bounds.intersects(handler.getZeldaGameState().link.rodBounds)) {
-				if (handler.getZeldaGameState().link.rod&&handler.getZeldaGameState().link.second ) {
+			//System.out.println("runs shit" + " x,y enemy pendejo " + x + "," + y + " link pendejo " + handler.getZeldaGameState().link.rodBounds.x + "," +  handler.getZeldaGameState().link.rodBounds.y);
+					if(handler.getZeldaGameState().link.second) {
 					life -= 2;
+					if(direction == Direction.LEFT) {
+						x+=40;
+					}else if(direction == Direction.RIGHT) {
+						x-=40;
+					}
+					else if(direction == Direction.UP) {
+						y+=40;
+					}else if(direction == Direction.DOWN) {
+						y-=40;
+					}
 				}
 			}	
 		}
