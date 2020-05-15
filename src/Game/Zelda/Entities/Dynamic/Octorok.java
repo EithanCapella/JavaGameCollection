@@ -48,7 +48,7 @@ public class Octorok extends BaseMovingEntity {
 		//Extra abilities for Link
 		//To Do: add extra weapons if possible or abilities, magic, bow etc.
 		//
-		
+
 		//System.out.println( "Enemy pos" + x + "," + y);
 		if (directionCounter > 0) {
 			directionCounter--;
@@ -62,39 +62,36 @@ public class Octorok extends BaseMovingEntity {
 			direction = direction.LEFT;
 			move(direction);
 			break;
-			
+
 		case 1:
 			direction = direction.RIGHT;
 			move(direction);
 			break;
-			
+
 		case 2:
 			direction = direction.UP;
 			move(direction);
 			break;
-			
+
 		case 3:
 			direction = direction.DOWN;
 			move(direction);
 			break;
-			
+
 		}
 		if (handler.getZeldaGameState().link.hasSword) {
 			if (bounds.intersects(handler.getZeldaGameState().link.swordBounds)) {
-				if (handler.getZeldaGameState().link.wooden) {
+				if(handler.getZeldaGameState().link.wooden && !(handler.getZeldaGameState().link.white&&handler.getZeldaGameState().link.magical&&handler.getZeldaGameState().link.majora&&handler.getZeldaGameState().link.second)) {
 					life -= 1;
 				}
-				if (handler.getZeldaGameState().link.white) {
+				if(handler.getZeldaGameState().link.white&& !(handler.getZeldaGameState().link.wooden&&handler.getZeldaGameState().link.magical&&handler.getZeldaGameState().link.majora)) {
 					life -= 1;
 				}
-				if (handler.getZeldaGameState().link.magical) {
+				if(handler.getZeldaGameState().link.magical&& !(handler.getZeldaGameState().link.white&&handler.getZeldaGameState().link.wooden&&handler.getZeldaGameState().link.majora)) {
 					life -= 1;
 				}
-				if (handler.getZeldaGameState().link.rod) {
-					life -= 1;
-				}
-				if (handler.getZeldaGameState().link.majora) {
-					life -= 1;
+				if(handler.getZeldaGameState().link.majora&& !(handler.getZeldaGameState().link.wooden&&handler.getZeldaGameState().link.magical&&handler.getZeldaGameState().link.white)) {
+					life -= 3;
 				}
 				if(direction == Direction.LEFT) {
 					x+=40;
@@ -107,57 +104,66 @@ public class Octorok extends BaseMovingEntity {
 					y-=40;
 				}
 			}
+
 		}
-		
-//			if (handler.getKeyManager().up&& !horray) {
-//				if (direction != UP) {
-//	
-//					direction = UP;
-//
-//				}
-//
-//				if(!attacking&&!horray) {
-//					animation.tick();
-//					move(direction);
-//				}
-//			} else if (handler.getKeyManager().down&&!horray) {
-//				if (direction != DOWN) {
-//					direction = DOWN;
-//				}
-//				if(!attacking&&!horray) {
-//
-//					move(direction);
-//				}
-//			} else if (handler.getKeyManager().left&&!horray) {
-//				if (direction != Direction.LEFT) {
-//
-//					direction = Direction.LEFT;
-//
-//				}
-//				
-//				if(!attacking&&!horray) {
-//					
-//					move(direction);
-//				}
-//			} else if (handler.getKeyManager().right&&!horray) {
-//				if (direction != Direction.RIGHT) {
-//					
-//					direction = Direction.RIGHT;
-//
-//				}
-//				if(attacking) {
-//				
-//				}
-//				if(!attacking&&!horray) {
-//					animation.tick();
-//					move(direction);
-//				}
-//				
-//			} else {
-//				moving = false;
-//			}
-//		
-		
+		if (handler.getZeldaGameState().link.hasRod) {
+			if (bounds.intersects(handler.getZeldaGameState().link.rodBounds)) {
+				if (handler.getZeldaGameState().link.rod&&handler.getZeldaGameState().link.second ) {
+					life -= 2;
+				}
+			}	
+		}
+
+
+		//			if (handler.getKeyManager().up&& !horray) {
+		//				if (direction != UP) {
+		//	
+		//					direction = UP;
+		//
+		//				}
+		//
+		//				if(!attacking&&!horray) {
+		//					animation.tick();
+		//					move(direction);
+		//				}
+		//			} else if (handler.getKeyManager().down&&!horray) {
+		//				if (direction != DOWN) {
+		//					direction = DOWN;
+		//				}
+		//				if(!attacking&&!horray) {
+		//
+		//					move(direction);
+		//				}
+		//			} else if (handler.getKeyManager().left&&!horray) {
+		//				if (direction != Direction.LEFT) {
+		//
+		//					direction = Direction.LEFT;
+		//
+		//				}
+		//				
+		//				if(!attacking&&!horray) {
+		//					
+		//					move(direction);
+		//				}
+		//			} else if (handler.getKeyManager().right&&!horray) {
+		//				if (direction != Direction.RIGHT) {
+		//					
+		//					direction = Direction.RIGHT;
+		//
+		//				}
+		//				if(attacking) {
+		//				
+		//				}
+		//				if(!attacking&&!horray) {
+		//					animation.tick();
+		//					move(direction);
+		//				}
+		//				
+		//			} else {
+		//				moving = false;
+		//			}
+		//		
+
 	}
 
 	@Override
@@ -175,118 +181,118 @@ public class Octorok extends BaseMovingEntity {
 			g.drawImage(pickUpAnim.getCurrentFrame(),x , y, width , height  , null);
 			g.drawImage(Images.npc[4],x , y -40, width/2 , height  , null);
 		}
-//		if (attacking) {    
-//			if(direction == Direction.LEFT) {
-//				g.drawImage(attackAnim.getCurrentFrame(),this.x -(attackAnim.getCurrentFrame().getWidth()*2-this.width) , y,attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
-//			}
-//			if(direction == Direction.UP) {
-//				g.drawImage(attackAnim.getCurrentFrame(),x , this.y -(attackAnim.getCurrentFrame().getHeight()*2 -this.height), attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
-//			}else {g.drawImage(attackAnim.getCurrentFrame(),x , y, attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null); }
-//		}
-		
+		//		if (attacking) {    
+		//			if(direction == Direction.LEFT) {
+		//				g.drawImage(attackAnim.getCurrentFrame(),this.x -(attackAnim.getCurrentFrame().getWidth()*2-this.width) , y,attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
+		//			}
+		//			if(direction == Direction.UP) {
+		//				g.drawImage(attackAnim.getCurrentFrame(),x , this.y -(attackAnim.getCurrentFrame().getHeight()*2 -this.height), attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
+		//			}else {g.drawImage(attackAnim.getCurrentFrame(),x , y, attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null); }
+		//		}
+
 	}
-	 
+
 
 	@Override
 	public void move(Direction direction) {
 		moving = true;
 		changeIntersectingBounds();
 		//chack for collisions
-		
-//			for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
-//				if((objects instanceof Moblin)&&objects.bounds.intersects(bounds)) {
-//					hurt=true;
-//					life-=0.5;
-//					if(direction == Direction.LEFT) {
-//						x+=60;
-//					}else if(direction == Direction.RIGHT) {
-//						x-=60;
-//					}
-//					else if(direction == Direction.UP) {
-//						y+=60;
-//					}else if(direction == Direction.DOWN) {
-//						y-=60;
-//					}
-//				}
-//				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
-//					if(moving) {
-//						hurt=true;
-//						if(direction == Direction.LEFT) {
-//							x+=60;
-//						}else if(direction == Direction.RIGHT) {
-//							x-=60;
-//						}
-//						else if(direction == Direction.UP) {
-//							y+=60;
-//						}else if(direction == Direction.DOWN) {
-//							y-=60;
-//						}
-//					}
-//					if(attacking) {
-//						System.out.println("attacking hit");
-//						//handler.getOctorok().setHurt(true);
-//					}
-//				}
-//				if((objects instanceof Zora)&&objects.bounds.intersects(bounds)) {
-//					hurt=true;
-//					life-=0.5;
-//					if(direction == Direction.LEFT) {
-//						x+=60;
-//					}else if(direction == Direction.RIGHT) {
-//						x-=60;
-//					}
-//					else if(direction == Direction.UP) {
-//						y+=60;
-//					}else if(direction == Direction.DOWN) {
-//						y-=60;
-//					}
-//				}
-//				if((objects instanceof Leever)&&objects.bounds.intersects(bounds)) {
-//					hurt=true;
-//					life-=0.5;
-//					if(direction == Direction.LEFT) {
-//						x+=60;
-//					}else if(direction == Direction.RIGHT) {
-//						x-=60;
-//					}
-//					else if(direction == Direction.UP) {
-//						y+=60;
-//					}else if(direction == Direction.DOWN) {
-//						y-=60;
-//					}
-//				}
-//				if((objects instanceof BouncyFella)&&objects.bounds.intersects(bounds)) {
-//					hurt=true;
-//					life-=0.5;
-//					if(direction == Direction.LEFT) {
-//						x+=60;
-//					}else if(direction == Direction.RIGHT) {
-//						x-=60;
-//					}
-//					else if(direction == Direction.UP) {
-//						y+=60;
-//					}else if(direction == Direction.DOWN) {
-//						y-=60;
-//					}
-//				}
-//			}
 
-			
-			for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
-				if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
-					directionCounter = 0;
-					return;
-						
-					
-				}
-				else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
-					//dont move
-					//System.out.print("Collision");
-					directionCounter = 0;
-					return;
-				}
+		//			for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
+		//				if((objects instanceof Moblin)&&objects.bounds.intersects(bounds)) {
+		//					hurt=true;
+		//					life-=0.5;
+		//					if(direction == Direction.LEFT) {
+		//						x+=60;
+		//					}else if(direction == Direction.RIGHT) {
+		//						x-=60;
+		//					}
+		//					else if(direction == Direction.UP) {
+		//						y+=60;
+		//					}else if(direction == Direction.DOWN) {
+		//						y-=60;
+		//					}
+		//				}
+		//				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
+		//					if(moving) {
+		//						hurt=true;
+		//						if(direction == Direction.LEFT) {
+		//							x+=60;
+		//						}else if(direction == Direction.RIGHT) {
+		//							x-=60;
+		//						}
+		//						else if(direction == Direction.UP) {
+		//							y+=60;
+		//						}else if(direction == Direction.DOWN) {
+		//							y-=60;
+		//						}
+		//					}
+		//					if(attacking) {
+		//						System.out.println("attacking hit");
+		//						//handler.getOctorok().setHurt(true);
+		//					}
+		//				}
+		//				if((objects instanceof Zora)&&objects.bounds.intersects(bounds)) {
+		//					hurt=true;
+		//					life-=0.5;
+		//					if(direction == Direction.LEFT) {
+		//						x+=60;
+		//					}else if(direction == Direction.RIGHT) {
+		//						x-=60;
+		//					}
+		//					else if(direction == Direction.UP) {
+		//						y+=60;
+		//					}else if(direction == Direction.DOWN) {
+		//						y-=60;
+		//					}
+		//				}
+		//				if((objects instanceof Leever)&&objects.bounds.intersects(bounds)) {
+		//					hurt=true;
+		//					life-=0.5;
+		//					if(direction == Direction.LEFT) {
+		//						x+=60;
+		//					}else if(direction == Direction.RIGHT) {
+		//						x-=60;
+		//					}
+		//					else if(direction == Direction.UP) {
+		//						y+=60;
+		//					}else if(direction == Direction.DOWN) {
+		//						y-=60;
+		//					}
+		//				}
+		//				if((objects instanceof BouncyFella)&&objects.bounds.intersects(bounds)) {
+		//					hurt=true;
+		//					life-=0.5;
+		//					if(direction == Direction.LEFT) {
+		//						x+=60;
+		//					}else if(direction == Direction.RIGHT) {
+		//						x-=60;
+		//					}
+		//					else if(direction == Direction.UP) {
+		//						y+=60;
+		//					}else if(direction == Direction.DOWN) {
+		//						y-=60;
+		//					}
+		//				}
+		//			}
+
+
+		for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
+			if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
+				directionCounter = 0;
+				return;
+
+
 			}
-		
+			else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
+				//dont move
+				//System.out.print("Collision");
+				directionCounter = 0;
+				return;
+			}
+		}
+
 		//Movement
 		switch (direction) {
 		case RIGHT:
@@ -310,12 +316,12 @@ public class Octorok extends BaseMovingEntity {
 
 	}
 	@Override
-    public void damage(int amount){
-        life-=amount;
-        if (life<=0){
-            kill();
-        }
-    }
+	public void damage(int amount){
+		life-=amount;
+		if (life<=0){
+			kill();
+		}
+	}
 	public double getLife() {
 		return life;
 	}

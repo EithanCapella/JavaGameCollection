@@ -91,12 +91,17 @@ public class Images {
     public static BufferedImage[] magicalSwordAttackFrames;
     public static BufferedImage[] magicalRodAttackFrames;
     public static BufferedImage[] superSwordAttackFrames;
+    public static BufferedImage[] superRodAttackFrames;
     public static BufferedImage[] linkRaftFrames;
     public static BufferedImage[] linkHearts;
     public static BufferedImage[] itemHeart;
     public static BufferedImage[] itemHeart2;
     public static BufferedImage[] lifePotion;
     public static BufferedImage[] lifePotion2;
+    public static BufferedImage[] linkArrows;
+    public static BufferedImage[] bombItem;
+    public static BufferedImage[] foodItem;
+
     public static BufferedImage[] woodenLaser;
     public static BufferedImage[] vaporWaveUp;
     public static BufferedImage[] vaporWaveDown;
@@ -185,12 +190,17 @@ public class Images {
         magicalSwordAttackFrames = new BufferedImage[16];
         magicalRodAttackFrames = new BufferedImage[16];
         superSwordAttackFrames = new BufferedImage[16];
+        superRodAttackFrames = new BufferedImage[16];
         linkRaftFrames = new BufferedImage[16];
         linkHearts= new BufferedImage[2];
         itemHeart= new BufferedImage[2];
         itemHeart2= new BufferedImage[2];
         lifePotion= new BufferedImage[2];
         lifePotion2= new BufferedImage[2];
+        linkArrows= new BufferedImage[2];
+        bombItem= new BufferedImage[2];
+        foodItem= new BufferedImage[2];
+
         bouncyEnemyFrames = new BufferedImage[2];
         octorokEnemyFrames = new BufferedImage[4];
         moblinEnemyFrames = new BufferedImage[6];
@@ -205,7 +215,7 @@ public class Images {
         itemPickUpFrames= new BufferedImage[2];
         linkHurtFrames = new BufferedImage[3];
         woodenLaser = new BufferedImage[3];
-        otherWeapons = new BufferedImage[16];
+        otherWeapons = new BufferedImage[22];
         vaporWaveUp = new BufferedImage[4];
         vaporWaveDown = new BufferedImage[4];
         vaporWaveSide = new BufferedImage[4];
@@ -425,6 +435,23 @@ public class Images {
             superSwordAttackFrames[14] = zeldaLinkSpriteSheet1.crop(128,128,23,17);//unknown 
             superSwordAttackFrames[15] = zeldaLinkSpriteSheet1.crop(152,128,19,17);//unknown 
             
+            superRodAttackFrames[0] = zeldaLinkSpriteSheet1.crop(95,47,16,16); // attackDownStart
+            superRodAttackFrames[1] = zeldaLinkSpriteSheet1.crop(20,47,16,28); 
+            superRodAttackFrames[2] = zeldaLinkSpriteSheet1.crop(38,47,16,23);
+            superRodAttackFrames[3] = zeldaLinkSpriteSheet1.crop(56,47,16,19); //downAnimEnd
+            superRodAttackFrames[4] = zeldaLinkSpriteSheet1.crop(3,77,16,17);
+            superRodAttackFrames[5] = zeldaLinkSpriteSheet1.crop(21,77,27,17); 
+            superRodAttackFrames[6] = zeldaLinkSpriteSheet1.crop(50,77,23,17);
+            superRodAttackFrames[7] = zeldaLinkSpriteSheet1.crop(72,77,19,17); //sideAnimEnd
+            superRodAttackFrames[8] = zeldaLinkSpriteSheet1.crop(95,109,16,16);
+            superRodAttackFrames[9] = zeldaLinkSpriteSheet1.crop(21,96,16,28); 
+            superRodAttackFrames[10] = zeldaLinkSpriteSheet1.crop(40,97,16,27);
+            superRodAttackFrames[11] = zeldaLinkSpriteSheet1.crop(57,105,16,19); //upAnimEnd
+            superRodAttackFrames[12] = zeldaLinkSpriteSheet1.crop(93,128,16,23);//unknown 
+            superRodAttackFrames[13] = zeldaLinkSpriteSheet1.crop(111,128,16,19); //unknown 
+            superRodAttackFrames[14] = zeldaLinkSpriteSheet1.crop(128,128,23,17);//unknown 
+            superRodAttackFrames[15] = zeldaLinkSpriteSheet1.crop(152,128,19,17);//unknown 
+
             
             linkRaftFrames[0] = zeldaLinkSpriteSheet1.crop(113,205,14,16);//raft object 
             linkRaftFrames[1] = zeldaLinkSpriteSheet1.crop(132,205,15,20);//link on raft object start
@@ -520,23 +547,6 @@ public class Images {
             vaporWaveSideL[2] = zeldaLinkSpriteSheet1.crop(303,257,16,16);
             vaporWaveSideL[3] = zeldaLinkSpriteSheet1.crop(325,257,16,16); //downAnimEnd
             
-            otherWeapons[0] = zeldaLinkSpriteSheet.crop(36,154,8,16); // white
-            otherWeapons[1] = zeldaLinkSpriteSheet.crop(71,154,8,16); //magical
-            otherWeapons[2] = zeldaLinkSpriteSheet.crop(145,154,8,16); //rod 
-            otherWeapons[3] = zeldaLinkSpriteSheet1.crop(36,154,8,16); //superSword 
-            otherWeapons[4] = zeldaLinkSpriteSheet.crop(45,159,16,8); // white - side
-            otherWeapons[5] = zeldaLinkSpriteSheet.crop(80,159,16,8); //magical -side
-            otherWeapons[6] = zeldaLinkSpriteSheet.crop(290,154,16,16); //rod - side
-            otherWeapons[7] = zeldaLinkSpriteSheet1.crop(45,159,16,8); //superSword - side 
-            otherWeapons[8] = zeldaLinkSpriteSheet1.crop(57,168,8,16); // white - down
-            otherWeapons[9] = zeldaLinkSpriteSheet1.crop(87,170,8,16); //magical -down
-            otherWeapons[10] = zeldaLinkSpriteSheet1.crop(234,176,16,16); //rod - down
-            otherWeapons[11] = zeldaLinkSpriteSheet1.crop(48,168,8,16); //superSword - down 
-            otherWeapons[12] = zeldaLinkSpriteSheet1.crop(222,154,16,16); //rod - Up
-            otherWeapons[13] = zeldaLinkSpriteSheet1.crop(239,154,16,16); //superWave - Up
-            otherWeapons[14] = zeldaLinkSpriteSheet1.crop(258,154,16,16); //superWave - down
-            otherWeapons[15] = zeldaLinkSpriteSheet1.crop(277,154,16,16); //superWave - side
-
 
 
 
@@ -570,6 +580,45 @@ public class Images {
             lifePotion[1] = itemSpriteSheet.crop(83,18,8,16); // potion itemFrame2
             lifePotion2[0] = itemSpriteSheet.crop(83,39,8,16); // potion itemFrame1
             lifePotion2[1] = itemSpriteSheet.crop(83,57,8,16); // potion itemFrame2
+            linkArrows[0]= itemSpriteSheet.crop(161, 0, 5, 16);
+            linkArrows[1]= itemSpriteSheet.crop(16,72, 5, 16);
+            bombItem[0]= itemSpriteSheet.crop(143, 0, 8, 14);
+            bombItem[1]= itemSpriteSheet.crop(16,72, 5, 16);
+            foodItem[0]= itemSpriteSheet.crop(103, 0, 8, 16);
+            foodItem[1]= itemSpriteSheet.crop(16,72, 5, 16);
+
+            
+            
+            otherWeapons[0] = zeldaLinkSpriteSheet.crop(36,154,8,16); // white
+            otherWeapons[1] = zeldaLinkSpriteSheet.crop(71,154,8,16); //magical
+            otherWeapons[2] = zeldaLinkSpriteSheet.crop(145,154,8,16); //rod 
+            otherWeapons[3] = zeldaLinkSpriteSheet1.crop(36,154,8,16); //superSword 
+            otherWeapons[4] = zeldaLinkSpriteSheet.crop(45,159,16,8); // white - side
+            otherWeapons[5] = zeldaLinkSpriteSheet.crop(80,159,16,8); //magical -side
+            otherWeapons[6] = zeldaLinkSpriteSheet.crop(290,154,16,16); //rod - side
+            otherWeapons[7] = zeldaLinkSpriteSheet1.crop(45,159,16,8); //superSword - side 
+            otherWeapons[8] = zeldaLinkSpriteSheet1.crop(57,168,8,16); // white - down
+            otherWeapons[9] = zeldaLinkSpriteSheet1.crop(87,170,8,16); //magical -down
+            otherWeapons[10] = zeldaLinkSpriteSheet1.crop(234,176,16,16); //rod - down
+            otherWeapons[11] = zeldaLinkSpriteSheet1.crop(48,168,8,16); //superSword - down 
+            otherWeapons[12] = zeldaLinkSpriteSheet1.crop(222,154,16,16); //rod - Up
+            otherWeapons[13] = zeldaLinkSpriteSheet1.crop(239,154,16,16); //superWave - Up
+            otherWeapons[14] = zeldaLinkSpriteSheet1.crop(258,154,16,16); //superWave - down
+            otherWeapons[15] = zeldaLinkSpriteSheet1.crop(277,154,16,16); //superWave - side
+            otherWeapons[16] = itemSpriteSheet.crop(151, 0, 8, 16); //BOW ITEM
+            otherWeapons[17] = itemSpriteSheet.crop(167, 0, 8, 16); //RED CANDLE ITEM        
+            otherWeapons[18] = itemSpriteSheet.crop(239, 0, 8, 16); //BOOK OF MAGIC ITEM
+            otherWeapons[19] = itemSpriteSheet.crop(119, 0, 8, 16); //MAGICAL SWORD
+            otherWeapons[20] = itemSpriteSheet.crop(120,16, 8, 16); //SUPERSWORD ITEM
+            otherWeapons[21] = zeldaLinkSpriteSheet1.crop(140,167,5,16); //superRod - UP
+
+
+
+
+
+
+
+
     
             innSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/inn.png")));
             inn[0]= innSpriteSheet.crop(2,4,320,125);
