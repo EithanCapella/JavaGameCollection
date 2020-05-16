@@ -20,7 +20,7 @@ public class BaseMovingEntity extends BaseEntity {
     Animation animation;
     BufferedImage[] sprites;
     boolean moving = false;
-    public boolean dead = false;
+    public boolean dead = false,hurt=false;
     boolean attacking=false;
 
 

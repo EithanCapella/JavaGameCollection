@@ -3,11 +3,13 @@ package Game.GameStates.Zelda;
 import Game.GameStates.State;
 
 
+
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.Zelda.Entities.BaseEntity;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.BouncyFella;
 import Game.Zelda.Entities.Dynamic.Direction;
+import Game.Zelda.Entities.Dynamic.fireTile;
 import Game.Zelda.Entities.Dynamic.Leever;
 import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Dynamic.Lynel;
@@ -15,8 +17,10 @@ import Game.Zelda.Entities.Dynamic.Moblin;
 import Game.Zelda.Entities.Dynamic.Octorok;
 import Game.Zelda.Entities.Dynamic.Thunderbird;
 import Game.Zelda.Entities.Dynamic.Zora;
+import Game.Zelda.Entities.Dynamic.bombTile;
 import Game.Zelda.Entities.Dynamic.Items;
-import Game.Zelda.Entities.Dynamic.swordProyectile;
+import Game.Zelda.Entities.Dynamic.swordProjectile;
+import Game.Zelda.Entities.Statics.Bow;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.Fire;
 import Game.Zelda.Entities.Statics.Item;
@@ -29,6 +33,7 @@ import Game.Zelda.Entities.Statics.whiteSword;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
 import Game.Zelda.Entities.Statics.blockBound;
+import Game.Zelda.Entities.Statics.bombBlock;
 import Game.Zelda.Entities.Statics.caveSword;
 import Game.Zelda.Entities.Statics.magicalRod;
 import Game.Zelda.Entities.Statics.magicalSword;
@@ -104,38 +109,55 @@ public class ZeldaGameState extends State {
 		toAdd = new ArrayList<>();
 		toAdd1 = new ArrayList<>();
 		toRemove1 = new ArrayList<>();
+		for (SolidStaticEntities object : objects.get(mapX).get(mapY)) {
+			if (object instanceof Item && link.itemPickUp) {
+				toRemove1.add(object);
+			}
+			if (object instanceof bombBlock && link.boom) {
+				toRemove1.add(object);
+				link.boom=false;
+				//toAdd.add(new Items(object.x,object.y,Images.linkArrows, handler));
+				toAdd1.add(new DungeonDoor( object.x,object.y,16*worldScale,16*worldScale,Direction.UP,"other",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
+		        
+
+				
+			}
+		}
 
 		for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
+			if(enemy instanceof bombTile&&!link.bomb) {toRemove.add(enemy);}
+			if (enemy instanceof fireTile && !link.fire) {toRemove.add(enemy);}
+
 			if (enemy instanceof Octorok && enemy.dead) {
 				toRemove.add(enemy);
 				link.itemPickUp=false;
 				int items = new Random().nextInt(8);
 				switch (items) {
 				case 0:
-					toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.rupees, handler));
+					toAdd.add(new Items(enemy.x,enemy.y,Images.rupees, handler));
 					break;
 				case 1:
-					toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.itemHeart, handler));
+					toAdd.add(new Items(enemy.x,enemy.y,Images.itemHeart, handler));
 					break;
 
 				case 2:
-					toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.lifePotion, handler));
+					toAdd.add(new Items(enemy.x,enemy.y,Images.lifePotion, handler));
 					break;
 
 				case 3:
-					toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.lifePotion2, handler));
+					toAdd.add(new Items(enemy.x,enemy.y,Images.lifePotion2, handler));
 					break;
 				case 4:
-					toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.itemHeart2, handler));
+					toAdd.add(new Items(enemy.x,enemy.y,Images.itemHeart2, handler));
 					break;
 				case 5:
-					toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bombItem, handler));
+					toAdd.add(new Items(enemy.x,enemy.y,Images.bombItem, handler));
 					break;
 				case 6:
-					toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.linkArrows, handler));
+					toAdd.add(new Items(enemy.x,enemy.y,Images.linkArrows, handler));
 					break;
 				case 7:
-					toAdd.add(new Items(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.foodItem, handler));
+					toAdd.add(new Items(enemy.x,enemy.y,Images.foodItem, handler));
 					break;
 
 				}
@@ -143,12 +165,8 @@ public class ZeldaGameState extends State {
 			if (enemy instanceof Items && link.itemPickUp) {
 				toRemove.add(enemy);
 			}
-			for (SolidStaticEntities object : objects.get(mapX).get(mapY)) {
-				if (object instanceof Item && link.itemPickUp) {
-					toRemove1.add(object);
-				}
-			}
-			if (enemy instanceof swordProyectile && link.projectile) {
+
+			if (enemy instanceof swordProjectile && link.projectile) {
 				toRemove.add(enemy);
 			}
 		}
@@ -252,7 +270,8 @@ public class ZeldaGameState extends State {
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 10));
 		g.drawString("ENTER ",handler.getWidth()/2 - (handler.getWidth()/3)+113,handler.getHeight()/5);
-		g.drawString("SHIFT ",handler.getWidth()/2 - (handler.getWidth()/3)+165,handler.getHeight()/5);
+		if(link.hasBow) {g.drawString("E",handler.getWidth()/2 - (handler.getWidth()/3)+175,handler.getHeight()/5);}
+		else {g.drawString("SHIFT ",handler.getWidth()/2 - (handler.getWidth()/3)+165,handler.getHeight()/5);}
 
 
 		g.drawImage(Images.attackSlots[1],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/37,handler.getHeight()/27 + 10,null);
@@ -269,6 +288,9 @@ public class ZeldaGameState extends State {
 		if(link.rod) {
 			if(link.majora) {g.drawImage(Images.otherWeapons[21],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/105,handler.getHeight()/55+ 10,null);}
 			else {g.drawImage(Images.otherWeapons[2],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55+ 10,null);}	
+		}
+		if(link.hasBow) {
+			g.drawImage(Images.otherWeapons[16],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55+ 10,null);	
 		}
 		if(link.majora&& !(link.wooden&&link.magical&&link.white)) {
 			g.drawImage(Images.otherWeapons[20],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
@@ -397,12 +419,14 @@ public class ZeldaGameState extends State {
 		caveObjects.add(new oldMan(8,4,handler));
 		caveObjects.add(new Fire(5,4,handler));
 		caveObjects.add(new Fire(11,4,handler));
-		caveObjects.add(new caveSword(9,5,handler,Images.npc[4])); 
-		caveObjects.add(new whiteSword(5,5,handler,Images.otherWeapons[0]));
+		caveObjects.add(new caveSword(8,5,handler,Images.npc[4])); 
+		caveObjects.add(new whiteSword(6,5,handler,Images.otherWeapons[0]));
 		caveObjects.add(new magicalSword(7,5,handler,Images.otherWeapons[1]));
-		caveObjects.add(new magicalRod(11,5,handler,Images.otherWeapons[2]));
-		caveObjects.add(new superSword(13,5,handler,Images.otherWeapons[3]));    
-		caveObjects.add(new superRing(3,5,handler,Images.superRingFrames[0]));
+		caveObjects.add(new magicalRod(9,5,handler,Images.otherWeapons[2]));
+		caveObjects.add(new superSword(10,5,handler,Images.otherWeapons[3]));    
+		caveObjects.add(new superRing(5,5,handler,Images.superRingFrames[0]));
+		caveObjects.add(new Bow(11,5,handler,Images.otherWeapons[16])); 
+
 
 
 		//left
@@ -514,6 +538,10 @@ public class ZeldaGameState extends State {
 		solids.add(new SolidStaticEntities(9,2,Images.forestTiles.get(5),handler));
 		solids.add(new SolidStaticEntities(9,1,Images.forestTiles.get(5),handler));
 		solids.add(new SolidStaticEntities(9,0,Images.forestTiles.get(5),handler));
+		
+		
+		solids.add(new bombBlock( 10,4,16*worldScale,16*worldScale,handler));
+
 		objects.get(7).set(7,solids);
 		monster = new ArrayList<>();
 		monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));

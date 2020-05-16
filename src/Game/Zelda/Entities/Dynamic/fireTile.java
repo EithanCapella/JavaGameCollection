@@ -14,9 +14,9 @@ import Main.Handler;
 import Resources.Animation;
 import Resources.Images;
 
-public class swordProyectile extends BaseMovingEntity{
+public class fireTile extends BaseMovingEntity{
     public Direction direction;
-	public swordProyectile(int x, int y, BufferedImage[] sprite, Handler handler,Direction direction) {
+	public fireTile(int x, int y, BufferedImage[] sprite, Handler handler,Direction direction) {
 		super(x, y, sprite, handler);
 		this.direction=direction;
 		BufferedImage[] animList = new BufferedImage[2];
@@ -34,20 +34,20 @@ public class swordProyectile extends BaseMovingEntity{
 	@Override
 	public void tick() {
 		collision();
-		switch (direction) {
-		case RIGHT:
-			x+=4;
-			break;
-		case LEFT:
-			x-=4;
-			break;
-		case UP:
-			y-=4;
-			break;
-		case DOWN:
-			y+=4;
-			break;
-		}
+//		switch (direction) {
+//		case RIGHT:
+//			this.x =32;
+//			break;
+//		case LEFT:
+//			this.x =-10;
+//			break;
+//		case UP:
+//			this.y=-10;
+//			break;
+//		case DOWN:
+//			this.y+= 32;
+//			break;
+//		}
 		bounds.x= x;
 		bounds.y = y;
 

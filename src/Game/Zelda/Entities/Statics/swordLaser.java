@@ -2,6 +2,7 @@ package Game.Zelda.Entities.Statics;
 
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import Game.Galaga.Entities.BaseEntity;
@@ -16,9 +17,15 @@ import Resources.Images;
 
 public class swordLaser extends SolidStaticEntities{
     public Direction direction;
+    Rectangle interactBounds;
+	int speed=4;
+
 	public swordLaser(int x, int y, BufferedImage sprite, Handler handler,Direction direction) {
 		super(x, y, sprite, handler);
 		this.direction=direction;
+        interactBounds = (Rectangle) bounds.clone();
+        interactBounds.y+=(height/2);
+        interactBounds.height/=2;
 		
 	}
 	@Override
@@ -47,13 +54,34 @@ public class swordLaser extends SolidStaticEntities{
 
 		}
 	public void collision() {
+		changeIntersectingBounds();
 		for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
 			if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
 				objects.damage(1);
-				
+				handler.getZeldaGameState().link.projectile=true;
 			}
 		}
 	}
+    public void changeIntersectingBounds() {
+        interactBounds = (Rectangle) bounds.clone();
+        interactBounds.y+=(height/2);
+        interactBounds.height/=2;
+        switch (direction){
+            case DOWN:
+                interactBounds.y+=speed;
+                break;
+            case UP:
+                interactBounds.y-=speed;
+                break;
+            case LEFT:
+                interactBounds.x-=speed;
+                break;
+            case RIGHT:
+                interactBounds.x+=speed;
+                break;
+        }
+    }
+
 
 	}
 

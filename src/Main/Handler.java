@@ -16,7 +16,7 @@ import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Dynamic.Moblin;
 import Game.Zelda.Entities.Dynamic.Octorok;
 import Game.Zelda.Entities.Dynamic.Zora;
-import Game.Zelda.Entities.Dynamic.swordProyectile;
+import Game.Zelda.Entities.Dynamic.swordProjectile;
 import Input.KeyManager;
 import Input.MouseManager;
 import Resources.MusicHandler;
@@ -49,7 +49,7 @@ public class Handler {
     private Moblin moblin;
     private Zora zora;
     private MMMoveTile MMMove;
-    private swordProyectile swordProyectile;
+    private swordProjectile swordProyectile;
     
 
 	public Handler(GameSetUp game){
@@ -254,11 +254,11 @@ public class Handler {
 		this.zora = zora;
 	}
 
-	public swordProyectile getSwordProyectile() {
+	public swordProjectile getSwordProyectile() {
 		return swordProyectile;
 	}
 
-	public void setSwordProyectile(swordProyectile swordProyectile) {
+	public void setSwordProyectile(swordProjectile swordProyectile) {
 		this.swordProyectile = swordProyectile;
 	}
 

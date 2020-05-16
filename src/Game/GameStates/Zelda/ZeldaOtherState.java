@@ -58,8 +58,8 @@ public class ZeldaOtherState extends State {
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
         worldScale = 2;
-        mapX = 4; 
-        mapY = 4;
+        mapX = 7;  //4,4 castle spawn
+        mapY = 7;
         mapWidth = 257;
         mapHeight = 176;
         cameraOffsetX =  ((mapWidth*mapX) + mapX + 1)*worldScale;
