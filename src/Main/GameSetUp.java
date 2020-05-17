@@ -52,6 +52,7 @@ public class GameSetUp implements Runnable {
     public State zeldaIntroState;
     public State zeldaMerchantState;
     public State MMGameState;
+    public State fightingState;
 
 
 
@@ -97,6 +98,7 @@ public class GameSetUp implements Runnable {
         handler.setScoreManager(new ScoreManager(handler));
         handler.setMusicHandler(new MusicHandler(handler));
         handler.getMusicHandler().startMusic("nature.wav");
+        fightingState = new FightingState(handler);
 
         handler.changeState(menuState);
 
