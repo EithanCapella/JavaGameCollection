@@ -323,7 +323,7 @@ public class Link extends BaseMovingEntity {
 			majora=true;
 		}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_L)) {
-			handler.changeState(handler.getZeldaMerchantState());
+			handler.changeState(handler.getFightingState());
 		}
 
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && life < 3) {
