@@ -50,6 +50,8 @@ public class Images {
     public static BufferedImage storyImageSheet;
     public SpriteSheet zeldaSpriteSheet;
     public SpriteSheet storySpriteSheet;
+    public static BufferedImage fightImageSet;
+    public SpriteSheet linkFightSprites;
     public static BufferedImage zeldaTriforceLogo;
     public static BufferedImage zeldaMap;
     public static BufferedImage otherZeldaMap;
@@ -214,6 +216,7 @@ public class Images {
         bombItem= new BufferedImage[2];
         foodItem= new BufferedImage[2];
 
+        linkFight = new BufferedImage[16];
         bouncyEnemyFrames = new BufferedImage[2];
         octorokEnemyFrames = new BufferedImage[4];
         octoHurtFrames = new BufferedImage[2];
@@ -386,6 +389,23 @@ public class Images {
             zeldaImageSheet = createImageTransparent(zeldaImageSheet,"tileSets_0,120,0,green",new Color(0,128,0).getRGB());
             zeldaSpriteSheet = new SpriteSheet(zeldaImageSheet);
 
+            fightImageSet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/LinkFight.png"));
+            linkFightSprites = new SpriteSheet(fightImageSet);
+            linkFight[0] = linkFightSprites.crop(73, 8, 34, 53); //link idle
+            linkFight[1] = linkFightSprites.crop(275, 73, 34, 53); //block
+            linkFight[2] = linkFightSprites.crop(6, 163, 49, 41); // attack start
+            linkFight[3] = linkFightSprites.crop(5, 204, 54, 41); // attack mid
+            linkFight[4] = linkFightSprites.crop(76, 180, 51, 62); // attack final
+            linkFight[5] = linkFightSprites.crop(275, 73, 34, 53); //jump
+            linkFight[6] = linkFightSprites.crop(275, 73, 34, 53); //jump
+            linkFight[7] = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/stage.png")); //level
+            linkFight[8] = linkFightSprites.crop(4, 69, 39, 34); //run start
+            linkFight[9] = linkFightSprites.crop(50, 67, 39, 34); //run mid
+            linkFight[10] = linkFightSprites.crop(89, 67, 39, 34); //run end
+            linkFight[11] = linkFightSprites.crop(138, 173, 41, 32); //attack start [low]
+            linkFight[12] = linkFightSprites.crop(137, 211, 49, 32); //attack mid
+            linkFight[13] = linkFightSprites.crop(193, 180, 75, 34); //attack end
+            
             storyImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/title.png"));
             storySpriteSheet = new SpriteSheet(storyImageSheet);
             zeldaTitleFrames[5] = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/TitleScreen/frame_0.gif"));
