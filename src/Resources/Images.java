@@ -32,6 +32,7 @@ public class Images {
     public static BufferedImage[] galagaPlayerDeath;
     public static BufferedImage[] galagaEnemyDeath;
     public static BufferedImage[] galagaEnemyBee;
+    public static BufferedImage[] linkFight;
     public static BufferedImage map1;
     public static BufferedImage ghost;
     public static BufferedImage[] pacmanDots;

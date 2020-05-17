@@ -41,7 +41,7 @@ public class LinkFight extends BaseMovingEntity {
 	public boolean notFloor = false, jump = false, idle = false, attack = false, attackLow = false;
 	Direction movingTo;
 	public swordLaser laserSword;
-	public swordProyectile swordProyectile;
+	
 	public superWave superWave;
 	Animation running,runningL,attackAnim,hurtAnim,attLow;
 	public Rectangle swordBounds = (Rectangle) bounds.clone();
