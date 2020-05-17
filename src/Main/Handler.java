@@ -130,6 +130,9 @@ public class Handler {
     public ZeldaMapMakerState getZeldaMMState (){
         return (ZeldaMapMakerState)getGameProperties().zeldaMapMakerState;
     }
+    public FightingState getFightingState() {
+    	return (FightingState)getGameProperties().fightingState;
+    }
 
     public void changeState(State state){
         State.setState(state);
