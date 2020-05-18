@@ -40,10 +40,11 @@ public class LinkFight extends BaseMovingEntity {
 	int attackCoolDown= 30, jumpCoolDown = 30, jumpTime = 10, hitCount = 30;
 	public boolean notFloor = false, jump = false, idle = false, attack = false, attackLow = false;
 	Direction movingTo;
+	String dir = ""; //facing relative to link
 	public swordLaser laserSword;
 	
 	public superWave superWave;
-	Animation running,runningL,attackAnim,hurtAnim,attLow;
+	Animation running,runningL,attackAnim,animationL,attLow, attLowL;
 	public Rectangle swordBounds = (Rectangle) bounds.clone();
 	public Rectangle rodBounds = (Rectangle) bounds.clone();
 	public Rectangle proyectileBounds = (Rectangle) bounds.clone();
@@ -61,6 +62,12 @@ public class LinkFight extends BaseMovingEntity {
 		animList[2] = sprite[3];
 		animList[3] = sprite[4];
 		animation = new Animation(animSpeed,animList);
+		BufferedImage[] animList2 = new BufferedImage[4];
+		animList2[0] = Images.flipHorizontal(sprite[2]);
+		animList2[1] = Images.flipHorizontal(sprite[2]);
+		animList2[2] = Images.flipHorizontal(sprite[3]);
+		animList2[3] = Images.flipHorizontal(sprite[4]);
+		animationL = new Animation(animSpeed,animList2);
 		BufferedImage[] runAnim = new BufferedImage[3];
 		runAnim[0] = sprite[8];
 		runAnim[1] = sprite[9];
@@ -75,8 +82,12 @@ public class LinkFight extends BaseMovingEntity {
 		lowAnim[0] = sprite[11];
 		lowAnim[1] = sprite[12];
 		lowAnim[2] = sprite[13];
-		//lowAnim[3] = sprite[13];
 		attLow = new Animation(animSpeed,lowAnim);
+		BufferedImage[] lowAnimL = new BufferedImage[3];
+		lowAnimL[0] = Images.flipHorizontal(sprite[11]);
+		lowAnimL[1] = Images.flipHorizontal(sprite[12]);
+		lowAnimL[2] = Images.flipHorizontal(sprite[13]);
+		attLowL = new Animation(animSpeed,lowAnimL);
 		
 
 	
@@ -155,19 +166,16 @@ public class LinkFight extends BaseMovingEntity {
 					
 					}
 				movingTo = Direction.LEFT;
-				sprite = Images.flipHorizontal(sprites[0]);
-				 
-				
-					
-			
-					
-					move(direction);
+				sprite = Images.flipHorizontal(sprites[0]);		
+				dir = "left";
+				move(direction);
 				
 			} else if (handler.getKeyManager().right && !attack) {
 				if (direction != Direction.RIGHT) {		
 					direction = Direction.RIGHT;
 					
 				}	
+				dir = "right";
 				movingTo = Direction.RIGHT;
 				sprite = sprites[0];
 				move(direction);
@@ -214,7 +222,11 @@ public class LinkFight extends BaseMovingEntity {
 	public void swordSlash() {
 		
 		swordBounds = (Rectangle) bounds.clone();
-		swordBounds.x += 48;
+		if (dir == "right") {
+		swordBounds.x += 48;}
+		else if (dir == "left") {
+			swordBounds.x -= 48;
+		}
 		if (hitCount > 0) {hitCount--;}
 		else if (hitCount <= 0) {
 			hitCount = 29; 
@@ -226,8 +238,14 @@ public class LinkFight extends BaseMovingEntity {
 public void swordLow() {
 		
 		swordBounds = (Rectangle) bounds.clone();
-		swordBounds.x += 64;
-		swordBounds.y += 20;
+		if (dir == "right") {
+			swordBounds.x += 64;
+			swordBounds.y += 20;}
+			else if (dir == "left") {
+				swordBounds.x -= 64;
+				swordBounds.y += 20;
+			}
+		
 		if (hitCount > 0) {hitCount--;}
 		else if (hitCount <= 0) {
 			hitCount = 29; 
@@ -263,12 +281,15 @@ public void swordLow() {
 				
 	}
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics g) {//render all anims
 		g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		
 			if (!attack && (movingTo != Direction.NONE)) {
 			if (movingTo == Direction.DOWN) {
-			g.drawImage(sprite ,x, y+5, width , height  , null);
+				if (dir == "right") {
+					g.drawImage(sprite ,x, y+5, width , height  , null);}
+				else if (dir == "left") {
+					g.drawImage(Images.flipHorizontal(sprite) ,x, y+5, width , height  , null);}
 			}
 			else if(movingTo == Direction.LEFT) {
 				runningL.tick();
@@ -278,19 +299,33 @@ public void swordLow() {
 				running.tick();
 				g.drawImage(running.getCurrentFrame(), x , y-10, width-15 , height-20  , null);}
 			}
-		
-			else if (attack == true) {
+			//adds directions to his anims depending to where he is looking
+			else if (attack == true && dir == "right") {
 				animation.tick();
 				g.drawRect(swordBounds.x, swordBounds.y, swordBounds.width, swordBounds.height);
 				g.drawImage(animation.getCurrentFrame() ,x+20 , y-25, width+10 , height  , null);
 			}
-			else if (attackLow == true) {
+			else if (attack == true && dir == "left") {
+				animationL.tick();
+				g.drawRect(swordBounds.x, swordBounds.y, swordBounds.width, swordBounds.height);
+				g.drawImage(animationL.getCurrentFrame() ,x-20 , y-25, width+10 , height  , null);
+			}
+			else if (attackLow == true && dir == "right") {
 				attLow.tick();
 				g.drawRect(swordBounds.x, swordBounds.y, swordBounds.width, swordBounds.height);
 				g.drawImage(attLow.getCurrentFrame() ,x+30 , y-5, width+10 , height-20  , null);
 			}
+			else if (attackLow == true && dir == "left") {
+				attLowL.tick();
+				g.drawRect(swordBounds.x, swordBounds.y, swordBounds.width, swordBounds.height);
+				g.drawImage(attLowL.getCurrentFrame() ,x-30 , y-5, width+10 , height-20  , null);
+			}
 			else {
-				g.drawImage(sprite ,x , y-30, width , height  , null);
+				if (dir == "right") {
+				g.drawImage(sprite ,x , y-30, width , height  , null);}
+				else if (dir == "left") {
+					g.drawImage(Images.flipHorizontal(sprite) ,x , y-30, width , height  , null);}
+				
 			}
 			
 		    
