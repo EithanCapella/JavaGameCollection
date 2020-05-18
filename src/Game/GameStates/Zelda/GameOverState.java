@@ -34,11 +34,14 @@ public class GameOverState extends State {
 	public void tick() {
 		
 		if(!runOnce) {
-			handler.getMusicHandler().changeMusic("GameOverZelda");
+			handler.getMusicHandler().changeMusic("GameOverZelda.wav");
+			runOnce = true;
 		}
 		//Brings the player back to the game
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)){//resets the map and starts the game from scratch
-			handler.getZeldaGameState().link.health = 3;
+			handler.getZeldaGameState().link.setLife(3.0);
+			restart();
+			handler.getZeldaGameState().refresh();
 			State.setState(handler.getMenuState());
 			runOnce = false;
 			
@@ -50,8 +53,10 @@ public class GameOverState extends State {
 	public void render(Graphics g) { 	    
 	
 		
-		g.drawImage(Images.gameOverScreen, handler.getWidth(), handler.getHeight(), null);
-		
+		g.drawImage(Images.gameOverScreen, handler.getWidth()/3, handler.getHeight()/3, null);
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("TimesRoman", Font.ROMAN_BASELINE, 48));
+		g.drawString("--Continue--", handler.getWidth()/2 - 150, handler.getHeight()/2 + 100);
 		
 //		switch (caser) {//switches between the message displayed on the game over screen
 //
@@ -80,7 +85,13 @@ public class GameOverState extends State {
 
 	
 	public void restart() {
-		handler.getScoreManager().setPacmanCurrentScore(0);
+		//resets Link's most important variables
+		handler.getZeldaGameState().link.setLife(3.0);
+		handler.getZeldaGameState().link.hasSword = false;
+		handler.getZeldaGameState().link.hasBow = false;
+		handler.getZeldaGameState().link.hasRaft = false;
+		handler.getZeldaGameState().link.hasRod = false;
+		handler.getMusicHandler().stopMusic();
 		handler.getMusicHandler().changeMusic("nature.wav");
 	}
 }
