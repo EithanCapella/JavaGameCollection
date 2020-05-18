@@ -3,6 +3,7 @@ package Main;
 import Display.DisplayScreen;
 import Game.GameStates.*;
 import Game.GameStates.Zelda.FightingState;
+import Game.GameStates.Zelda.GameOverState;
 import Game.GameStates.Zelda.ZeldaDungeonState;
 import Game.GameStates.Zelda.ZeldaGameState;
 import Game.GameStates.Zelda.ZeldaMMGameState;
@@ -133,6 +134,10 @@ public class Handler {
     }
     public FightingState getFightingState() {
     	return (FightingState)getGameProperties().fightingState;
+    }
+    
+    public GameOverState getGameOverState() {
+    	return (GameOverState)getGameProperties().gameOverState;
     }
 
     public void changeState(State state){

@@ -76,6 +76,7 @@ public class Images {
     public SpriteSheet zeldaLinkSpriteSheet1;
     public SpriteSheet npcSpriteSheet;
     public SpriteSheet itemSpriteSheet;
+    public static BufferedImage gameOverScreen;
     public static BufferedImage lifeImage;
     public static BufferedImage[] attackSlots;
     public SpriteSheet menuSpriteSheet;
@@ -264,6 +265,7 @@ public class Images {
         linkArrowsProjectileSide= new BufferedImage[2];
         linkArrowsProjectileSideL= new BufferedImage[2];
         bombExplosionsFrames = new BufferedImage[3];
+        
 
 
 
@@ -432,7 +434,8 @@ public class Images {
             zeldaTitleFrames[1] = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/TitleScreen/frame_4.gif"));
             zeldaTitleFrames[0] = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/TitleScreen/frame_5.gif"));
             triforcePointer = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/triforceCursor.png"));
-
+            gameOverScreen = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/GameOverZelda.png"));
+            
             zeldaStoryFrames[0] = storySpriteSheet.crop(1, 250, 256,223);
             zeldaStoryFrames[1] = storySpriteSheet.crop(258, 250, 256,223);
             zeldaStoryFrames[2] = storySpriteSheet.crop(515, 250, 256,223);

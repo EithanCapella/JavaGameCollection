@@ -3,6 +3,7 @@ package Main;
 import Display.DisplayScreen;
 import Game.GameStates.*;
 import Game.GameStates.Zelda.FightingState;
+import Game.GameStates.Zelda.GameOverState;
 import Game.GameStates.Zelda.ZeldaDungeonState;
 import Game.GameStates.Zelda.ZeldaGameState;
 import Game.GameStates.Zelda.ZeldaIntroStates;
@@ -54,6 +55,7 @@ public class GameSetUp implements Runnable {
     public State zeldaMerchantState;
     public State MMGameState;
     public State fightingState;
+    public State gameOverState;
 
 
 
@@ -95,6 +97,7 @@ public class GameSetUp implements Runnable {
         zeldaMapMakerState = new ZeldaMapMakerState(handler);
         zeldaIntroState = new ZeldaIntroStates(handler);
         zeldaMerchantState = new ZeldaMerchantState(handler);
+        gameOverState = new GameOverState(handler);
 
         handler.setScoreManager(new ScoreManager(handler));
         handler.setMusicHandler(new MusicHandler(handler));
