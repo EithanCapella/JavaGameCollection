@@ -30,7 +30,7 @@ import static Game.Zelda.Entities.Dynamic.Direction.DOWN;
 import static Game.Zelda.Entities.Dynamic.Direction.UP;
 
 /**
- * Created by AlexVR on 3/15/2020
+ * Created by Eithan on 5/18/2020
  */
 public class LinkFight extends BaseMovingEntity {
 
@@ -56,6 +56,8 @@ public class LinkFight extends BaseMovingEntity {
 		speed = 4;
 		health = 6;
 		bounds.height = 39*2;
+		//--------------------------------//--------------------------------//--------------------------------//
+		//------Animations Movements/Attacks/Block------
 		BufferedImage[] animList = new BufferedImage[4];
 		animList[0] = sprite[2];
 		animList[1] = sprite[2];
@@ -88,14 +90,14 @@ public class LinkFight extends BaseMovingEntity {
 		lowAnimL[1] = Images.flipHorizontal(sprite[12]);
 		lowAnimL[2] = Images.flipHorizontal(sprite[13]);
 		attLowL = new Animation(animSpeed,lowAnimL);
-		
+		//--------------------------------//--------------------------------//--------------------------------//
 
 	
 		
 	}
 	@Override
 	public void tick() {
-		
+		//--------------------------------//--------------------------------//--------------------------------//
 		//Timers and attackCoolDowns
 		if (attackCoolDown > 0 && (attack || attackLow)) {
 			attackCoolDown--;
@@ -105,6 +107,9 @@ public class LinkFight extends BaseMovingEntity {
 			attack = false;
 			attackLow = false;
 		}
+		//--------------------------------//--------------------------------//--------------------------------//
+		
+		
 		//------Physics------
 		//Gravity, only runs after a jump is finished. IDEA: jump for a while then activate gravity to simulate the arc of a Jump.
 		if(!jump && notFloor && !idle) {
@@ -135,10 +140,13 @@ public class LinkFight extends BaseMovingEntity {
 					jump = false;
 				}
 			}
+		//--------------------------------//--------------------------------//--------------------------------//
 		
-		
-			if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_W) ) {
-				
+			
+		//------Link's Movements------
+			//movingTo functions is to save Link's last current position in terms of facing
+			if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_W) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_UP) ) {
+				//activates jump algorithm
 					jump = true;
 					jumpTime = 20;
 					direction = UP;
@@ -185,8 +193,11 @@ public class LinkFight extends BaseMovingEntity {
 				sprite = sprites[0];
 				movingTo = Direction.NONE;
 			}
-		
+			//--------------------------------//--------------------------------//--------------------------------//
 	
+			
+			
+			//------Link's Attacks------
 		
 	
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ENTER) && !attack ) {
@@ -207,20 +218,13 @@ public class LinkFight extends BaseMovingEntity {
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_L)) {
 			handler.changeState(handler.getFightingState());
 		}
-
-		
-		
-	
-	
-	
-	
-				
-			}
+	}
+	//--------------------------------//--------------------------------//--------------------------------//
 		
 	
-	
+	//------ Link's Attack Methods------
 	public void swordSlash() {
-		
+		//Adjust the hitbox relative to where he is facing
 		swordBounds = (Rectangle) bounds.clone();
 		if (dir == "right") {
 		swordBounds.x += 48;}
@@ -235,7 +239,7 @@ public class LinkFight extends BaseMovingEntity {
 		
 	}
 	
-public void swordLow() {
+	public void swordLow() {
 		
 		swordBounds = (Rectangle) bounds.clone();
 		if (dir == "right") {
@@ -253,6 +257,8 @@ public void swordLow() {
 			swordBounds.y = 0;}
 		
 	}
+	//--------------------------------//--------------------------------//--------------------------------//
+	
 	
 	@Override
 	public void move(Direction direction) {
@@ -271,7 +277,7 @@ public void swordLow() {
 					break;
 				case UP:
 					
-					//y-=60;
+					//No current up movement
 					
 					break;
 				}
@@ -280,10 +286,15 @@ public void swordLow() {
 				changeIntersectingBounds();
 				
 	}
+	//--------------------------------//--------------------------------//--------------------------------//
+	
+	
+	
 	@Override
 	public void render(Graphics g) {//render all anims
 		g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		
+		//Draws Link's idle animation
 			if (!attack && (movingTo != Direction.NONE)) {
 			if (movingTo == Direction.DOWN) {
 				if (dir == "right") {
@@ -291,6 +302,7 @@ public void swordLow() {
 				else if (dir == "left") {
 					g.drawImage(Images.flipHorizontal(sprite) ,x, y+5, width , height  , null);}
 			}
+			//Link's movementAnims
 			else if(movingTo == Direction.LEFT) {
 				runningL.tick();
 				g.drawImage(runningL.getCurrentFrame(), x , y-10, width-15 , height-20  , null);
@@ -299,7 +311,9 @@ public void swordLow() {
 				running.tick();
 				g.drawImage(running.getCurrentFrame(), x , y-10, width-15 , height-20  , null);}
 			}
+			
 			//adds directions to his anims depending to where he is looking
+			//These renders focus on Link's Attacks
 			else if (attack == true && dir == "right") {
 				animation.tick();
 				g.drawRect(swordBounds.x, swordBounds.y, swordBounds.width, swordBounds.height);

@@ -29,9 +29,8 @@ import java.util.Random;
 import static Game.GameStates.Zelda.ZeldaGameState.worldScale;
 import static Game.Zelda.Entities.Dynamic.Direction.DOWN;
 import static Game.Zelda.Entities.Dynamic.Direction.UP;
-
 /**
- * Created by AlexVR on 3/15/2020
+ * Created by Eithan on 5/18/2020
  */
 public class BossFight extends BaseMovingEntity {
 
@@ -57,6 +56,7 @@ public class BossFight extends BaseMovingEntity {
 		speed = 4;
 		health = 10;
 		bounds.height = 39*2;
+		//Attack Animations- Had to make 2 since flipping an animation makes the order go in reverse
 		BufferedImage[] animList = new BufferedImage[4];
 		animList[0] = sprite[4];
 		animList[1] = sprite[4];
@@ -69,47 +69,14 @@ public class BossFight extends BaseMovingEntity {
 		animList2[2] = Images.flipHorizontal(sprite[5]);
 		animList2[3] = Images.flipHorizontal(sprite[6]);
 		animationL = new Animation(animSpeed,animList2);
-//		BufferedImage[] animList = new BufferedImage[4];
-//		animList[0] = sprite[2];
-//		animList[1] = sprite[2];
-//		animList[2] = sprite[3];
-//		animList[3] = sprite[4];
-//		animation = new Animation(animSpeed,animList);
-//		BufferedImage[] animList2 = new BufferedImage[4];
-//		animList2[0] = Images.flipHorizontal(sprite[2]);
-//		animList2[1] = Images.flipHorizontal(sprite[2]);
-//		animList2[2] = Images.flipHorizontal(sprite[3]);
-//		animList2[3] = Images.flipHorizontal(sprite[4]);
-//		animationL = new Animation(animSpeed,animList2);
-//		BufferedImage[] runAnim = new BufferedImage[3];
-//		runAnim[0] = sprite[8];
-//		runAnim[1] = sprite[9];
-//		runAnim[2] = sprite[10];
-//		running = new Animation(animSpeed,runAnim);
-//		BufferedImage[] runAnimL = new BufferedImage[3];
-//		runAnimL[0] = Images.flipHorizontal(sprite[8]);
-//		runAnimL[1] = Images.flipHorizontal(sprite[9]);
-//		runAnimL[2] = Images.flipHorizontal(sprite[10]);
-//		runningL = new Animation(animSpeed,runAnimL);
-//		BufferedImage[] lowAnim = new BufferedImage[3];
-//		lowAnim[0] = sprite[11];
-//		lowAnim[1] = sprite[12];
-//		lowAnim[2] = sprite[13];
-//		attLow = new Animation(animSpeed,lowAnim);
-//		BufferedImage[] lowAnimL = new BufferedImage[3];
-//		lowAnimL[0] = Images.flipHorizontal(sprite[11]);
-//		lowAnimL[1] = Images.flipHorizontal(sprite[12]);
-//		lowAnimL[2] = Images.flipHorizontal(sprite[13]);
-//		attLowL = new Animation(animSpeed,lowAnimL);
-		
+
 
 	
 		
 	}
 	@Override
 	public void tick() {
-		
-		//Timers and attackCoolDowns
+		//------Timers and CoolDowns------
 		if (attackCoolDown > 0 && (attack || attackLow)) {
 			attackCoolDown--;
 		}
@@ -118,6 +85,8 @@ public class BossFight extends BaseMovingEntity {
 			attack = false;
 			attackLow = false;
 		}
+		//--------------------------------//--------------------------------//--------------------------------//
+		
 		//------Physics------
 		//Gravity, only runs after a jump is finished. IDEA: jump for a while then activate gravity to simulate the arc of a Jump.
 		if(!jump && notFloor && !idle) {
@@ -148,8 +117,10 @@ public class BossFight extends BaseMovingEntity {
 					jump = false;
 				}
 			}
-		
-		//Algorithm for Ganon's movements and attacks
+		//--------------------------------//--------------------------------//--------------------------------//
+			
+			
+		//----Algorithm for Ganon's movements and attacks----
 			//Select one of the attacks
 			if (choiceCount > 0) {
 				choiceCount--;
@@ -176,10 +147,11 @@ public class BossFight extends BaseMovingEntity {
 				act = "attack";
 			}
 			else {
+				//Idle and say a comment
 				act = "nothing";
 			}
 			
-			
+			//Jumping Mechanisms, timer of jump and decrease in Y, first half of an arc jump.
 			if (act == "jump") {
 				
 					jump = true;
@@ -192,7 +164,10 @@ public class BossFight extends BaseMovingEntity {
 				sprite = sprites[0];
 					move(direction);	
 				
-			} else if (act == "nothing") {
+			} 
+			
+			//When Ganon does Nothing, he drops his guard to mock the player
+			else if (act == "nothing") {
 				if (direction != DOWN) {
 					direction = Direction.DOWN;
 					
@@ -201,8 +176,11 @@ public class BossFight extends BaseMovingEntity {
 				sprite = sprites[3];
 				move(direction);
 				
-					
+			//--------------------------------//--------------------------------//--------------------------------//
 				
+				
+			//------Movement------
+			//Basic Movement, the same as link, but reversed engineered as an Dash Attack
 			} else if (act == "left" && !attack) {
 				if (direction != Direction.LEFT) {
 					direction = Direction.LEFT;
@@ -239,13 +217,14 @@ public class BossFight extends BaseMovingEntity {
 			ganonCanon();
 			handler.getMusicHandler().playEffect("Sword_Slash.wav");
 		}
-		if (handler.getKeyManager().shift == true) {
-			attackLow = true;
-			bounds.x = x;
-			bounds.y = y;
-			swordLow();
-			handler.getMusicHandler().playEffect("Sword_Slash.wav");
-		}
+		//To do: Secondary Attack
+//		if (handler.getKeyManager().shift == true) {
+//			attackLow = true;
+//			bounds.x = x;
+//			bounds.y = y;
+//			swordLow();
+//			handler.getMusicHandler().playEffect("Sword_Slash.wav");
+//		}
 		
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_L)) {
 			handler.changeState(handler.getFightingState());
@@ -261,9 +240,9 @@ public class BossFight extends BaseMovingEntity {
 			}
 		
 	
-	
+	//------Ganon's Attacks Methods------
 	public void ganonCanon() {
-		
+		// dir: flips the hitboxes for his attacks to his relative direction
 		swordBounds = (Rectangle) bounds.clone();
 		if (dir == "right") {
 			swordBounds.x += 30;
@@ -280,7 +259,7 @@ public class BossFight extends BaseMovingEntity {
 		
 	}
 	
-public void swordLow() {
+	public void swordLow() {
 		
 		swordBounds = (Rectangle) bounds.clone();
 		if (dir == "right") {
@@ -315,9 +294,7 @@ public void swordLow() {
 					
 					break;
 				case UP:
-					
-					//y-=60;
-					
+					//Nothing for now
 					break;
 				}
 				bounds.x = x;
@@ -329,6 +306,7 @@ public void swordLow() {
 	public void render(Graphics g) {//render all anims
 		g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		
+			//Render Ganon's Idle sprite / mocking
 			if (!attack && (movingTo != Direction.NONE)) {
 			if (movingTo == Direction.DOWN) {
 				if (dir == "right") {
@@ -339,6 +317,8 @@ public void swordLow() {
 				g.setFont(new Font("TimesRoman", Font.PLAIN, 32));
 				g.drawString("Pathetic little fool!", x, y-10);
 			}
+			
+			//Horizontal Movement render
 			else if(movingTo == Direction.LEFT) {
 	
 				g.drawImage(sprite, x , y-10, sprite.getWidth() * 2, sprite.getHeight()  * 2   , null);
@@ -353,6 +333,7 @@ public void swordLow() {
 				g.drawRect(swordBounds.x, swordBounds.y, swordBounds.width, swordBounds.height);
 				g.drawImage(animation.getCurrentFrame() ,x+30 , y-50, animation.getCurrentFrame().getWidth() * 2 , animation.getCurrentFrame().getHeight() * 2 , null);
 			}
+			//The index is used to shift the animations (x,y) in order to have a coherent frame by frame anim.
 			else if (attack == true && dir == "left") {
 				animationL.tick();
 				g.drawRect(swordBounds.x, swordBounds.y, swordBounds.width, swordBounds.height);
@@ -370,6 +351,7 @@ public void swordLow() {
 				}
 				
 			}
+			//To do: add new attack's sprites
 			else if (attackLow == true && dir == "right") {
 				attLow.tick();
 				g.drawRect(swordBounds.x, swordBounds.y, swordBounds.width, swordBounds.height);

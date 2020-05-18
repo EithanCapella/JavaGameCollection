@@ -12,6 +12,9 @@ import java.awt.event.KeyEvent;
 import java.awt.image.ImageObserver;
 import java.util.Random;
 
+/**
+ * Created by Eithan on 5/18/2020
+ */
 
 public class FightingState extends State {
 	public boolean enter = false, runOnce = false;
@@ -24,11 +27,13 @@ public class FightingState extends State {
     
     public LinkFight linkFight = new LinkFight(150, handler.getHeight()/2 - 200, Images.linkFight, handler);
     public BossFight ganonFight = new BossFight(handler.getHeight(), handler.getHeight()/2 - 200, Images.ganonFight, handler);
-    
+    //------Initialize------ 
+    //2D Fighter
     @Override
     public void tick() {
     	linkFight.tick();
     	ganonFight.tick();
+    	//Runs the music Once, player proably will die first or finish the boss before the music ends
     	if (!runOnce) {
     		runOnce = true;
     		handler.getMusicHandler().changeMusic("FinalBattle2d.wav");
@@ -37,7 +42,7 @@ public class FightingState extends State {
     }
     @Override
     public void render(Graphics g) {    
-    	
+    	//Draw Stage and the characters
     	g.drawImage(Images.linkFight[7],0 ,0, handler.getWidth(), handler.getHeight(), null);
     	g.drawRect(floor.x, floor.y, floor.width, floor.height);
     	linkFight.render(g);
