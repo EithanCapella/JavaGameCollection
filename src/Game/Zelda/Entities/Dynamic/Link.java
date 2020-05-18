@@ -76,6 +76,11 @@ public class Link extends BaseMovingEntity {
 	}
 	@Override
 	public void tick() {
+		if(!dead) {
+			if (life <= 0.0) {
+				kill();
+				handler.changeState(handler.getGameOverState());
+			}
 		//System.out.println("Link pos " + x + "," + y );
 		//Extra abilities for Link
 		//To Do: add extra weapons if possible or abilities, magic, bow etc.
@@ -323,7 +328,7 @@ public class Link extends BaseMovingEntity {
 			majora=true;
 		}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_L)) {
-			handler.changeState(handler.getFightingState());
+			handler.changeState(handler.getGameOverState());
 		}
 
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && life < 3) {
@@ -331,6 +336,7 @@ public class Link extends BaseMovingEntity {
 		}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_G) && life >= 0.5) {
 			setLife(getLife() - 0.5);
+			}
 		}
 	}
 	public void celebratingMethod() {
