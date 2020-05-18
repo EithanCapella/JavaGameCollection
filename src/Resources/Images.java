@@ -33,6 +33,7 @@ public class Images {
     public static BufferedImage[] galagaEnemyDeath;
     public static BufferedImage[] galagaEnemyBee;
     public static BufferedImage[] linkFight;
+    public static BufferedImage[] ganonFight;
     public static BufferedImage map1;
     public static BufferedImage ghost;
     public static BufferedImage[] pacmanDots;
@@ -53,6 +54,8 @@ public class Images {
     public SpriteSheet storySpriteSheet;
     public static BufferedImage fightImageSet;
     public SpriteSheet linkFightSprites;
+    public static BufferedImage GanonImageSet;
+    public SpriteSheet GanonFightSprites;
     public static BufferedImage zeldaTriforceLogo;
     public static BufferedImage zeldaMap;
     public static BufferedImage otherZeldaMap;
@@ -218,6 +221,7 @@ public class Images {
         foodItem= new BufferedImage[2];
 
         linkFight = new BufferedImage[16];
+        ganonFight = new BufferedImage[16];
         bouncyEnemyFrames = new BufferedImage[2];
         octorokEnemyFrames = new BufferedImage[4];
         octoHurtFrames = new BufferedImage[2];
@@ -390,6 +394,7 @@ public class Images {
             zeldaImageSheet = createImageTransparent(zeldaImageSheet,"tileSets_0,120,0,green",new Color(0,128,0).getRGB());
             zeldaSpriteSheet = new SpriteSheet(zeldaImageSheet);
 
+            //2d FIGHTER SPRITES
             fightImageSet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/LinkFight.png"));
             linkFightSprites = new SpriteSheet(fightImageSet);
             linkFight[0] = linkFightSprites.crop(73, 8, 34, 53); //link idle
@@ -406,6 +411,17 @@ public class Images {
             linkFight[11] = linkFightSprites.crop(138, 173, 41, 32); //attack start [low]
             linkFight[12] = linkFightSprites.crop(137, 211, 49, 32); //attack mid
             linkFight[13] = linkFightSprites.crop(193, 180, 75, 34); //attack end
+            
+            GanonImageSet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/GanonFight.png"));
+            GanonFightSprites = new SpriteSheet(GanonImageSet);
+            ganonFight[0] = GanonFightSprites.crop(230, 113, 42, 83);// Ganon idle
+            ganonFight[1] = GanonFightSprites.crop(290, 144, 77, 36);// Ganon move
+            ganonFight[2] = GanonFightSprites.crop(4, 16, 57, 75);// Ganon attack sword
+            ganonFight[3] = GanonFightSprites.crop(257, 211, 58, 83);// Ganon charge
+            ganonFight[4] = GanonFightSprites.crop(4, 316, 63, 83);// Ganon punch 1 start
+            ganonFight[5] = GanonFightSprites.crop(80, 305, 259, 94);// Ganon punch 1 mid
+            ganonFight[6] = GanonFightSprites.crop(362, 306, 166, 95);// Ganon punch 1 end
+            
             
             storyImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/title.png"));
             storySpriteSheet = new SpriteSheet(storyImageSheet);
