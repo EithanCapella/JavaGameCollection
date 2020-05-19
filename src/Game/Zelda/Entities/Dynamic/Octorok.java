@@ -24,7 +24,7 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class Octorok extends BaseMovingEntity {
 
 	private final int animSpeed = 120;
-	private double life=15.0;
+	private double life=3.0;
 
 	int randomDirection = 0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
@@ -42,7 +42,7 @@ public class Octorok extends BaseMovingEntity {
 		hurtAnim = new Animation(90,Images.octoHurtFrames);
 
 		speed = 2;
-		health = 15;
+		health = 3;
 
 
 	}
@@ -58,7 +58,7 @@ public class Octorok extends BaseMovingEntity {
 		if(hurt) {
 			hurtAnim.tick();
 		}
-		//System.out.println( "Enemy pos" + x + "," + y);
+		
 		if (directionCounter > 0) {
 			directionCounter--;
 		}
@@ -137,7 +137,7 @@ public class Octorok extends BaseMovingEntity {
 		}
 		if (handler.getZeldaGameState().link.hasRod) {
 			if (bounds.intersects(handler.getZeldaGameState().link.rodBounds)) {
-			//System.out.println("runs" + " x,y enemy " + x + "," + y + " link " + handler.getZeldaGameState().link.rodBounds.x + "," +  handler.getZeldaGameState().link.rodBounds.y);
+			//System.out.println("runs shit" + " x,y enemy pendejo " + x + "," + y + " link pendejo " + handler.getZeldaGameState().link.rodBounds.x + "," +  handler.getZeldaGameState().link.rodBounds.y);
 					if(handler.getZeldaGameState().link.second) {
 					life -= 2;
 					hurt=true;
@@ -155,56 +155,6 @@ public class Octorok extends BaseMovingEntity {
 			}	
 		}
 
-
-		//			if (handler.getKeyManager().up&& !horray) {
-		//				if (direction != UP) {
-		//	
-		//					direction = UP;
-		//
-		//				}
-		//
-		//				if(!attacking&&!horray) {
-		//					animation.tick();
-		//					move(direction);
-		//				}
-		//			} else if (handler.getKeyManager().down&&!horray) {
-		//				if (direction != DOWN) {
-		//					direction = DOWN;
-		//				}
-		//				if(!attacking&&!horray) {
-		//
-		//					move(direction);
-		//				}
-		//			} else if (handler.getKeyManager().left&&!horray) {
-		//				if (direction != Direction.LEFT) {
-		//
-		//					direction = Direction.LEFT;
-		//
-		//				}
-		//				
-		//				if(!attacking&&!horray) {
-		//					
-		//					move(direction);
-		//				}
-		//			} else if (handler.getKeyManager().right&&!horray) {
-		//				if (direction != Direction.RIGHT) {
-		//					
-		//					direction = Direction.RIGHT;
-		//
-		//				}
-		//				if(attacking) {
-		//				
-		//				}
-		//				if(!attacking&&!horray) {
-		//					animation.tick();
-		//					move(direction);
-		//				}
-		//				
-		//			} else {
-		//				moving = false;
-		//			}
-		//		
-
 	}
 
 	@Override
@@ -219,14 +169,7 @@ public class Octorok extends BaseMovingEntity {
 		if (hurt) {
 			g.drawImage(hurtAnim.getCurrentFrame(),x , y, width , height, null); 
 		}
-		//		if (attacking) {    
-		//			if(direction == Direction.LEFT) {
-		//				g.drawImage(attackAnim.getCurrentFrame(),this.x -(attackAnim.getCurrentFrame().getWidth()*2-this.width) , y,attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
-		//			}
-		//			if(direction == Direction.UP) {
-		//				g.drawImage(attackAnim.getCurrentFrame(),x , this.y -(attackAnim.getCurrentFrame().getHeight()*2 -this.height), attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null);
-		//			}else {g.drawImage(attackAnim.getCurrentFrame(),x , y, attackAnim.getCurrentFrame().getWidth()*2 ,attackAnim.getCurrentFrame().getHeight()*2, null); }
-		//		}
+	
 
 	}
 
@@ -235,85 +178,7 @@ public class Octorok extends BaseMovingEntity {
 	public void move(Direction direction) {
 		moving = true;
 		changeIntersectingBounds();
-		//chack for collisions
-
-		//			for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
-		//				if((objects instanceof Moblin)&&objects.bounds.intersects(bounds)) {
-		//					hurt=true;
-		//					life-=0.5;
-		//					if(direction == Direction.LEFT) {
-		//						x+=60;
-		//					}else if(direction == Direction.RIGHT) {
-		//						x-=60;
-		//					}
-		//					else if(direction == Direction.UP) {
-		//						y+=60;
-		//					}else if(direction == Direction.DOWN) {
-		//						y-=60;
-		//					}
-		//				}
-		//				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
-		//					if(moving) {
-		//						hurt=true;
-		//						if(direction == Direction.LEFT) {
-		//							x+=60;
-		//						}else if(direction == Direction.RIGHT) {
-		//							x-=60;
-		//						}
-		//						else if(direction == Direction.UP) {
-		//							y+=60;
-		//						}else if(direction == Direction.DOWN) {
-		//							y-=60;
-		//						}
-		//					}
-		//					if(attacking) {
-		//						System.out.println("attacking hit");
-		//						//handler.getOctorok().setHurt(true);
-		//					}
-		//				}
-		//				if((objects instanceof Zora)&&objects.bounds.intersects(bounds)) {
-		//					hurt=true;
-		//					life-=0.5;
-		//					if(direction == Direction.LEFT) {
-		//						x+=60;
-		//					}else if(direction == Direction.RIGHT) {
-		//						x-=60;
-		//					}
-		//					else if(direction == Direction.UP) {
-		//						y+=60;
-		//					}else if(direction == Direction.DOWN) {
-		//						y-=60;
-		//					}
-		//				}
-		//				if((objects instanceof Leever)&&objects.bounds.intersects(bounds)) {
-		//					hurt=true;
-		//					life-=0.5;
-		//					if(direction == Direction.LEFT) {
-		//						x+=60;
-		//					}else if(direction == Direction.RIGHT) {
-		//						x-=60;
-		//					}
-		//					else if(direction == Direction.UP) {
-		//						y+=60;
-		//					}else if(direction == Direction.DOWN) {
-		//						y-=60;
-		//					}
-		//				}
-		//				if((objects instanceof BouncyFella)&&objects.bounds.intersects(bounds)) {
-		//					hurt=true;
-		//					life-=0.5;
-		//					if(direction == Direction.LEFT) {
-		//						x+=60;
-		//					}else if(direction == Direction.RIGHT) {
-		//						x-=60;
-		//					}
-		//					else if(direction == Direction.UP) {
-		//						y+=60;
-		//					}else if(direction == Direction.DOWN) {
-		//						y-=60;
-		//					}
-		//				}
-		//			}
+		
 
 
 		for (SolidStaticEntities objects : handler.getZeldaGameState().objects.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {

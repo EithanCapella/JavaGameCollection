@@ -33,7 +33,7 @@ public class FightingState extends State {
     public void tick() {
     	linkFight.tick();
     	ganonFight.tick();
-    	//Runs the music Once, player proably will die first or finish the boss before the music ends
+    	//Runs the music Once, player probably will die first or finish the boss before the music ends
     	if (!runOnce) {
     		runOnce = true;
     		handler.getMusicHandler().changeMusic("FinalBattle2d.wav");
