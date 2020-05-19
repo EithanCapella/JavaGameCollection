@@ -4,6 +4,7 @@ import Game.GameStates.Zelda.ZeldaGameState;
 import Game.Zelda.Entities.Statics.BookOfMagic;
 import Game.Zelda.Entities.Statics.Bow;
 import Game.Zelda.Entities.Statics.DungeonDoor;
+import Game.Zelda.Entities.Statics.Fire;
 import Game.Zelda.Entities.Statics.Item;
 import Game.Zelda.Entities.Statics.RedCandle;
 import Game.Zelda.Entities.Statics.SectionDoor;
@@ -37,12 +38,12 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
  */
 public class Link extends BaseMovingEntity {
 
-	private final int animSpeed = 120;
+	private final int animSpeed = 120, knockback = 40;
 	private double life=3.0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
 	int celebrateCounter = 120,attackCounter=30,hurtCounter=20,fireCounter=60,bombCounter=120,raftCounter=20,count=0, rupees=300, potions = 0,otherPotions=0,food=0,bombs=15,arrows=10, hitCount=29;
-	public boolean movingMap = false,hasSword=false,hasBow=false,horray=false,wooden=false,dungeon=false,otherWorld=false,raft=false,hasRaft=false,hasRod=false,hasCandle=false,hasBook=false,arrowAttack=false,
-			itemPickUp=false,removeRaft=false,white=false,magical=false,rod=false,majora=false,superRing=false,projectile=false,first=false,second=false,fire=false,bomb=false,boom=false,candle=false,bookOfMagic=false,BOM=false;
+	public boolean movingMap = false,hasSword=false,hasBow=false,horray=false,dungeon=false,otherWorld=false,raft=false,hasRaft=false,hasRod=false,hasCandle=false,hasBook=false,arrowAttack=false,
+			itemPickUp=false,removeRaft=false,rod=false,superRing=false,projectile=false,first=false,second=false,fire=false,bomb=false,boom=false,candle=false,bookOfMagic=false,BOM=false;
 	Direction movingTo;
 	public String swordHolding = "";
 	public swordLaser laserSword;
@@ -79,6 +80,10 @@ public class Link extends BaseMovingEntity {
 	}
 	@Override
 	public void tick() {
+		if(life <= 0.0) {
+			handler.changeState(handler.getGameOverState());
+		}
+		
 		if (attacking) {if(first) {swordAttack(this.direction);}else if(second) {rodAttack(this.direction);}}
 		if(hurt) {
 			hurtAnim.tick();
@@ -205,14 +210,14 @@ public class Link extends BaseMovingEntity {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = sprites[4];
 					animList[1] = sprites[5];
-					if(majora&&!superRing) {
+					if(swordHolding == "majora" && !superRing) {
 						animList[0] = Images.superLinkFrames[4];
 						animList[1] = Images.superLinkFrames[5];
 					}
 					animation = new Animation(animSpeed, animList);
 					direction = UP;
 					sprite = sprites[4];
-					if(majora&&!superRing) {sprite = Images.superLinkFrames[4];}
+					if(swordHolding == "majora" && !superRing) {sprite = Images.superLinkFrames[4];}
 				}
 				if(!attacking&&!horray) {
 					animation.tick();
@@ -223,14 +228,14 @@ public class Link extends BaseMovingEntity {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = sprites[0];
 					animList[1] = sprites[1];
-					if(majora&&!superRing) {
+					if(swordHolding == "majora" && !superRing) {
 						animList[0] = Images.superLinkFrames[0];
 						animList[1] = Images.superLinkFrames[1];
 					}
 					animation = new Animation(animSpeed, animList);
 					direction = DOWN;
 					sprite = sprites[0];
-					if(majora&&!superRing) {sprite = Images.superLinkFrames[0];	}
+					if(swordHolding == "majora" && !superRing) {sprite = Images.superLinkFrames[0];	}
 				}
 				if(!attacking&&!horray) {
 					animation.tick();
@@ -241,14 +246,14 @@ public class Link extends BaseMovingEntity {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = Images.flipHorizontal(sprites[2]);
 					animList[1] = Images.flipHorizontal(sprites[3]);
-					if(majora&&!superRing) {
+					if(swordHolding == "majora" && !superRing) {
 						animList[0] = Images.flipHorizontal(Images.superLinkFrames[2]);
 						animList[1] = Images.flipHorizontal(Images.superLinkFrames[3]);	
 					}
 					animation = new Animation(animSpeed, animList);
 					direction = Direction.LEFT;
 					sprite = Images.flipHorizontal(sprites[3]);
-					if(majora&&!superRing) {sprite = Images.flipHorizontal(Images.superLinkFrames[3]);}
+					if(swordHolding == "majora" &&!superRing) {sprite = Images.flipHorizontal(Images.superLinkFrames[3]);}
 				}
 				if(!attacking&&!horray) {
 					animation.tick();
@@ -259,14 +264,14 @@ public class Link extends BaseMovingEntity {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = (sprites[2]);
 					animList[1] = (sprites[3]);
-					if(majora&&!superRing) {
+					if(swordHolding == "majora" &&!superRing) {
 						animList[0] = Images.superLinkFrames[2];
 						animList[1] = Images.superLinkFrames[3];
 					}
 					animation = new Animation(animSpeed, animList);
 					direction = Direction.RIGHT;
 					sprite = (sprites[3]);
-					if(majora&&!superRing) {sprite = Images.superLinkFrames[3];	}
+					if(swordHolding == "majora" &&!superRing) {sprite = Images.superLinkFrames[3];	}
 				}
 				if(!attacking&&!horray) {
 					animation.tick();
@@ -302,7 +307,7 @@ public class Link extends BaseMovingEntity {
 			laserMethod();
 			projectile=false;
 		}
-		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_O) && hasSword && !attacking&& (majora||rod) ) {
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_O) && hasSword && !attacking&& (swordHolding == "majora"||rod) ) {
 			secondAttack();
 			superWave();
 			projectile=false;
@@ -330,10 +335,10 @@ public class Link extends BaseMovingEntity {
 			handler.getMusicHandler().playEffect("Sword_Slash.wav");
 		}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_Z)) {
-			majora=true;
+			swordHolding = "majora";
 		}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_L)) {
-			handler.changeState(handler.getZeldaMerchantState());
+			handler.changeState(handler.getFightingState());
 		}
 
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_H) && life < 3) {
@@ -361,7 +366,7 @@ public class Link extends BaseMovingEntity {
 		attacking=true;
 		if(attacking) {
 			if (direction == direction.UP) {
-				if(wooden && !(white&&magical&&majora)) {
+				if(swordHolding == "wood") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.woodenSwordAttackFrames[8]);
 					animList1[1] = (Images.woodenSwordAttackFrames[9]);
@@ -369,7 +374,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.woodenSwordAttackFrames[11]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(white&& !(wooden&&magical&&majora)) {
+				if(swordHolding == "white") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.whiteSwordAttackFrames[8]);
 					animList1[1] = (Images.whiteSwordAttackFrames[9]);
@@ -377,7 +382,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.whiteSwordAttackFrames[11]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(magical&& !(white&&wooden&&majora)) {
+				if(swordHolding == "magical") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.magicalSwordAttackFrames[8]);
 					animList1[1] = (Images.magicalSwordAttackFrames[9]);
@@ -385,7 +390,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.magicalSwordAttackFrames[11]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(majora&& !(wooden&&magical&&white)) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.superSwordAttackFrames[8]);
 					animList1[1] = (Images.superSwordAttackFrames[9]);
@@ -395,7 +400,7 @@ public class Link extends BaseMovingEntity {
 				}
 			}
 			else if (direction == direction.DOWN) {
-				if(wooden && !(white&&magical&&majora)) {
+				if(swordHolding == "wood") {
 					BufferedImage[] animList1 = new BufferedImage[4];			
 					animList1[0] = (Images.woodenSwordAttackFrames[0]);
 					animList1[1] = (Images.woodenSwordAttackFrames[1]);
@@ -403,7 +408,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.woodenSwordAttackFrames[3]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(white&& !(wooden&&magical&&majora)) {
+				if(swordHolding == "white") {
 					BufferedImage[] animList1 = new BufferedImage[4];			
 					animList1[0] = (Images.whiteSwordAttackFrames[0]);
 					animList1[1] = (Images.whiteSwordAttackFrames[1]);
@@ -411,7 +416,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.whiteSwordAttackFrames[3]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(magical&& !(white&&wooden&&majora)) {
+				if(swordHolding == "magical") {
 					BufferedImage[] animList1 = new BufferedImage[4];			
 					animList1[0] = (Images.magicalSwordAttackFrames[0]);
 					animList1[1] = (Images.magicalSwordAttackFrames[1]);
@@ -420,7 +425,7 @@ public class Link extends BaseMovingEntity {
 					attackAnim = new Animation(animSpeed, animList1);
 				}
 
-				if(majora&& !(wooden&&magical&&white)) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList1 = new BufferedImage[4];			
 					animList1[0] = (Images.superSwordAttackFrames[0]);
 					animList1[1] = (Images.superSwordAttackFrames[1]);
@@ -430,7 +435,7 @@ public class Link extends BaseMovingEntity {
 				}
 			}	
 			else if (direction == direction.LEFT) {
-				if(wooden && !(white&&magical&&majora)) {
+				if(swordHolding == "wood") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[4]));
 					animList1[1] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[5]));
@@ -438,7 +443,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.flipHorizontal(Images.woodenSwordAttackFrames[7]));
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(white&& !(wooden&&magical&&majora)) {
+				if(swordHolding == "white") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.flipHorizontal(Images.whiteSwordAttackFrames[4]));
 					animList1[1] = (Images.flipHorizontal(Images.whiteSwordAttackFrames[5]));
@@ -446,7 +451,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.flipHorizontal(Images.whiteSwordAttackFrames[7]));
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(magical&& !(white&&wooden&&majora)) {
+				if(swordHolding == "magical") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.flipHorizontal(Images.magicalSwordAttackFrames[4]));
 					animList1[1] = (Images.flipHorizontal(Images.magicalSwordAttackFrames[5]));
@@ -455,7 +460,7 @@ public class Link extends BaseMovingEntity {
 					attackAnim = new Animation(animSpeed, animList1);
 				}
 
-				if(majora&& !(wooden&&magical&&white)) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.flipHorizontal(Images.superSwordAttackFrames[4]));
 					animList1[1] = (Images.flipHorizontal(Images.superSwordAttackFrames[5]));
@@ -465,7 +470,7 @@ public class Link extends BaseMovingEntity {
 				}
 			}
 			else {
-				if(wooden && !(white&&magical&&majora)) {
+				if(swordHolding == "wood") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.woodenSwordAttackFrames[4]);
 					animList1[1] = (Images.woodenSwordAttackFrames[5]);
@@ -473,7 +478,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.woodenSwordAttackFrames[7]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(white&& !(wooden&&magical&&majora)) {
+				if(swordHolding == "white") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.whiteSwordAttackFrames[4]);
 					animList1[1] = (Images.whiteSwordAttackFrames[5]);
@@ -481,7 +486,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.whiteSwordAttackFrames[7]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(magical&& !(white&&wooden&&majora)) {
+				if(swordHolding == "magical") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.magicalSwordAttackFrames[4]);
 					animList1[1] = (Images.magicalSwordAttackFrames[5]);
@@ -490,7 +495,7 @@ public class Link extends BaseMovingEntity {
 					attackAnim = new Animation(animSpeed, animList1);
 				}
 
-				if(majora&& !(wooden&&magical&&white)) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.superSwordAttackFrames[4]);
 					animList1[1] = (Images.superSwordAttackFrames[5]);
@@ -506,7 +511,7 @@ public class Link extends BaseMovingEntity {
 		attacking=true;
 		if(attacking) {
 			if (direction == direction.UP) {
-				if(rod&&!majora) {
+				if(rod&& !(swordHolding == "majora")) {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.magicalRodAttackFrames[8]);
 					animList1[1] = (Images.magicalRodAttackFrames[9]);
@@ -514,7 +519,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.magicalRodAttackFrames[11]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(majora) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.superRodAttackFrames[8]);
 					animList1[1] = (Images.superRodAttackFrames[9]);
@@ -524,7 +529,7 @@ public class Link extends BaseMovingEntity {
 				}
 			}
 			else if (direction == direction.DOWN) {	
-				if(rod&&!majora) {
+				if(rod&&!(swordHolding == "majora")) {
 					BufferedImage[] animList1 = new BufferedImage[4];			
 					animList1[0] = (Images.magicalRodAttackFrames[0]);
 					animList1[1] = (Images.magicalRodAttackFrames[1]);
@@ -532,7 +537,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.magicalRodAttackFrames[3]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(majora) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList1 = new BufferedImage[4];			
 					animList1[0] = (Images.superRodAttackFrames[0]);
 					animList1[1] = (Images.superRodAttackFrames[1]);
@@ -542,7 +547,7 @@ public class Link extends BaseMovingEntity {
 				}
 			}	
 			else if (direction == direction.LEFT) {
-				if(rod&&!majora) {
+				if(rod&&!(swordHolding == "majora")) {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.flipHorizontal(Images.magicalRodAttackFrames[4]));
 					animList1[1] = (Images.flipHorizontal(Images.magicalRodAttackFrames[5]));
@@ -550,7 +555,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.flipHorizontal(Images.magicalRodAttackFrames[7]));
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(majora) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.flipHorizontal(Images.superRodAttackFrames[4]));
 					animList1[1] = (Images.flipHorizontal(Images.superRodAttackFrames[5]));
@@ -560,7 +565,7 @@ public class Link extends BaseMovingEntity {
 				}
 			}
 			else {
-				if(rod&&!majora) {
+				if(rod&&!(swordHolding == "majora")) {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.magicalRodAttackFrames[4]);
 					animList1[1] = (Images.magicalRodAttackFrames[5]);
@@ -568,7 +573,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.magicalRodAttackFrames[7]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				if(majora) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.superRodAttackFrames[4]);
 					animList1[1] = (Images.superRodAttackFrames[5]);
@@ -768,7 +773,7 @@ public class Link extends BaseMovingEntity {
 	public void superWave() {
 		if(attacking) {
 			if(dungeon) {
-				if(majora&& !(wooden&&magical&&rod&&white)) {
+				if(swordHolding == "majora") {
 					if (direction == direction.UP) {
 						superWave = new superWave(this.x,this.y,Images.vaporWaveUp, handler,direction.UP);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(superWave);
@@ -788,7 +793,7 @@ public class Link extends BaseMovingEntity {
 				}
 			}
 			if (otherWorld) {
-				if(majora&& !(wooden&&magical&&rod&&white)) {
+				if(swordHolding == "majora") {
 					if (direction == direction.UP) {
 						superWave = new superWave(this.x,this.y,Images.vaporWaveUp, handler,direction.UP);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(superWave);
@@ -808,7 +813,7 @@ public class Link extends BaseMovingEntity {
 				}
 			}
 			else {
-				if(rod&& !(majora)) {
+				if(rod && !(swordHolding == "majora")) {
 					if (direction == direction.UP) {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.rodWaveUp, handler,direction.UP);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
@@ -826,7 +831,7 @@ public class Link extends BaseMovingEntity {
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}
 				}
-				if(majora&& !(wooden&&magical&&white)) {
+				if(swordHolding == "majora") {
 					if (direction == direction.UP) {
 						superWave = new superWave(this.x,this.y,Images.vaporWaveUp, handler,direction.UP);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(superWave);
@@ -852,57 +857,57 @@ public class Link extends BaseMovingEntity {
 		if(attacking) {
 			if(dungeon) {
 				if (direction == direction.UP) {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileUp, handler,direction.UP);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileUp, handler,direction.UP);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileUp, handler,direction.UP);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 					}
 				}
 				else if (direction == direction.DOWN) {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileDown, handler,direction.DOWN);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileDown, handler,direction.DOWN);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileDown, handler,direction.DOWN);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 					}			}	
 				else if (direction == direction.LEFT) {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileSideL, handler,direction.LEFT);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileSideL, handler,direction.LEFT);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileSideL, handler,direction.LEFT);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 					}
 				}
 				else {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileSide, handler,direction.RIGHT);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileSide, handler,direction.RIGHT);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileSide, handler,direction.RIGHT);
 						handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
 					}
@@ -910,57 +915,57 @@ public class Link extends BaseMovingEntity {
 			}
 			if (otherWorld) {
 				if (direction == direction.UP) {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileUp, handler,direction.UP);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileUp, handler,direction.UP);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileUp, handler,direction.UP);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 					}
 				}
 				else if (direction == direction.DOWN) {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileDown, handler,direction.DOWN);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileDown, handler,direction.DOWN);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileDown, handler,direction.DOWN);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 					}			}	
 				else if (direction == direction.LEFT) {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileSideL, handler,direction.LEFT);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileSideL, handler,direction.LEFT);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileSideL, handler,direction.LEFT);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 					}
 				}
 				else {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileSide, handler,direction.RIGHT);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileSide, handler,direction.RIGHT);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileSide, handler,direction.RIGHT);
 						handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY).add(swordProyectile);
 					}
@@ -968,57 +973,57 @@ public class Link extends BaseMovingEntity {
 			}
 			else {
 				if (direction == direction.UP) {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileUp, handler,direction.UP);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileUp, handler,direction.UP);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileUp, handler,direction.UP);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}
 				}
 				else if (direction == direction.DOWN) {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileDown, handler,direction.DOWN);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileDown, handler,direction.DOWN);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileDown, handler,direction.DOWN);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}			}	
 				else if (direction == direction.LEFT) {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileSideL, handler,direction.LEFT);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileSideL, handler,direction.LEFT);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileSideL, handler,direction.LEFT);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}
 				}
 				else {
-					if(white&& !(wooden&&magical&&majora)) {
+					if(swordHolding == "white") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.whiteProyectileSide, handler,direction.RIGHT);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}
-					if(magical&& !(white&&wooden&&majora)) {
+					if(swordHolding == "magical") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.magicalProyectileSide, handler,direction.RIGHT);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}
-					if(majora&& !(wooden&&magical&&white)) {
+					if(swordHolding == "majora") {
 						swordProyectile = new swordProjectile(this.x,this.y,Images.majoraProyectileSide, handler,direction.RIGHT);
 						handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY).add(swordProyectile);
 					}
@@ -1073,7 +1078,7 @@ public class Link extends BaseMovingEntity {
 		raft=true;
 		if(raft) {
 			if (direction == direction.UP) {
-				if(majora) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = Images.linkRaftFrames[11]; // superlink raft
 					animList[1] = Images.linkRaftFrames[12]; // superlink raft
@@ -1089,7 +1094,7 @@ public class Link extends BaseMovingEntity {
 				}
 			}
 			else if (direction == direction.DOWN) {
-				if(majora) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = Images.linkRaftFrames[7]; // superlink raft
 					animList[1] = Images.linkRaftFrames[8]; // superlink raft
@@ -1105,7 +1110,7 @@ public class Link extends BaseMovingEntity {
 				}
 			}	
 			else if (direction == direction.LEFT) {
-				if(majora) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = Images.flipHorizontal(Images.linkRaftFrames[9]); // superlink raft
 					animList[1] = Images.flipHorizontal(Images.linkRaftFrames[10]); // superlink raft
@@ -1121,7 +1126,7 @@ public class Link extends BaseMovingEntity {
 				}
 			}
 			else {
-				if(majora) {
+				if(swordHolding == "majora") {
 					BufferedImage[] animList = new BufferedImage[2];
 					animList[0] = Images.linkRaftFrames[9]; // superlink raft
 					animList[1] = Images.linkRaftFrames[10]; // superlink raft
@@ -1248,15 +1253,12 @@ public class Link extends BaseMovingEntity {
 					horray = true;
 					celebratingMethod();
 					moving=false;
-					wooden=true;
 					count++;
 					hasRod=false;
 					hasBow=false;
 					hasCandle=false;
 					hasBook=false;
-					white=false;
-					magical=false;
-					majora=false;
+					swordHolding = "wood";
 					handler.getZeldaGameState().caveObjects.remove(objects);
 				}
 				if ((objects instanceof whiteSword) && objects.bounds.intersects(interactBounds)) {
@@ -1265,11 +1267,8 @@ public class Link extends BaseMovingEntity {
 					horray = true;
 					celebratingMethod();
 					moving=false;
-					white=true;
+					swordHolding = "white";
 					count++;
-					wooden=false;
-					magical=false;
-					majora=false;
 					hasRod=false;
 					hasBow=false;					
 					hasCandle=false;
@@ -1282,11 +1281,8 @@ public class Link extends BaseMovingEntity {
 					horray = true;
 					celebratingMethod();
 					moving=false;
-					magical=true;
+					swordHolding = "magical";
 					count++;
-					white=false;
-					wooden=false;
-					majora=false;
 					hasRod=false;
 					hasBow=false;
 					hasCandle=false;
@@ -1316,12 +1312,9 @@ public class Link extends BaseMovingEntity {
 					hasCandle=false;
 					hasBook=false;
 					celebratingMethod();
-					moving=false;
-					white=false;
+					moving=false;	
 					count++;
-					wooden=false;
-					magical=false;
-					majora=true;
+					swordHolding = "majora";
 					handler.getZeldaGameState().caveObjects.remove(objects);
 				}
 				if ((objects instanceof superRing) && objects.bounds.intersects(interactBounds)) {
@@ -1330,14 +1323,11 @@ public class Link extends BaseMovingEntity {
 					horray = true;
 					celebratingMethod();
 					moving=false;
-					white=false;
 					count++;
 					hasRod=false;
 					hasBow=false;
 					hasCandle=false;
 					hasBook=false;
-					wooden=false;
-					magical=false;
 					superRing=true;
 					handler.getZeldaGameState().caveObjects.remove(objects);
 				}
@@ -1356,76 +1346,18 @@ public class Link extends BaseMovingEntity {
 			}
 		}else if(otherWorld) {
 			for (BaseMovingEntity objects : handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY)) {
-				if((objects instanceof Moblin)&&objects.bounds.intersects(bounds)) {
+				if(objects.bounds.intersects(bounds) && (objects instanceof Octorok || objects instanceof BouncyFella || objects instanceof Leever  || objects instanceof Lynel || objects instanceof Moblin || objects instanceof Thunderbird || objects instanceof Zora)) {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {//Takes care of KnockBack
-						x+=20;
+						x+=knockback;
 					}else if(direction == Direction.RIGHT) {
-						x-=20;
+						x-=knockback;
 					}
 					else if(direction == Direction.UP) {
-						y+=20;
+						y+=knockback;
 					}else if(direction == Direction.DOWN) {
-						y-=20;
-					}
-				}
-				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
-					if(moving) {
-						hurt=true;
-						life-=0.5;
-						if(direction == Direction.LEFT) {
-							x+=20;
-						}else if(direction == Direction.RIGHT) {
-							x-=20;
-						}
-						else if(direction == Direction.UP) {
-							y+=20;
-						}else if(direction == Direction.DOWN) {
-							y-= 20;
-						}
-					}
-				}
-				if((objects instanceof Zora)&&objects.bounds.intersects(bounds)) {
-					hurt=true;
-					life-=0.5;
-					if(direction == Direction.LEFT) {
-						x+=20;
-					}else if(direction == Direction.RIGHT) {
-						x-=20;
-					}
-					else if(direction == Direction.UP) {
-						y+=20;
-					}else if(direction == Direction.DOWN) {
-						y-=20;
-					}
-				}
-				if((objects instanceof Leever)&&objects.bounds.intersects(bounds)) {
-					hurt=true;
-					life-=0.5;
-					if(direction == Direction.LEFT) {
-						x+=20;
-					}else if(direction == Direction.RIGHT) {
-						x-=20;
-					}
-					else if(direction == Direction.UP) {
-						y+=20;
-					}else if(direction == Direction.DOWN) {
-						y-=20;
-					}
-				}
-				if((objects instanceof BouncyFella)&&objects.bounds.intersects(bounds)) {
-					hurt=true;
-					life-=0.5;
-					if(direction == Direction.LEFT) {
-						x+=20;
-					}else if(direction == Direction.RIGHT) {
-						x-=20;
-					}
-					else if(direction == Direction.UP) {
-						y+=20;
-					}else if(direction == Direction.DOWN) {
-						y-=20;
+						y-=knockback;
 					}
 				}
 				
@@ -1514,78 +1446,21 @@ public class Link extends BaseMovingEntity {
 		//Takes care of collisions in the dungeon map
 		else if(dungeon) {
 			for (BaseMovingEntity objects : handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY)) {
-				if((objects instanceof Moblin)&&objects.bounds.intersects(bounds)) {
+				if(objects.bounds.intersects(bounds) && (objects instanceof Octorok || objects instanceof BouncyFella || objects instanceof Leever  || objects instanceof Lynel || objects instanceof Moblin || objects instanceof Thunderbird || objects instanceof Zora)) {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=20;
+						x+=knockback;
 					}else if(direction == Direction.RIGHT) {
-						x-=20;
+						x-=knockback;
 					}
 					else if(direction == Direction.UP) {
-						y+=20;
+						y+=knockback;
 					}else if(direction == Direction.DOWN) {
-						y-=20;
+						y-=knockback;
 					}
 				}
-				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
-					if(moving) {
-						hurt=true;
-						life-=0.5;
-						if(direction == Direction.LEFT) {
-							x+=20;
-						}else if(direction == Direction.RIGHT) {
-							x-=20;
-						}
-						else if(direction == Direction.UP) {
-							y+=20;
-						}else if(direction == Direction.DOWN) {
-							y-=20;
-						}
-					}
-				}
-				if((objects instanceof Zora)&&objects.bounds.intersects(bounds)) {
-					hurt=true;
-					life-=0.5;
-					if(direction == Direction.LEFT) {
-						x+=20;
-					}else if(direction == Direction.RIGHT) {
-						x-=20;
-					}
-					else if(direction == Direction.UP) {
-						y+=20;
-					}else if(direction == Direction.DOWN) {
-						y-=20;
-					}
-				}
-				if((objects instanceof Leever)&&objects.bounds.intersects(bounds)) {
-					hurt=true;
-					life-=0.5;
-					if(direction == Direction.LEFT) {
-						x+=20;
-					}else if(direction == Direction.RIGHT) {
-						x-=20;
-					}
-					else if(direction == Direction.UP) {
-						y+=20;
-					}else if(direction == Direction.DOWN) {
-						y-=20;
-					}
-				}
-				if((objects instanceof BouncyFella)&&objects.bounds.intersects(bounds)) {
-					hurt=true;
-					life-=0.5;
-					if(direction == Direction.LEFT) {
-						x+=20;
-					}else if(direction == Direction.RIGHT) {
-						x-=20;
-					}
-					else if(direction == Direction.UP) {
-						y+=20;
-					}else if(direction == Direction.DOWN) {
-						y-=20;
-					}
-				}
+				
 				//checks for items in dungeonState
 				if((objects instanceof Items)&&objects.bounds.intersects(bounds)) {
 					itemPickUp=true;
@@ -1669,76 +1544,18 @@ public class Link extends BaseMovingEntity {
 		}
 		else {
 			for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
-				if((objects instanceof Moblin)&&objects.bounds.intersects(bounds)) {
-					hurt=true;
+				if(objects.bounds.intersects(bounds) && (objects instanceof Octorok || objects instanceof BouncyFella || objects instanceof Leever  || objects instanceof Lynel || objects instanceof Moblin || objects instanceof Thunderbird || objects instanceof Zora)) {
+					hurt=true;//check for all enemies to avoid many if's
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=20;
+						x+=knockback;
 					}else if(direction == Direction.RIGHT) {
-						x-=20;
+						x-=knockback;
 					}
 					else if(direction == Direction.UP) {
-						y+=20;
+						y+=knockback;
 					}else if(direction == Direction.DOWN) {
-						y-=20;
-					}
-				}
-				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
-					if(moving) {
-						hurt=true;
-						life-=0.5;
-						if(direction == Direction.LEFT) {
-							x+=20;
-						}else if(direction == Direction.RIGHT) {
-							x-=20;
-						}
-						else if(direction == Direction.UP) {
-							y+=20;
-						}else if(direction == Direction.DOWN) {
-							y-=20;
-						}
-					}
-				}
-				if((objects instanceof Zora)&&objects.bounds.intersects(bounds)) {
-					hurt=true;
-					life-=0.5;
-					if(direction == Direction.LEFT) {
-						x+=20;
-					}else if(direction == Direction.RIGHT) {
-						x-=20;
-					}
-					else if(direction == Direction.UP) {
-						y+=20;
-					}else if(direction == Direction.DOWN) {
-						y-=20;
-					}
-				}
-				if((objects instanceof Leever)&&objects.bounds.intersects(bounds)) {
-					hurt=true;
-					life-=0.5;
-					if(direction == Direction.LEFT) {
-						x+=20;
-					}else if(direction == Direction.RIGHT) {
-						x-=20;
-					}
-					else if(direction == Direction.UP) {
-						y+=20;
-					}else if(direction == Direction.DOWN) {
-						y-=20;
-					}
-				}
-				if((objects instanceof BouncyFella)&&objects.bounds.intersects(bounds)) {
-					hurt=true;
-					life-=0.5;
-					if(direction == Direction.LEFT) {
-						x+=20;
-					}else if(direction == Direction.RIGHT) {
-						x-=20;
-					}
-					else if(direction == Direction.UP) {
-						y+=20;
-					}else if(direction == Direction.DOWN) {
-						y-=20;
+						y-=knockback;
 					}
 				}
 				if((objects instanceof Items)&&objects.bounds.intersects(bounds)) {
@@ -1776,14 +1593,14 @@ public class Link extends BaseMovingEntity {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=10;
+						x+=knockback;
 					}else if(direction == Direction.RIGHT) {
-						x-=10;
+						x-=knockback;
 					}
 					else if(direction == Direction.UP) {
-						y+=10;
+						y+=knockback;
 					}else if(direction == Direction.DOWN) {
-						y-=10;
+						y-=knockback;
 					}
 				}
 				if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
@@ -1827,25 +1644,20 @@ public class Link extends BaseMovingEntity {
 						}
 						if (((DungeonDoor) objects).name.equals("inn")) {
 							ZeldaGameState.inTest = true;
-							//handler.changeState(handler.getZeldaMerchantState());
 							x = ((DungeonDoor) objects).nLX - 165;
 							y = ((DungeonDoor) objects).nLY - 70;
 							direction = UP;
 						}
 						if (((DungeonDoor) objects).name.equals("merchant")) {
-							//ZeldaGameState.inTest = true;
 							handler.changeState(handler.getZeldaMerchantState());
 						}
 						if (((DungeonDoor) objects).name.equals("dungeon1")) {
-							//ZeldaGameState.inTest = true;
-							//handler.changeState(handler.getZeldaMerchantState());
 							dungeon=true;
 							x = ((DungeonDoor) objects).nLX - 100;
 							y = ((DungeonDoor) objects).nLY - 70;
 							direction = UP;
 						}
 						if (((DungeonDoor) objects).name.equals("other")) {
-							//ZeldaGameState.inTest = true;
 							handler.changeState(handler.getZeldaOtherState());
 							x = ((DungeonDoor) objects).nLX - 100;
 							y = ((DungeonDoor) objects).nLY - 70;
@@ -1869,10 +1681,6 @@ public class Link extends BaseMovingEntity {
 					//dont move
 					return;
 				}
-				//				else if (!(objects instanceof SectionDoor) && objects.bounds.intersects(interactBounds)) {
-				//				//dont move
-				//				return;
-				//			}
 			}
 		}
 		//Movement
@@ -1917,13 +1725,13 @@ public class Link extends BaseMovingEntity {
 			if(hasRaft) {
 				g.drawImage(Images.linkRaftFrames[0],x , y -40, width, height  , null);
 			}
-			if(wooden && !(white&&magical&&majora)) {
+			if(swordHolding == "wood") {
 				g.drawImage(Images.npc[4],x , y -40, width/2 , height  , null);
 			}
-			if(white&& !(wooden&&magical&&majora)) {
+			if(swordHolding == "white") {
 				g.drawImage(Images.otherWeapons[0],x , y -40, width/2 , height  , null);
 			}
-			if(magical&& !(white&&wooden&&majora)) {
+			if(swordHolding == "magical") {
 				g.drawImage(Images.otherWeapons[1],x , y -40, width/2 , height  , null);
 			}
 			if(rod&&hasRod) {
@@ -1935,7 +1743,7 @@ public class Link extends BaseMovingEntity {
 			if(bookOfMagic&&hasBook) {
 				g.drawImage(Images.otherWeapons[18],x , y -40, width/2 , height  , null);
 			}
-			if(majora&& !(wooden&&magical&&white)) {
+			if(swordHolding == "majora") {
 				g.drawImage(Images.otherWeapons[3],x , y -40, width/2 , height  , null);
 			}
 		}
