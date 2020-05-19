@@ -191,23 +191,23 @@ public class ZeldaOtherState extends State {
 
       		g.drawImage(Images.attackSlots[1],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/37,handler.getHeight()/27 + 10,null);
       		g.drawImage(Images.attackSlots[0],handler.getWidth()/2 - (handler.getWidth()/3)+160,handler.getHeight()/5,handler.getWidth()/37,handler.getHeight()/27 + 10,null);
-      		if(link.wooden && !(link.white&&link.magical&&link.majora)) {
+      		if(link.swordHolding == "wood") {
       			g.drawImage(Images.npc[4],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
       		}
-      		if(link.white&& !(link.wooden&&link.magical&&link.majora)) {
+      		if(link.swordHolding == "white") {
       			g.drawImage(Images.otherWeapons[8],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
       		}
-      		if(link.magical&& !(link.white&&link.wooden&&link.majora)) {
+      		if(link.swordHolding == "magical") {
       			g.drawImage(Images.otherWeapons[19],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
       		}
       		if(link.rod) {
-      			if(link.majora) {g.drawImage(Images.otherWeapons[21],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/105,handler.getHeight()/55+ 10,null);}
+      			if(link.swordHolding == "majora") {g.drawImage(Images.otherWeapons[21],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/105,handler.getHeight()/55+ 10,null);}
       			else {g.drawImage(Images.otherWeapons[2],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55+ 10,null);}	
       		}
       		if(link.hasBow) {
       			g.drawImage(Images.otherWeapons[16],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55+ 10,null);	
       		}
-      		if(link.majora&& !(link.wooden&&link.magical&&link.white)) {
+      		if(link.swordHolding == "majora") {
       			g.drawImage(Images.otherWeapons[20],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
       		}
 
