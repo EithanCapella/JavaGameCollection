@@ -23,6 +23,7 @@ public class Images {
     public static BufferedImage galagaSelect;
     public static BufferedImage muteIcon;
     public static BufferedImage galagaPlayerLaser;
+    public static BufferedImage gameOverScreen;
     public static BufferedImage[] startGameButton;
     public static BufferedImage[] galagaLogo;
     public static BufferedImage[] pauseResumeButton;
@@ -283,7 +284,7 @@ public class Images {
         majoraProyectileSide= new BufferedImage[2];
         majoraProyectileSideL= new BufferedImage[2];
         recursiveTileset = new BufferedImage[4];
-
+        
 
 
 
@@ -404,6 +405,7 @@ public class Images {
             morshuStealing = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/MorshuStealing.png"));
             morshuThreat = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/MorshuThreat.png"));
             morshuWelcome = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/MorshuWelcome.png"));
+            gameOverScreen = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/GameOverZelda.png"));
             
             zeldaImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/tileSet.png"));
             zeldaTriforceLogo = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/triforceLogo.png"));
