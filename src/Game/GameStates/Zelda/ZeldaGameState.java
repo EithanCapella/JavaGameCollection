@@ -428,14 +428,14 @@ public class ZeldaGameState extends State {
 		caveObjects.add(new Fire(5,4,handler));
 		caveObjects.add(new Fire(11,4,handler));
 		caveObjects.add(new caveSword(8,5,handler,Images.npc[4])); 
-		caveObjects.add(new whiteSword(6,5,handler,Images.otherWeapons[0]));
-		caveObjects.add(new magicalSword(7,5,handler,Images.otherWeapons[1]));
-		caveObjects.add(new magicalRod(9,5,handler,Images.otherWeapons[2]));
-		caveObjects.add(new superSword(10,5,handler,Images.otherWeapons[3]));    
-		caveObjects.add(new superRing(5,5,handler,Images.superRingFrames[0]));
-		caveObjects.add(new Bow(11,5,handler,Images.otherWeapons[16])); 
-		caveObjects.add(new BookOfMagic(4,5,handler,Images.otherWeapons[18]));
-		caveObjects.add(new RedCandle(12,5,handler,Images.otherWeapons[17])); 
+//		caveObjects.add(new whiteSword(6,5,handler,Images.otherWeapons[0]));
+//		caveObjects.add(new magicalSword(7,5,handler,Images.otherWeapons[1]));
+//		caveObjects.add(new magicalRod(9,5,handler,Images.otherWeapons[2]));
+//		caveObjects.add(new superSword(10,5,handler,Images.otherWeapons[3]));    
+//		caveObjects.add(new superRing(5,5,handler,Images.superRingFrames[0]));
+//		caveObjects.add(new Bow(11,5,handler,Images.otherWeapons[16])); 
+//		caveObjects.add(new BookOfMagic(4,5,handler,Images.otherWeapons[18]));
+//		caveObjects.add(new RedCandle(12,5,handler,Images.otherWeapons[17])); 
 
 
 
@@ -556,11 +556,11 @@ public class ZeldaGameState extends State {
 
 		objects.get(7).set(7,solids);
 		monster = new ArrayList<>();
-		monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));
 		monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames, handler));
-		System.out.println(monster.get(1));
-		monster.add(new Leever(8,3,handler));
-		monster.add(new Zora(4,7,handler)); 
+		monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames, handler));
+		//monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));
+		//monster.add(new Leever(8,3,handler));
+		//monster.add(new Zora(4,7,handler)); 
 		//        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.moblinEnemyFrames,handler));
 		//        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.dmoblinEnemyFrames,handler));
 		//        monster.add(new Lynel(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.lynelEnemyFrames ,handler));
