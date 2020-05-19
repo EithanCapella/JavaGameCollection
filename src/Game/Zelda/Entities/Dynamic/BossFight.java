@@ -35,7 +35,7 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class BossFight extends BaseMovingEntity {
 
 	private final int animSpeed = 120;
-	private double life=3.0;
+	private double life=10.0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
 	int attackCoolDown= 30, jumpCoolDown = 30, jumpTime = 10, hitCount = 30, choice = 100, choiceCount = 80;
 	public boolean notFloor = true, jump = false, idle = false, attack = false, attackLow = false;
@@ -76,6 +76,17 @@ public class BossFight extends BaseMovingEntity {
 	}
 	@Override
 	public void tick() {
+		//------Link hits Ganon
+		if(handler.getFightingState().linkFight.swordBounds.intersects(bounds)) {
+			life -= 1;
+			choiceCount += 20;//stuns him for a while
+		}
+		if (life <= 0) {
+			x = -100;//remove Ganon from this existence
+			y = -100;
+			
+		}
+		
 		//------Timers and CoolDowns------
 		if (attackCoolDown > 0 && (attack || attackLow)) {
 			attackCoolDown--;
