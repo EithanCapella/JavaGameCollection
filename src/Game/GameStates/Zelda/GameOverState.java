@@ -44,6 +44,11 @@ public class GameOverState extends State {
 			handler.getZeldaGameState().refresh();
 			State.setState(handler.getMenuState());
 			runOnce = false;
+			handler.getFightingState().linkFight.setLife(3.0);
+			handler.getFightingState().linkFight.x = 150;
+			handler.getFightingState().ganonFight.setLife(15);
+			handler.getFightingState().ganonFight.x = 550;
+			handler.getFightingState().runOnce = false;
 			
 		}    
 	}

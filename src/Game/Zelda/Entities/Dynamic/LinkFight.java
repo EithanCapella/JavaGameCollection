@@ -36,9 +36,9 @@ public class LinkFight extends BaseMovingEntity {
 
 	private final int animSpeed = 120;
 	private double life=3.0;
-	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0, victoryCount = 60*3;
+	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0, victoryCount = 60*3, invul = 10;
 	int attackCoolDown= 30, jumpCoolDown = 30, jumpTime = 10, hitCount = 30;
-	public boolean notFloor = false, jump = false, idle = false, attack = false, attackLow = false, victory = false;
+	public boolean notFloor = false, jump = false, idle = false, attack = false, attackLow = false, victory = false, invulBool = false;
 	Direction movingTo;
 	String dir = ""; //facing relative to link
 	public swordLaser laserSword;
@@ -98,14 +98,17 @@ public class LinkFight extends BaseMovingEntity {
 	@Override
 	public void tick() {
 		//------Ganon Hits Link------
-		if (handler.getFightingState().ganonFight.swordBounds.intersects(bounds)) {
+		if ((handler.getFightingState().ganonFight.swordBounds.intersects(bounds) || handler.getFightingState().ganonFight.bounds.intersects(bounds)) && !invulBool) {
 			life -= .5;//gives link a fighting chance
+			invulBool = true;
+			
+		
 			//----knockback----
-			if(dir == "left") {
-				x+=40;
+			if(handler.getFightingState().ganonFight.dir == "left") {
+				x-=70;
 			}
-			else if(dir == "right") {
-				x-=40;
+			else if(handler.getFightingState().ganonFight.dir == "right") {
+				x+=70;
 			}
 		}
 		//GameOver link is dead, Return of Ganon
@@ -123,10 +126,23 @@ public class LinkFight extends BaseMovingEntity {
 		}
 		else if (attackCoolDown <= 0) {
 			attackCoolDown = 30;
+			swordBounds.x = 0;
+			swordBounds.y = 0;//reset swordbound position
 			attack = false;
 			attackLow = false;
 		}
 		//--------------------------------//--------------------------------//--------------------------------//
+		
+		//Invul Counter
+		if(invulBool) {
+		if (invul > 0) {
+			invul--;
+		}
+		else if (invul <= 0) {
+			invulBool = false;
+			invul = 10;
+		}
+		}
 		
 		
 		//------Physics------
@@ -250,11 +266,7 @@ public class LinkFight extends BaseMovingEntity {
 		else if (dir == "left") {
 			swordBounds.x -= 48;
 		}
-		if (hitCount > 0) {hitCount--;}
-		else if (hitCount <= 0) {
-			hitCount = 29; 
-			swordBounds.x = 0;
-			swordBounds.y = 0;}
+		
 		
 	}
 	
@@ -312,13 +324,14 @@ public class LinkFight extends BaseMovingEntity {
 	@Override
 	public void render(Graphics g) {//render all anims
 		g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+		g.drawRect(swordBounds.x, swordBounds.y, bounds.width, bounds.height);
 		//if victory is true
 		if (victory) {
 			if (victoryCount > 0) {
 				victoryCount--;
 				g.setColor(Color.GREEN);
-				g.setFont(new Font("TimesRoman", Font.PLAIN, 32));
-				g.drawString("Congratulations you have won the Game, you get nothing, but the satisfaction of winning!", newMapX, newMapY);
+				g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
+				g.drawString("Congratulations you have won the Game, you get nothing, but the satisfaction of winning!", handler.getWidth()/2-300, handler.getHeight()/3);
 			}
 			else if (victoryCount <= 0) {
 				victoryCount = 60*3;

@@ -35,10 +35,10 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class BossFight extends BaseMovingEntity {
 
 	private final int animSpeed = 120;
-	private double life=10.0;
+	private double life=15.0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
-	int attackCoolDown= 30, jumpCoolDown = 30, jumpTime = 10, hitCount = 30, choice = 100, choiceCount = 80;
-	public boolean notFloor = true, jump = false, idle = false, attack = false, attackLow = false;
+	int attackCoolDown= 30, jumpCoolDown = 30, jumpTime = 10, hitCount = 30, choice = 100, choiceCount = 80, invulC = 30;
+	public boolean notFloor = true, jump = false, idle = false, attack = false, attackLow = false, invulB = false;
 	Direction movingTo;
 	String act = "jump", dir = ""; //attack or move action
 	public swordLaser laserSword;
@@ -78,21 +78,29 @@ public class BossFight extends BaseMovingEntity {
 	public void tick() {
 		//------Link hits Ganon
 		if(handler.getFightingState().linkFight.swordBounds.intersects(bounds)) {
+			choice = random.nextInt(4);
 			life -= 1;
-			choiceCount += 20;//stuns him for a while
 		}
 		if (life <= 0) {
 			x = -100;//remove Ganon from this existence
 			y = -100;
 			
 		}
+		//--When Ganon hits link he should coolDown for a while to let him recover
+		if(swordBounds.intersects(handler.getFightingState().linkFight.bounds)) {
+			attackCoolDown = 30;
+			choiceCount += 40;
+		}
 		
 		//------Timers and CoolDowns------
 		if (attackCoolDown > 0 && (attack || attackLow)) {
 			attackCoolDown--;
+			ganonCanon();
 		}
 		else if (attackCoolDown <= 0) {
-			attackCoolDown = 30;
+			attackCoolDown = 20;
+			swordBounds.x = 0;
+			swordBounds.y = 0;//reset bounds position
 			attack = false;
 			attackLow = false;
 		}
@@ -137,7 +145,7 @@ public class BossFight extends BaseMovingEntity {
 				choiceCount--;
 			}
 			else if (choiceCount <= 0) {
-				choice = random.nextInt(4);
+				choice = random.nextInt(5);
 				choiceCount = 40;
 				
 				
@@ -157,6 +165,16 @@ public class BossFight extends BaseMovingEntity {
 				speed = 4;
 				act = "attack";
 			}
+			else if (choice == 2 && choice == 3) {
+				if (handler.getFightingState().linkFight.x > x) {
+					movingTo = Direction.LEFT;
+				}
+				else if (handler.getFightingState().linkFight.x < x) {
+					movingTo = Direction.RIGHT;
+				}
+				act = "coolOff";
+			}
+			
 			else {
 				//Idle and say a comment
 				act = "nothing";
@@ -176,6 +194,10 @@ public class BossFight extends BaseMovingEntity {
 					move(direction);	
 				
 			} 
+			//CoolOff action, get away from link in order to not overwhelm the player
+			else if (act == "coolOff") {
+				move(movingTo);
+			}
 			
 			//When Ganon does Nothing, he drops his guard to mock the player
 			else if (act == "nothing") {
@@ -264,7 +286,7 @@ public class BossFight extends BaseMovingEntity {
 		}
 		if (hitCount > 0) {hitCount--;}
 		else if (hitCount <= 0) {
-			hitCount = 29; 
+			hitCount = 15; 
 			swordBounds.x = 0;
 			swordBounds.y = 0;}
 		
