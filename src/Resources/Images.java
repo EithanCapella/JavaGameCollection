@@ -980,11 +980,10 @@ public class Images {
             SpriteSheet grave = new SpriteSheet(zeldaWorldLayoutTiles.get(3));
 
             //recursive tiles
-            recursiveTiles.add(mountain.crop(0,0,16,16));
-            recursiveTiles.add(zeldaSpriteSheet.crop(1001,45,16,16));
-            recursiveTiles.add(mountain.crop(136,51,16,16));
-            recursiveTiles.add(cave.crop(34,34,16,16));
-            
+            recursiveTiles.add(zeldaLinkSpriteSheet1.crop(176,105,16,16));//up
+            recursiveTiles.add(zeldaLinkSpriteSheet1.crop(237,105,16,16)); //down
+            recursiveTiles.add(Images.flipHorizontal(zeldaLinkSpriteSheet1.crop(196,105,16,16)));//left
+            recursiveTiles.add(zeldaLinkSpriteSheet1.crop(196,105,16,16));//right
             
             mountainTiles.add(mountain.crop(0,0,16,16));
             mountainTiles.add(mountain.crop(17,0,16,16));
