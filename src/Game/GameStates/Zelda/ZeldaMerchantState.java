@@ -17,7 +17,7 @@ public class ZeldaMerchantState extends State {
     public ZeldaMerchantState(Handler handler) {
         super(handler);
     }
-    //TODO add shop mechanics Potion-40Rupees Heart-200  sword 140
+    //TODO add shop mechanics Potion-40Rupees bomb-60  sword 140
     @Override
     public void tick() {
     	
@@ -74,16 +74,16 @@ public class ZeldaMerchantState extends State {
         		}
         		else if (choice == 1 && enter == true) {
         			enter = false;
-        			if (handler.getZeldaGameState().link.getRupees() >= 200) {
-        				handler.getLink().addPotions(1);
+        			if (handler.getZeldaGameState().link.getRupees() >= 60) {
+        				handler.getZeldaGameState().link.setBombs(handler.getZeldaGameState().link.getBombs() + 1);;
     				} 
-        			//buys heartCrystal increase life
+        			//buys Bomb
         		}
         		else if (choice == 2 && enter == true) {
         			enter = false;
         			if (handler.getZeldaGameState().link.getRupees() >= 140) {
         				handler.getZeldaGameState().link.setRupees(handler.getZeldaGameState().link.getRupees() - 140);
-        				handler.getZeldaGameState().link.white = true;
+        				handler.getZeldaGameState().link.swordHolding = "white";
 
     				} 
         			//buys new sword
@@ -152,6 +152,7 @@ public class ZeldaMerchantState extends State {
     	if (shopMode == "Leave" || shopMode == "Punish") {
     		if (stealingCount > 0) {stealingCount--;}
     		else if (stealingCount <= 0) {
+    		handler.getZeldaGameState().link.setLife(handler.getZeldaGameState().link.getLife() - 1);
     		stealingCount = 60*2;
     		shopMode = "Choices";
     		handler.getMusicHandler().changeMusic("OverWorld.wav");
@@ -159,6 +160,8 @@ public class ZeldaMerchantState extends State {
     		handler.changeState(handler.getZeldaGameState());}
     	}
     }
+    
+    //------CHOICES AND MENU HUD------
     @Override
     public void render(Graphics g) {    
     	
@@ -170,30 +173,30 @@ public class ZeldaMerchantState extends State {
     	
     	if (shopMode == "Choices") {
     	g.drawString("Oh an adventurer! Feel free to browse my wares.", (int) (handler.getWidth() - handler.getWidth() * .94) , (int) (handler.getHeight()*.60));
-    	g.drawString("* Browse or purchase an item", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.55));
-    	g.drawString("* Ask about rumors", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.60));
-    	g.drawString("* Steal (You are not very nice)", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.65));
-    	g.drawString("* Leave", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.70));
+    	g.drawString("* Browse or purchase an item", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.55));
+    	g.drawString("* Ask about rumors", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.60));
+    	g.drawString("* Steal (You are not very nice)", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.65));
+    	g.drawString("* Leave", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.70));
     	g.drawImage(Images.morshuWelcome,(int) (handler.getWidth() - handler.getWidth() * .95), handler.getHeight()/10 - 64 ,400,400,null);
     	}
     	
     	if (shopMode == "Wares") {
     		g.drawImage(Images.morshuSketchy,(int) (handler.getWidth() - handler.getWidth() * .95), handler.getHeight()/10 - 64 ,400,400,null);
     		g.drawString("Oh you want to shop, I have the goods as long as you have the coin!", (int) (handler.getWidth() - handler.getWidth() * .94) , (int) (handler.getHeight()*.60));
-    		g.drawString("* Buy a potion", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.55));
-        	g.drawString("* Buy a Heart Crystal", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.60));
-        	g.drawString("* Buy a new Sword", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.65));
-        	g.drawString("* Go back", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.70));
+    		g.drawString("* Buy a potion", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.55));
+        	g.drawString("* Buy a Bomb", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.60));
+        	g.drawString("* Buy a new Sword", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.65));
+        	g.drawString("* Go back", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.70));
         	
         	
     	}
     	if (shopMode == "Info") {
     		g.drawImage(Images.morshuSpeaking,(int) (handler.getWidth() - handler.getWidth() * .95), handler.getHeight()/10 - 64 ,400,400,null);
     		g.drawString("I see you seek information, what do you want?", (int) (handler.getWidth() - handler.getWidth() * .94) , (int) (handler.getHeight()*.60));
-    		g.drawString("* Tell me about this place.", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.55));
-        	g.drawString("* Have you heard about any weird rumors?", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.60));
-        	g.drawString("* Tell be about the Legend of the Triforce", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.65));
-        	g.drawString("* Go back", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.70));
+    		g.drawString("* Tell me about this place.", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.55));
+        	g.drawString("* Have you heard about any weird rumors?", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.60));
+        	g.drawString("* Tell be about the Legend of the Triforce", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.65));
+        	g.drawString("* Go back", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.70));
 
     	}
     	if (shopMode == "Steal") {
@@ -217,14 +220,14 @@ public class ZeldaMerchantState extends State {
     		g.drawString("You are bound to experience events that will resonate with your Heroic Spirit ", (int) (handler.getWidth() - handler.getWidth() * .94) , (int) (handler.getHeight()*.65));
     		g.drawString("I don't know about this, kid. Be brave!", (int) (handler.getWidth() - handler.getWidth() * .94) , (int) (handler.getHeight()*.70));
     		
-    		g.drawString("* Thank you for telling me that", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.55));
+    		g.drawString("* Thank you for telling me that", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.55));
         	
     	}
     	else if (shopMode == "Rumors") {
     		g.drawImage(Images.morshuSketchy,(int) (handler.getWidth() - handler.getWidth() * .95), handler.getHeight()/10 - 64 ,400,400,null);
     		if (choice > 1) {choice = 1;}
-    		g.drawString("* Tell me another rumor.", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.55));
-        	g.drawString("* Thank you that is all for now.", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.60));
+    		g.drawString("* Tell me another rumor.", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.55));
+        	g.drawString("* Thank you that is all for now.", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.60));
     		switch (caser) {//switches between the message displayed on the game over screen
 
     		case 0:
@@ -259,20 +262,20 @@ public class ZeldaMerchantState extends State {
     		g.drawString("I don't know what this lad is doing, but he better hurry up.", (int) (handler.getWidth() - handler.getWidth() * .95)+ 2 , (int) (handler.getHeight()*.70));
     		g.drawString("Having too many monsters around is bad for business. He better find the TriForce.", (int) (handler.getWidth() - handler.getWidth() * .95)-2 , (int) (handler.getHeight()*.75));
     	
-    		g.drawString("Ok, thank you...", (int) (handler.getWidth() - handler.getWidth() * .48) , (int) (handler.getHeight()*.55));
+    		g.drawString("Ok, thank you...", (int) (handler.getWidth() - handler.getWidth() * .41) , (int) (handler.getHeight()*.55));
     	}
     	
     	if (choice == 0) {
-    		 g.drawImage(Images.triforcePointer,(int) (handler.getWidth() - handler.getWidth() * .51),(int) (handler.getHeight()* .52),32,32,null);
+    		 g.drawImage(Images.triforcePointer,(int) (handler.getWidth() - handler.getWidth() * .45),(int) (handler.getHeight()* .52),32,32,null);
     	}
     	else if (choice == 1) {
-    		 g.drawImage(Images.triforcePointer,(int) (handler.getWidth() - handler.getWidth() * .51),(int) (handler.getHeight()* .57),32,32,null);
+    		 g.drawImage(Images.triforcePointer,(int) (handler.getWidth() - handler.getWidth() * .45),(int) (handler.getHeight()* .57),32,32,null);
     	}
     	else if (choice == 2) {
-    		 g.drawImage(Images.triforcePointer,(int) (handler.getWidth() - handler.getWidth() * .51),(int) (handler.getHeight()* .62),32,32,null);
+    		 g.drawImage(Images.triforcePointer,(int) (handler.getWidth() - handler.getWidth() * .45),(int) (handler.getHeight()* .62),32,32,null);
     	}
     	else if (choice == 3) {
-    		 g.drawImage(Images.triforcePointer,(int) (handler.getWidth() - handler.getWidth() * .51),(int) (handler.getHeight()* .67),32,32,null);
+    		 g.drawImage(Images.triforcePointer,(int) (handler.getWidth() - handler.getWidth() * .45),(int) (handler.getHeight()* .67),32,32,null);
     	}
     
     }
@@ -283,4 +286,6 @@ public class ZeldaMerchantState extends State {
 }
 
   
+  
+
   
