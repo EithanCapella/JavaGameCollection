@@ -284,23 +284,23 @@ public class ZeldaGameState extends State {
 
 		g.drawImage(Images.attackSlots[1],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/37,handler.getHeight()/27 + 10,null);
 		g.drawImage(Images.attackSlots[0],handler.getWidth()/2 - (handler.getWidth()/3)+160,handler.getHeight()/5,handler.getWidth()/37,handler.getHeight()/27 + 10,null);
-		if(link.wooden && !(link.white&&link.magical&&link.majora)) {
+		if(link.swordHolding == "wood") {
 			g.drawImage(Images.npc[4],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
 		}
-		if(link.white&& !(link.wooden&&link.magical&&link.majora)) {
+		if(link.swordHolding == "white") {
 			g.drawImage(Images.otherWeapons[8],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
 		}
-		if(link.magical&& !(link.white&&link.wooden&&link.majora)) {
+		if(link.swordHolding == "magical") {
 			g.drawImage(Images.otherWeapons[19],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
 		}
 		if(link.rod) {
-			if(link.majora) {g.drawImage(Images.otherWeapons[21],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/105,handler.getHeight()/55+ 10,null);}
+			if(link.swordHolding == "majora") {g.drawImage(Images.otherWeapons[21],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/105,handler.getHeight()/55+ 10,null);}
 			else {g.drawImage(Images.otherWeapons[2],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55+ 10,null);}	
 		}
 		if(link.hasBow) {
 			g.drawImage(Images.otherWeapons[16],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55+ 10,null);	
 		}
-		if(link.majora&& !(link.wooden&&link.magical&&link.white)) {
+		if(link.swordHolding == "majora") {
 			g.drawImage(Images.otherWeapons[20],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
 		}
 
@@ -372,33 +372,28 @@ public class ZeldaGameState extends State {
 
 	}
 
-	public BaseMovingEntity addEnemy() {
-
-		for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
-			if (enemy instanceof Octorok || enemy.dead) {
-
-
-				return enemy;
-
-
-
-
-
-			}
-		}
-		return null;
-	}
-	public void removeEnemy() {
-
-		for (BaseMovingEntity enemy : monster) {
-			if (enemy instanceof Octorok || enemy.dead) {
-				enemies.remove(addEnemy());
-				//enemies.remove(index);
-			}
-
-		}
-
-	}
+//	public BaseMovingEntity addEnemy() {
+//
+//		for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
+//			if (enemy instanceof Octorok || enemy.dead) {
+//
+//
+//				return enemy;
+//			}
+//		}
+//		return null;
+//	}
+//	public void removeEnemy() {
+//
+//		for (BaseMovingEntity enemy : monster) {
+//			if (enemy instanceof Octorok || enemy.dead) {
+//				enemies.remove(addEnemy());
+//				//enemies.remove(index);
+//			}
+//
+//		}
+//
+//	}
 
 	private void addWorldObjects() {
 		//cave
@@ -428,14 +423,14 @@ public class ZeldaGameState extends State {
 		caveObjects.add(new Fire(5,4,handler));
 		caveObjects.add(new Fire(11,4,handler));
 		caveObjects.add(new caveSword(8,5,handler,Images.npc[4])); 
-//		caveObjects.add(new whiteSword(6,5,handler,Images.otherWeapons[0]));
-//		caveObjects.add(new magicalSword(7,5,handler,Images.otherWeapons[1]));
-//		caveObjects.add(new magicalRod(9,5,handler,Images.otherWeapons[2]));
-//		caveObjects.add(new superSword(10,5,handler,Images.otherWeapons[3]));    
-//		caveObjects.add(new superRing(5,5,handler,Images.superRingFrames[0]));
-//		caveObjects.add(new Bow(11,5,handler,Images.otherWeapons[16])); 
-//		caveObjects.add(new BookOfMagic(4,5,handler,Images.otherWeapons[18]));
-//		caveObjects.add(new RedCandle(12,5,handler,Images.otherWeapons[17])); 
+		caveObjects.add(new whiteSword(6,5,handler,Images.otherWeapons[0]));
+		caveObjects.add(new magicalSword(7,5,handler,Images.otherWeapons[1]));
+		caveObjects.add(new magicalRod(9,5,handler,Images.otherWeapons[2]));
+		caveObjects.add(new superSword(10,5,handler,Images.otherWeapons[3]));    
+		caveObjects.add(new superRing(5,5,handler,Images.superRingFrames[0]));
+		caveObjects.add(new Bow(11,5,handler,Images.otherWeapons[16])); 
+		caveObjects.add(new BookOfMagic(4,5,handler,Images.otherWeapons[18]));
+		caveObjects.add(new RedCandle(12,5,handler,Images.otherWeapons[17])); 
 
 
 
@@ -556,11 +551,11 @@ public class ZeldaGameState extends State {
 
 		objects.get(7).set(7,solids);
 		monster = new ArrayList<>();
+		monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));
 		monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames, handler));
-		monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames, handler));
-		//monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));
-		//monster.add(new Leever(8,3,handler));
-		//monster.add(new Zora(4,7,handler)); 
+		System.out.println(monster.get(1));
+		monster.add(new Leever(8,3,handler));
+		monster.add(new Zora(4,7,handler)); 
 		//        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.moblinEnemyFrames,handler));
 		//        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.dmoblinEnemyFrames,handler));
 		//        monster.add(new Lynel(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.lynelEnemyFrames ,handler));
