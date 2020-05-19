@@ -44,6 +44,7 @@ public class Link extends BaseMovingEntity {
 	public boolean movingMap = false,hasSword=false,hasBow=false,horray=false,wooden=false,dungeon=false,otherWorld=false,raft=false,hasRaft=false,hasRod=false,hasCandle=false,hasBook=false,arrowAttack=false,
 			itemPickUp=false,removeRaft=false,white=false,magical=false,rod=false,majora=false,superRing=false,projectile=false,first=false,second=false,fire=false,bomb=false,boom=false,candle=false,bookOfMagic=false,BOM=false;
 	Direction movingTo;
+	public String swordHolding = "";
 	public swordLaser laserSword;
 	public swordProjectile swordProyectile;
 	public fireTile fireTile;
@@ -78,14 +79,12 @@ public class Link extends BaseMovingEntity {
 	}
 	@Override
 	public void tick() {
-		//System.out.println("Link pos " + x + "," + y );
-		//Extra abilities for Link
-		//To Do: add extra weapons if possible or abilities, magic, bow etc.
 		if (attacking) {if(first) {swordAttack(this.direction);}else if(second) {rodAttack(this.direction);}}
 		if(hurt) {
 			hurtAnim.tick();
 		}
-		//CounterArea
+		//----------------------------//----------------------------//----------------------------//
+		//------CounterArea------
 		if (hurtCounter > 0 && hurt) {hurtCounter--;}
 		if (hurtCounter <= 0 && hurt) {hurtCounter = 20;hurt = false;}
 		if (raftCounter > 0 && raft) {raftCounter--; raftMethod();}
@@ -102,9 +101,8 @@ public class Link extends BaseMovingEntity {
 		if (horray && celebrateCounter == 60) {pickUpAnim.tick();}
 		if (horray && celebrateCounter > 0) {celebrateCounter--;}
 		if (horray && celebrateCounter <= 0) {pickUpAnim.tick(); horray = false; celebratingMethod();}
-		//		if (handler.getKeyManager().shift == true) {
-		//			speed = 5;}
-		//		else {speed = 4;}
+
+		//----------------------------//----------------------------//----------------------------//
 		if(superRing) {superRing();} //if superRing is found 
 		if (movingMap){
 			switch (movingTo) {
@@ -198,7 +196,10 @@ public class Link extends BaseMovingEntity {
 				newMapX = 0;
 				newMapY = 0;
 			}
-		}else {
+		}
+		//----------------------------//----------------------------//----------------------------//
+		//------KeyBoardMovement/Attacks------
+		else {
 			if (handler.getKeyManager().up&& !horray) {
 				if (direction != UP) {
 					BufferedImage[] animList = new BufferedImage[2];
@@ -275,6 +276,7 @@ public class Link extends BaseMovingEntity {
 				moving = false;
 			}
 		}
+		//------Debug Keys------
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_7) && getFood()>0 ) {
 			if(getFood()!=0) {setFood(getFood()-1);setLife(getLife()+1);}
 		}
@@ -341,6 +343,10 @@ public class Link extends BaseMovingEntity {
 			setLife(getLife() - 0.5);
 		}
 	}
+	//----------------------------//----------------------------//----------------------------//
+	
+	
+	//------ExtraMethods(helpers)------
 	public void celebratingMethod() {
 		if (horray == true) {
 			handler.getZeldaGameState().beginAdventure = false;
@@ -350,7 +356,8 @@ public class Link extends BaseMovingEntity {
 			animation.tick();
 		}
 	}
-	public void attackingMethod() {
+	//------Attacks------
+	public void attackingMethod() {//Takes care of all animations relating to sword attacks (ENTER)
 		attacking=true;
 		if(attacking) {
 			if (direction == direction.UP) {
@@ -378,14 +385,6 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.magicalSwordAttackFrames[11]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				//				if(rod&& !(white&&magical&&wooden&&majora)) {
-				//					BufferedImage[] animList1 = new BufferedImage[4];
-				//					animList1[0] = (Images.magicalRodAttackFrames[8]);
-				//					animList1[1] = (Images.magicalRodAttackFrames[9]);
-				//					animList1[2] = (Images.magicalRodAttackFrames[10]);
-				//					animList1[3] = (Images.magicalRodAttackFrames[11]);
-				//					attackAnim = new Animation(animSpeed, animList1);
-				//				}
 				if(majora&& !(wooden&&magical&&white)) {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.superSwordAttackFrames[8]);
@@ -420,14 +419,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.magicalSwordAttackFrames[3]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				//				if(rod&& !(white&&magical&&wooden&&majora)) {
-				//					BufferedImage[] animList1 = new BufferedImage[4];			
-				//					animList1[0] = (Images.magicalRodAttackFrames[0]);
-				//					animList1[1] = (Images.magicalRodAttackFrames[1]);
-				//					animList1[2] = (Images.magicalRodAttackFrames[2]);
-				//					animList1[3] = (Images.magicalRodAttackFrames[3]);
-				//					attackAnim = new Animation(animSpeed, animList1);
-				//				}
+
 				if(majora&& !(wooden&&magical&&white)) {
 					BufferedImage[] animList1 = new BufferedImage[4];			
 					animList1[0] = (Images.superSwordAttackFrames[0]);
@@ -462,14 +454,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.flipHorizontal(Images.magicalSwordAttackFrames[7]));
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				//				if(rod&& !(white&&magical&&wooden&&majora)) {
-				//					BufferedImage[] animList1 = new BufferedImage[4];
-				//					animList1[0] = (Images.flipHorizontal(Images.magicalRodAttackFrames[4]));
-				//					animList1[1] = (Images.flipHorizontal(Images.magicalRodAttackFrames[5]));
-				//					animList1[2] = (Images.flipHorizontal(Images.magicalRodAttackFrames[6]));
-				//					animList1[3] = (Images.flipHorizontal(Images.magicalRodAttackFrames[7]));
-				//					attackAnim = new Animation(animSpeed, animList1);
-				//				}
+
 				if(majora&& !(wooden&&magical&&white)) {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.flipHorizontal(Images.superSwordAttackFrames[4]));
@@ -504,14 +489,7 @@ public class Link extends BaseMovingEntity {
 					animList1[3] = (Images.magicalSwordAttackFrames[7]);
 					attackAnim = new Animation(animSpeed, animList1);
 				}
-				//				if(rod&& !(white&&magical&&wooden&&majora)) {
-				//					BufferedImage[] animList1 = new BufferedImage[4];
-				//					animList1[0] = (Images.magicalRodAttackFrames[4]);
-				//					animList1[1] = (Images.magicalRodAttackFrames[5]);
-				//					animList1[2] = (Images.magicalRodAttackFrames[6]);
-				//					animList1[3] = (Images.magicalRodAttackFrames[7]);
-				//					attackAnim = new Animation(animSpeed, animList1);
-				//				}
+
 				if(majora&& !(wooden&&magical&&white)) {
 					BufferedImage[] animList1 = new BufferedImage[4];
 					animList1[0] = (Images.superSwordAttackFrames[4]);
@@ -523,7 +501,8 @@ public class Link extends BaseMovingEntity {
 			}
 		}
 	}
-	public void secondAttack() {
+	//------Secondary Attack------
+	public void secondAttack() {//Attacks with rod and magic spells (Shift)
 		attacking=true;
 		if(attacking) {
 			if (direction == direction.UP) {
@@ -600,7 +579,8 @@ public class Link extends BaseMovingEntity {
 			}
 		}
 	}
-	public void placeAttack() {
+	//------Placing Item Method------
+	public void placeAttack() {//Takes care of placing attacks, mainly relates with attacks Link has such as bombs and fire spells
 		
 		if(fire) {
 			if(dungeon) {
@@ -720,9 +700,10 @@ public class Link extends BaseMovingEntity {
 		
 
 	}
+	//------Arrow Shooter Method------
 	public void shootArrows() {
 		if(arrowAttack) {
-			if(dungeon) {
+			if(dungeon) {//Allows creation of arrows in different states such as Dungeon, OtherWorld and normal State
 				if (direction == direction.UP) {
 					swordProyectile = new swordProjectile(this.x,this.y,Images.linkArrowsProjectileUp, handler,direction.UP);
 					handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY).add(swordProyectile);
@@ -782,7 +763,8 @@ public class Link extends BaseMovingEntity {
 
 		}
 	}
-
+	//------SuperWave------
+	//Refers to majora's special abilities
 	public void superWave() {
 		if(attacking) {
 			if(dungeon) {
@@ -865,7 +847,8 @@ public class Link extends BaseMovingEntity {
 			}
 		}
 	}
-	public void laserMethod() {
+	//------Sword laser------
+	public void laserMethod() {//There are three distinct lasers for three swords: White,Magical,Majora
 		if(attacking) {
 			if(dungeon) {
 				if (direction == direction.UP) {
@@ -1041,13 +1024,12 @@ public class Link extends BaseMovingEntity {
 					}
 				}
 			}
-
-			
-
-
-
 		}
 	}
+	//----------------------------//----------------------------//----------------------------//
+	
+	
+	//------SuperRing------
 	public void superRing() {
 		if (direction == direction.UP) {
 			BufferedImage[] animList = new BufferedImage[2];
@@ -1083,7 +1065,11 @@ public class Link extends BaseMovingEntity {
 			animation.tick();
 		}
 	}
-	public void raftMethod() {
+	//----------------------------//----------------------------//----------------------------//
+	
+	
+	//------Raft Travelling Method------
+	public void raftMethod() {//Allows link to swim in water and travel to new Dungeons
 		raft=true;
 		if(raft) {
 			if (direction == direction.UP) {
@@ -1153,11 +1139,14 @@ public class Link extends BaseMovingEntity {
 			}
 		}
 	}
+	//----------------------------//----------------------------//----------------------------//
+	
+	
 	//spawns swords hitbox depending the direction
 	public void swordAttack(Direction direction) {
 		swordBounds = (Rectangle) bounds.clone();
 		if (direction == Direction.LEFT) {
-			swordBounds.x-= 32;
+			swordBounds.x-= 32;				//shifts the sword's boundaries depending the relative direction Link is facing
 		}
 		else if (direction == Direction.RIGHT) {
 			swordBounds.x+= 32;
@@ -1168,12 +1157,13 @@ public class Link extends BaseMovingEntity {
 		else if (direction == Direction.DOWN) {
 			swordBounds.y+= 32;
 		}
-		if (hitCount > 0) {hitCount--;}
+		if (hitCount > 0) {hitCount--;}//Time limit for the sword Boundaries
 		else if (hitCount <= 0) {
 			hitCount = 29; 
-			swordBounds.x = 0;
+			swordBounds.x = 0;//Moves the hitBoxes out of sight
 			swordBounds.y = 0;}
 	}	
+	
 	//spawns rods hitbox depending the direction
 	public void rodAttack(Direction direction) {
 		rodBounds = (Rectangle) bounds.clone();
@@ -1195,6 +1185,10 @@ public class Link extends BaseMovingEntity {
 			rodBounds.x = 0;
 			rodBounds.y = 0;}
 	}	
+	//----------------------------//----------------------------//----------------------------//
+	
+	
+	//------Movement Algorithm------
 	@Override
 	public void move(Direction direction) {
 		moving = true;
@@ -1365,15 +1359,15 @@ public class Link extends BaseMovingEntity {
 				if((objects instanceof Moblin)&&objects.bounds.intersects(bounds)) {
 					hurt=true;
 					life-=0.5;
-					if(direction == Direction.LEFT) {
-						x+=30;
+					if(direction == Direction.LEFT) {//Takes care of KnockBack
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=30;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=30;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=30;
+						y-=20;
 					}
 				}
 				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
@@ -1381,14 +1375,14 @@ public class Link extends BaseMovingEntity {
 						hurt=true;
 						life-=0.5;
 						if(direction == Direction.LEFT) {
-							x+=30;
+							x+=20;
 						}else if(direction == Direction.RIGHT) {
-							x-=30;
+							x-=20;
 						}
 						else if(direction == Direction.UP) {
-							y+=30;
+							y+=20;
 						}else if(direction == Direction.DOWN) {
-							y-= 30;
+							y-= 20;
 						}
 					}
 				}
@@ -1396,44 +1390,47 @@ public class Link extends BaseMovingEntity {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=60;
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=60;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=60;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=60;
+						y-=20;
 					}
 				}
 				if((objects instanceof Leever)&&objects.bounds.intersects(bounds)) {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=60;
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=60;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=60;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=60;
+						y-=20;
 					}
 				}
 				if((objects instanceof BouncyFella)&&objects.bounds.intersects(bounds)) {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=60;
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=60;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=60;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=60;
+						y-=20;
 					}
 				}
+				
+				//------Item Handler------
+				//Sets up how items work if they are picked up by the player
 				if((objects instanceof Items)&&objects.bounds.intersects(bounds)) {
 					itemPickUp=true;
 					if(objects.sprites==Images.rupees) {
@@ -1463,6 +1460,10 @@ public class Link extends BaseMovingEntity {
 				}
 
 			}
+			//----------------------------//----------------------------//----------------------------//
+			
+			
+			//----------MOVING MAP----------
 			for (SolidStaticEntities objects : handler.getZeldaOtherState().objects.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY)) {
 				if ((objects instanceof SectionDoor) && objects.bounds.intersects(bounds) && direction == ((SectionDoor) objects).direction) {
 					if (!(objects instanceof DungeonDoor)) {
@@ -1509,20 +1510,22 @@ public class Link extends BaseMovingEntity {
 				}
 			}
 		}
+		
+		//Takes care of collisions in the dungeon map
 		else if(dungeon) {
 			for (BaseMovingEntity objects : handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY)) {
 				if((objects instanceof Moblin)&&objects.bounds.intersects(bounds)) {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=30;
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=30;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=30;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=30;
+						y-=20;
 					}
 				}
 				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
@@ -1530,14 +1533,14 @@ public class Link extends BaseMovingEntity {
 						hurt=true;
 						life-=0.5;
 						if(direction == Direction.LEFT) {
-							x+=60;
+							x+=20;
 						}else if(direction == Direction.RIGHT) {
-							x-=60;
+							x-=20;
 						}
 						else if(direction == Direction.UP) {
-							y+=60;
+							y+=20;
 						}else if(direction == Direction.DOWN) {
-							y-=60;
+							y-=20;
 						}
 					}
 				}
@@ -1545,44 +1548,45 @@ public class Link extends BaseMovingEntity {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=60;
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=60;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=60;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=60;
+						y-=20;
 					}
 				}
 				if((objects instanceof Leever)&&objects.bounds.intersects(bounds)) {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=60;
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=60;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=60;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=60;
+						y-=20;
 					}
 				}
 				if((objects instanceof BouncyFella)&&objects.bounds.intersects(bounds)) {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=60;
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=60;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=60;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=60;
+						y-=20;
 					}
 				}
+				//checks for items in dungeonState
 				if((objects instanceof Items)&&objects.bounds.intersects(bounds)) {
 					itemPickUp=true;
 					if(objects.sprites==Images.rupees) {
@@ -1669,14 +1673,14 @@ public class Link extends BaseMovingEntity {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=30;
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=30;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=30;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=30;
+						y-=20;
 					}
 				}
 				if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
@@ -1684,14 +1688,14 @@ public class Link extends BaseMovingEntity {
 						hurt=true;
 						life-=0.5;
 						if(direction == Direction.LEFT) {
-							x+=60;
+							x+=20;
 						}else if(direction == Direction.RIGHT) {
-							x-=60;
+							x-=20;
 						}
 						else if(direction == Direction.UP) {
-							y+=60;
+							y+=20;
 						}else if(direction == Direction.DOWN) {
-							y-=60;
+							y-=20;
 						}
 					}
 				}
@@ -1699,42 +1703,42 @@ public class Link extends BaseMovingEntity {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=60;
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=60;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=60;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=60;
+						y-=20;
 					}
 				}
 				if((objects instanceof Leever)&&objects.bounds.intersects(bounds)) {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=60;
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=60;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=60;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=60;
+						y-=20;
 					}
 				}
 				if((objects instanceof BouncyFella)&&objects.bounds.intersects(bounds)) {
 					hurt=true;
 					life-=0.5;
 					if(direction == Direction.LEFT) {
-						x+=60;
+						x+=20;
 					}else if(direction == Direction.RIGHT) {
-						x-=60;
+						x-=20;
 					}
 					else if(direction == Direction.UP) {
-						y+=60;
+						y+=20;
 					}else if(direction == Direction.DOWN) {
-						y-=60;
+						y-=20;
 					}
 				}
 				if((objects instanceof Items)&&objects.bounds.intersects(bounds)) {
@@ -1949,6 +1953,10 @@ public class Link extends BaseMovingEntity {
 			g.drawImage(hurtAnim.getCurrentFrame(),x , y, width , height, null); 
 		}
 	}
+	//----------------------------//----------------------------//----------------------------//
+	
+	
+	//------Getters and Setters------
 	public int getCount() {
 		return count;
 	}
