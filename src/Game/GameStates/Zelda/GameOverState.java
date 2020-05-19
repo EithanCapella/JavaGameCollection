@@ -53,7 +53,7 @@ public class GameOverState extends State {
 	public void render(Graphics g) { 	    
 	
 		
-		g.drawImage(Images.gameOverScreen, handler.getWidth()/3, handler.getHeight()/3, null);
+		//g.drawImage(Images.gameOverScreen, handler.getWidth()/3, handler.getHeight()/3, null);
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("TimesRoman", Font.ROMAN_BASELINE, 48));
 		g.drawString("--Continue--", handler.getWidth()/2 - 150, handler.getHeight()/2 + 100);

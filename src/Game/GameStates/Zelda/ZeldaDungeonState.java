@@ -6,6 +6,7 @@ import Game.Zelda.Entities.BaseEntity;
 import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.BouncyFella;
 import Game.Zelda.Entities.Dynamic.Direction;
+import Game.Zelda.Entities.Dynamic.Items;
 import Game.Zelda.Entities.Dynamic.Leever;
 import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Dynamic.Lynel;
@@ -13,14 +14,21 @@ import Game.Zelda.Entities.Dynamic.Moblin;
 import Game.Zelda.Entities.Dynamic.Octorok;
 import Game.Zelda.Entities.Dynamic.Thunderbird;
 import Game.Zelda.Entities.Dynamic.Zora;
+import Game.Zelda.Entities.Dynamic.bombTile;
+import Game.Zelda.Entities.Dynamic.fireTile;
+import Game.Zelda.Entities.Dynamic.superWave;
+import Game.Zelda.Entities.Dynamic.swordProjectile;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.Fire;
+import Game.Zelda.Entities.Statics.Item;
 import Game.Zelda.Entities.Statics.oldMan;
+import Game.Zelda.Entities.Statics.raft;
 import Game.Zelda.Entities.Statics.superSword;
 import Game.Zelda.Entities.Statics.whiteSword;
 import Game.Zelda.Entities.Statics.SectionDoor;
 import Game.Zelda.Entities.Statics.SolidStaticEntities;
 import Game.Zelda.Entities.Statics.blockBound;
+import Game.Zelda.Entities.Statics.bombBlock;
 import Game.Zelda.Entities.Statics.caveSword;
 import Game.Zelda.Entities.Statics.magicalRod;
 import Game.Zelda.Entities.Statics.magicalSword;
@@ -29,6 +37,7 @@ import Resources.Images;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by AlexVR on 3/14/2020
@@ -48,6 +57,9 @@ public class ZeldaDungeonState extends State {
     public ArrayList<BaseMovingEntity> toRemove;
     public ArrayList<BaseMovingEntity> monster;
     public ArrayList<SolidStaticEntities> solids;
+	public ArrayList<BaseMovingEntity> toAdd;
+	public ArrayList<SolidStaticEntities> toAdd1;
+	public ArrayList<SolidStaticEntities> toRemove1;
 
 
     public ZeldaDungeonState(Handler handler) {
@@ -57,8 +69,8 @@ public class ZeldaDungeonState extends State {
         stageWidth = handler.getWidth()/3 + (handler.getWidth()/15);
         stageHeight = handler.getHeight()/2;
         worldScale = 2;
-        mapX = 6;
-        mapY = 1;
+        mapX = 4;
+        mapY = 4;
         mapWidth = 257;
         mapHeight = 179;
         cameraOffsetX =  ((mapWidth*mapX) + mapX + 1)*worldScale;
@@ -98,16 +110,97 @@ public class ZeldaDungeonState extends State {
 				}
 			}
 		}
-		ArrayList<BaseMovingEntity> toRemove = new ArrayList<>();
-    	for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
-    	if (enemy instanceof Octorok && enemy.dead) {
-    		toRemove.add(enemy);
-    		}
-    	}
-    	for(BaseMovingEntity i: toRemove) {
-    		//enemies.remove(i);
-    		enemies.get(mapX).get(mapY).remove(i);
-    	}
+		toRemove = new ArrayList<>();
+		toAdd = new ArrayList<>();
+		toAdd1 = new ArrayList<>();
+		toRemove1 = new ArrayList<>();
+		for (SolidStaticEntities object : objects.get(mapX).get(mapY)) {
+			if (object instanceof Item && link.itemPickUp) {
+				toRemove1.add(object);
+			}
+			if (object instanceof bombBlock && link.boom) {
+				toRemove1.add(object);
+				link.boom=false;
+				//toAdd.add(new Items(object.x,object.y,Images.linkArrows, handler));
+				toAdd1.add(new DungeonDoor( object.x,object.y,16*worldScale,16*worldScale,Direction.UP,"other",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
+			}
+		}
+
+		for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
+
+			if (enemy instanceof Octorok && enemy.dead) {
+				toRemove.add(enemy);
+				link.itemPickUp=false;
+				int items = new Random().nextInt(8);
+				switch (items) {
+				case 0:
+					toAdd.add(new Items(enemy.x,enemy.y,Images.rupees, handler));
+					break;
+				case 1:
+					toAdd.add(new Items(enemy.x,enemy.y,Images.itemHeart, handler));
+					break;
+
+				case 2:
+					toAdd.add(new Items(enemy.x,enemy.y,Images.lifePotion, handler));
+					break;
+
+				case 3:
+					toAdd.add(new Items(enemy.x,enemy.y,Images.lifePotion2, handler));
+					break;
+				case 4:
+					toAdd.add(new Items(enemy.x,enemy.y,Images.itemHeart2, handler));
+					break;
+				case 5:
+					toAdd.add(new Items(enemy.x,enemy.y,Images.bombItem, handler));
+					break;
+				case 6:
+					toAdd.add(new Items(enemy.x,enemy.y,Images.linkArrows, handler));
+					break;
+				case 7:
+					toAdd.add(new Items(enemy.x,enemy.y,Images.foodItem, handler));
+					break;
+
+				}
+			}
+			if (enemy instanceof Items && link.itemPickUp) {
+				toRemove.add(enemy);
+			}
+			if (enemy instanceof superWave && link.projectile) {
+				toRemove.add(enemy);
+				if (link.BOM) {
+					toAdd.add(new fireTile(enemy.x,enemy.y,Images.fireFrame, handler,Direction.UP));
+				}
+			}
+			if (enemy instanceof swordProjectile && link.projectile) {
+				toRemove.add(enemy);
+				if (link.BOM) {
+					toAdd.add(new fireTile(enemy.x,enemy.y,Images.fireFrame, handler,Direction.UP));
+				}
+			}
+			if(enemy instanceof bombTile&&!link.bomb) {toRemove.add(enemy);}
+			if (enemy instanceof fireTile &&(!link.fire)) {toRemove.add(enemy);}
+		}
+		for (SolidStaticEntities object : objects.get(mapX).get(mapY)) {
+			if (object instanceof raft && link.removeRaft) {
+				toRemove1.add(object);
+			}
+		}
+		for(BaseMovingEntity i: toAdd) {
+			//enemies.remove(i);
+			enemies.get(mapX).get(mapY).add(i);
+		}
+		for(SolidStaticEntities i: toAdd1) {
+			//enemies.remove(i);
+			objects.get(mapX).get(mapY).add(i);
+		}
+		for(BaseMovingEntity i: toRemove) {
+			//enemies.remove(i);
+			enemies.get(mapX).get(mapY).remove(i);
+		}
+		for(SolidStaticEntities i: toRemove1) {
+			//enemies.remove(i);
+			objects.get(mapX).get(mapY).remove(i);
+		}
 
     }
 
@@ -129,48 +222,103 @@ public class ZeldaDungeonState extends State {
     	g.fillRect(0, 0, handler.getWidth(), yOffset);
     	g.fillRect(0, yOffset + stageHeight, handler.getWidth(), handler.getHeight());
 
+    	//attackSlots 
+    			g.setColor(Color.WHITE);
+    			g.setFont(new Font("TimesRoman", Font.PLAIN, 10));
+    			g.drawString("ENTER ",handler.getWidth()/2 - (handler.getWidth()/3)+113,handler.getHeight()/5);
+    			if(link.hasBow) {g.drawString("E",handler.getWidth()/2 - (handler.getWidth()/3)+175,handler.getHeight()/5);}
+    			else {g.drawString("SHIFT ",handler.getWidth()/2 - (handler.getWidth()/3)+165,handler.getHeight()/5);}
 
-    	//rupees counter
-    	g.setColor(Color.WHITE);
-    	g.setFont(new Font("TimesRoman", Font.PLAIN, 48));
-    	g.drawString(Integer.toString(link.getRupees()),handler.getWidth()/2 + (handler.getWidth()/6)+100,handler.getHeight()/3 - handler.getHeight()/16 + 10);
 
-		if (animCount >= 0) {
-		g.drawImage(Images.rupees[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/3 - handler.getHeight()/11,8*4,16*4,null);
-		animCount-= 3;
-		}
-		else if (animCount < 0){
-			g.drawImage(Images.rupees[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/3 - handler.getHeight()/11,8*4,16*4,null);
-			animCount+= 2;
-		}
-	    
-        if(link.getLife() == 3) {
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 150,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-		}
-        if(link.getLife() == 2.5) {
-			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 150,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-		}
-		if(link.getLife() == 2) {
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-		}
-		if(link.getLife() == 1.5) {
-			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25 + 75,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-		}
-		if(link.getLife() == 1) {
-			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-		}
-		if(link.getLife() == 0.5) {
-			g.drawImage(Images.linkHearts[1],handler.getWidth()/2 + (handler.getWidth()/6)+25,handler.getHeight()/6,handler.getWidth()/35,handler.getHeight()/27 + 10,null);
-		}
+    			g.drawImage(Images.attackSlots[1],handler.getWidth()/2 - (handler.getWidth()/3)+110,handler.getHeight()/5,handler.getWidth()/37,handler.getHeight()/27 + 10,null);
+    			g.drawImage(Images.attackSlots[0],handler.getWidth()/2 - (handler.getWidth()/3)+160,handler.getHeight()/5,handler.getWidth()/37,handler.getHeight()/27 + 10,null);
+    			if(link.wooden && !(link.white&&link.magical&&link.majora)) {
+    				g.drawImage(Images.npc[4],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+    			}
+    			if(link.white&& !(link.wooden&&link.magical&&link.majora)) {
+    				g.drawImage(Images.otherWeapons[8],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+    			}
+    			if(link.magical&& !(link.white&&link.wooden&&link.majora)) {
+    				g.drawImage(Images.otherWeapons[19],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+    			}
+    			if(link.rod) {
+    				if(link.majora) {g.drawImage(Images.otherWeapons[21],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/105,handler.getHeight()/55+ 10,null);}
+    				else {g.drawImage(Images.otherWeapons[2],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55+ 10,null);}	
+    			}
+    			if(link.hasBow) {
+    				g.drawImage(Images.otherWeapons[16],handler.getWidth()/2 - (handler.getWidth()/3)+170,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55+ 10,null);	
+    			}
+    			if(link.majora&& !(link.wooden&&link.magical&&link.white)) {
+    				g.drawImage(Images.otherWeapons[20],handler.getWidth()/2 - (handler.getWidth()/3)+120,handler.getHeight()/5+5,handler.getWidth()/75,handler.getHeight()/55 + 10,null);
+    			}
 
-    }
-   
+    			//item counter
+    			g.setColor(Color.WHITE);
+    			g.setFont(new Font("TimesRoman", Font.PLAIN, 14));
+    			g.drawString(Integer.toString(link.getRupees()),handler.getWidth()/2 - (handler.getWidth()/3)+220,handler.getHeight()/7+25);
+    			g.drawString(Integer.toString(link.getPotions()),handler.getWidth()/2 - (handler.getWidth()/3)+220,handler.getHeight()/6+30);
+    			g.drawString(Integer.toString(link.getOtherPotions()),handler.getWidth()/2 - (handler.getWidth()/3)+220,handler.getHeight()/5+30);
+    			g.drawString(Integer.toString(link.getBombs()),handler.getWidth()/2 - (handler.getWidth()/3)+270,handler.getHeight()/7+25);
+    			g.drawString(Integer.toString(link.getArrows()),handler.getWidth()/2 - (handler.getWidth()/3)+270,handler.getHeight()/6+30);
+    			g.drawString(Integer.toString(link.getFood()),handler.getWidth()/2 - (handler.getWidth()/3)+270,handler.getHeight()/5+30);
+
+
+
+
+    			if (animCount >= 0) {
+    				g.drawImage(Images.rupees[0],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/7+10,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+    				g.drawImage(Images.lifePotion[0],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/6+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+    				g.drawImage(Images.lifePotion2[0],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/5+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+    				animCount-= 3;
+    			}
+    			else if (animCount < 0){
+    				g.drawImage(Images.rupees[1],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/7+10,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+    				g.drawImage(Images.lifePotion[1],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/6+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+    				g.drawImage(Images.lifePotion2[1],handler.getWidth()/2 - (handler.getWidth()/3)+200,handler.getHeight()/5+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+    				animCount+= 2;
+    			}
+    			//future items
+    			g.drawImage(Images.bombItem[0],handler.getWidth()/2 - (handler.getWidth()/3)+250,handler.getHeight()/7+10,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+    			g.drawImage(Images.linkArrows[0],handler.getWidth()/2 - (handler.getWidth()/3)+250,handler.getHeight()/6+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+    			g.drawImage(Images.foodItem[0],handler.getWidth()/2 - (handler.getWidth()/3)+250,handler.getHeight()/5+15,handler.getWidth()/87,handler.getHeight()/67 + 10,null);
+
+    			//life
+    			g.drawImage(Images.lifeImage,handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/7,handler.getWidth()/17,handler.getHeight()/37 + 10,null);
+    			if(link.getLife() >= 3 ) {
+    				g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+360,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				//future hearts that will be drawn with powerUps
+    				//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+380,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+400,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+420,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+440,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+460,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				//			g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+480,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+
+
+    			}
+    			if(link.getLife() == 2.5) {
+    				g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+360,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    			}
+    			if(link.getLife() == 2) {
+    				g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    			}
+    			if(link.getLife() == 1.5) {
+    				g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    				g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+340,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    			}
+    			if(link.getLife() == 1) {
+    				g.drawImage(Images.linkHearts[0],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    			}
+    			if(link.getLife() == 0.5) {
+    				g.drawImage(Images.linkHearts[1],handler.getWidth()/2 - (handler.getWidth()/3)+320,handler.getHeight()/5,handler.getWidth()/75,handler.getHeight()/57 + 10,null);
+    			}
+
+    		}
 public BaseMovingEntity addEnemy() {
     	
     	for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {

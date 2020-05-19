@@ -26,11 +26,11 @@ public class SectionDoor extends SolidStaticEntities {
         super.tick();
 
     }
-//    @Override
-//    public void render(Graphics g) {
-//
-//        g.setColor(Color.MAGENTA);
-//        g.fillRect((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height);
-//
-//    }
+    @Override
+    public void render(Graphics g) {
+
+        g.setColor(Color.MAGENTA);
+        g.fillRect((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height);
+
+    }
 }

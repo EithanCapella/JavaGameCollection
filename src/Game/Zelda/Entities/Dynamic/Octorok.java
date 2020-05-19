@@ -24,7 +24,7 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
 public class Octorok extends BaseMovingEntity {
 
 	private final int animSpeed = 120;
-	private double life=3.0;
+	private double life=15.0;
 
 	int randomDirection = 0;
 	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
@@ -42,7 +42,7 @@ public class Octorok extends BaseMovingEntity {
 		hurtAnim = new Animation(90,Images.octoHurtFrames);
 
 		speed = 2;
-		health = 3;
+		health = 15;
 
 
 	}
@@ -137,7 +137,7 @@ public class Octorok extends BaseMovingEntity {
 		}
 		if (handler.getZeldaGameState().link.hasRod) {
 			if (bounds.intersects(handler.getZeldaGameState().link.rodBounds)) {
-			//System.out.println("runs shit" + " x,y enemy pendejo " + x + "," + y + " link pendejo " + handler.getZeldaGameState().link.rodBounds.x + "," +  handler.getZeldaGameState().link.rodBounds.y);
+			//System.out.println("runs" + " x,y enemy " + x + "," + y + " link " + handler.getZeldaGameState().link.rodBounds.x + "," +  handler.getZeldaGameState().link.rodBounds.y);
 					if(handler.getZeldaGameState().link.second) {
 					life -= 2;
 					hurt=true;

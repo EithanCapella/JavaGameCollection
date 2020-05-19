@@ -22,11 +22,11 @@ public class bombBlock extends SolidStaticEntities {
 
    }
 
-//   @Override
-//   public void render(Graphics g) {
-//
-//       g.setColor(Color.BLACK);
-//       g.fillRect((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height);
-//
-//   }
+   @Override
+   public void render(Graphics g) {
+
+       g.setColor(Color.BLACK);
+       g.fillRect((x * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(y * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset,width,height);
+
+   }
 }

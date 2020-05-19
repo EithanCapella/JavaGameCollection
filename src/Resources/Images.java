@@ -30,10 +30,10 @@ public class Images {
     public static BufferedImage[] pauseOptionsButton;
     public static BufferedImage[] galagaPlayer;
     public static BufferedImage[] galagaPlayerDeath;
-    public static BufferedImage[] galagaEnemyDeath;
-    public static BufferedImage[] galagaEnemyBee;
     public static BufferedImage[] linkFight;
     public static BufferedImage[] ganonFight;
+    public static BufferedImage[] galagaEnemyDeath;
+    public static BufferedImage[] galagaEnemyBee;
     public static BufferedImage map1;
     public static BufferedImage ghost;
     public static BufferedImage[] pacmanDots;
@@ -76,7 +76,6 @@ public class Images {
     public SpriteSheet zeldaLinkSpriteSheet1;
     public SpriteSheet npcSpriteSheet;
     public SpriteSheet itemSpriteSheet;
-    public static BufferedImage gameOverScreen;
     public static BufferedImage lifeImage;
     public static BufferedImage[] attackSlots;
     public SpriteSheet menuSpriteSheet;
@@ -114,6 +113,10 @@ public class Images {
     public static BufferedImage[] vaporWaveDown;
     public static BufferedImage[] vaporWaveSide;
     public static BufferedImage[] vaporWaveSideL;
+    public static BufferedImage[] rodWaveUp;
+    public static BufferedImage[] rodWaveDown;
+    public static BufferedImage[]rodWaveSide;
+    public static BufferedImage[] rodWaveSideL;
     public static BufferedImage triforcePointer;
     public static BufferedImage[] rupees;
     public static BufferedImage[] inn;
@@ -151,6 +154,10 @@ public class Images {
     public static BufferedImage[] whiteProyectileDown;
     public static BufferedImage[] whiteProyectileSide;
     public static BufferedImage[] whiteProyectileSideL;
+    public static BufferedImage[] majoraProyectileUp;
+    public static BufferedImage[] majoraProyectileDown;
+    public static BufferedImage[] majoraProyectileSide;
+    public static BufferedImage[] majoraProyectileSideL;
     public static BufferedImage[] magicalProyectileUp;
     public static BufferedImage[] magicalProyectileDown;
     public static BufferedImage[] magicalProyectileSide;
@@ -162,6 +169,8 @@ public class Images {
     public static BufferedImage[] linkArrowsProjectileSideL;
     public static BufferedImage[] linkArrowsProjectileDown;
     public static BufferedImage[] bombExplosionsFrames;
+    public static BufferedImage[] recursiveTileset;
+
 
 
     
@@ -220,7 +229,6 @@ public class Images {
         linkArrows= new BufferedImage[2];
         bombItem= new BufferedImage[2];
         foodItem= new BufferedImage[2];
-
         linkFight = new BufferedImage[16];
         ganonFight = new BufferedImage[16];
         bouncyEnemyFrames = new BufferedImage[2];
@@ -244,6 +252,10 @@ public class Images {
         vaporWaveDown = new BufferedImage[4];
         vaporWaveSide = new BufferedImage[4];
         vaporWaveSideL = new BufferedImage[4];
+        rodWaveUp = new BufferedImage[2];
+        rodWaveDown = new BufferedImage[2];
+        rodWaveSide = new BufferedImage[2];
+        rodWaveSideL = new BufferedImage[2];
         rupees = new BufferedImage[2];
         inn = new BufferedImage[4];
         whiteProyectileUp= new BufferedImage[2];
@@ -266,6 +278,12 @@ public class Images {
         linkArrowsProjectileSideL= new BufferedImage[2];
         bombExplosionsFrames = new BufferedImage[3];
         
+        majoraProyectileUp= new BufferedImage[2];
+        majoraProyectileDown= new BufferedImage[2];
+        majoraProyectileSide= new BufferedImage[2];
+        majoraProyectileSideL= new BufferedImage[2];
+        recursiveTileset = new BufferedImage[4];
+
 
 
 
@@ -395,8 +413,8 @@ public class Images {
             zeldaDungeon = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/dungeon.png"));
             zeldaImageSheet = createImageTransparent(zeldaImageSheet,"tileSets_0,120,0,green",new Color(0,128,0).getRGB());
             zeldaSpriteSheet = new SpriteSheet(zeldaImageSheet);
-
-            //2d FIGHTER SPRITES
+            
+          //2d FIGHTER SPRITES
             fightImageSet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/LinkFight.png"));
             linkFightSprites = new SpriteSheet(fightImageSet);
             linkFight[0] = linkFightSprites.crop(73, 8, 34, 53); //link idle
@@ -413,7 +431,7 @@ public class Images {
             linkFight[11] = linkFightSprites.crop(138, 173, 41, 32); //attack start [low]
             linkFight[12] = linkFightSprites.crop(137, 211, 49, 32); //attack mid
             linkFight[13] = linkFightSprites.crop(193, 180, 75, 34); //attack end
-            
+
             GanonImageSet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/GanonFight.png"));
             GanonFightSprites = new SpriteSheet(GanonImageSet);
             ganonFight[0] = GanonFightSprites.crop(230, 113, 42, 83);// Ganon idle
@@ -423,8 +441,10 @@ public class Images {
             ganonFight[4] = GanonFightSprites.crop(4, 316, 63, 83);// Ganon punch 1 start
             ganonFight[5] = GanonFightSprites.crop(80, 305, 259, 94);// Ganon punch 1 mid
             ganonFight[6] = GanonFightSprites.crop(362, 306, 166, 95);// Ganon punch 1 end
-            
-            
+
+
+
+
             storyImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/title.png"));
             storySpriteSheet = new SpriteSheet(storyImageSheet);
             zeldaTitleFrames[5] = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/TitleScreen/frame_0.gif"));
@@ -434,8 +454,7 @@ public class Images {
             zeldaTitleFrames[1] = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/TitleScreen/frame_4.gif"));
             zeldaTitleFrames[0] = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/TitleScreen/frame_5.gif"));
             triforcePointer = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/Merchant/triforceCursor.png"));
-            gameOverScreen = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/GameOverZelda.png"));
-            
+
             zeldaStoryFrames[0] = storySpriteSheet.crop(1, 250, 256,223);
             zeldaStoryFrames[1] = storySpriteSheet.crop(258, 250, 256,223);
             zeldaStoryFrames[2] = storySpriteSheet.crop(515, 250, 256,223);
@@ -612,14 +631,24 @@ public class Images {
             vaporWaveSideL[2] = zeldaLinkSpriteSheet1.crop(303,257,16,16);
             vaporWaveSideL[3] = zeldaLinkSpriteSheet1.crop(325,257,16,16); //downAnimEnd
             
+            
+            rodWaveUp[0] = zeldaLinkSpriteSheet.crop(222,154,16,16); // attackDownStart
+            rodWaveUp[1] = zeldaLinkSpriteSheet.crop(205,154,16,16); 
+
+            
+            rodWaveDown[0] = zeldaLinkSpriteSheet1.crop(234,176,16,16); // attackDownStart
+            rodWaveDown[1] = zeldaLinkSpriteSheet1.crop(205,154,16,16); 
+
+            rodWaveSide[0] = Images.flipHorizontal(zeldaLinkSpriteSheet.crop(290,156,16,16)); // attackDownStart
+            rodWaveSide[1] = Images.flipHorizontal(zeldaLinkSpriteSheet.crop(273,156,16,16)); 
+
+            
+            rodWaveSideL[0] = zeldaLinkSpriteSheet.crop(290,156,16,16); // attackDownStart
+            rodWaveSideL[1] = zeldaLinkSpriteSheet.crop(273,156,16,16); 
+            
             bombExplosionsFrames[0] = zeldaLinkSpriteSheet.crop(139,186,14,15); 
             bombExplosionsFrames[1] = zeldaLinkSpriteSheet.crop(139,186,14,15); 
             bombExplosionsFrames[2] = zeldaLinkSpriteSheet.crop(172,186,14,15); 
-
-
-
-
-
 
             npcImage = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/npc1.png"));
             npcSpriteSheet = new SpriteSheet( npcImage);
@@ -698,6 +727,15 @@ public class Images {
             otherWeapons[19] = itemSpriteSheet.crop(119, 0, 8, 16); //MAGICAL SWORD
             otherWeapons[20] = itemSpriteSheet.crop(120,16, 8, 16); //SUPERSWORD ITEM
             otherWeapons[21] = zeldaLinkSpriteSheet1.crop(140,167,5,16); //superRod - UP
+           
+            
+            recursiveTileset[0] = zeldaLinkSpriteSheet1.crop(176,105,16,16); //upTILE
+            recursiveTileset[1] = zeldaLinkSpriteSheet1.crop(196,105,16,16); //rightsideTILE
+            recursiveTileset[2] = Images.flipHorizontal(zeldaLinkSpriteSheet1.crop(196,105,16,16)); //leftsideTILE
+            recursiveTileset[3] = zeldaLinkSpriteSheet1.crop(237,105,16,16); //leftsideTILE
+
+
+
 
 
 
@@ -722,6 +760,18 @@ public class Images {
             EnemyOverwoldImage = createImageTransparent(EnemyOverwoldImage,"enemies_overworld_116,116,116_green",new Color(116,116,116).getRGB());
             EnemyOverwoldSpriteSheet = new SpriteSheet( createImageTransparent(EnemyOverwoldImage,"enemies_overworld_0,128,0_green",new Color(0,128,0).getRGB()));
             EnemyOverwoldSpriteSheet1 = new SpriteSheet( ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/Zelda/enemy3_1.png")));
+            
+            majoraProyectileUp[0]=zeldaLinkSpriteSheet1.crop(36,154,8,16); //superSword 
+            majoraProyectileUp[1]=EnemyOverwoldSpriteSheet.crop(100,93,7,16);
+            majoraProyectileSide[0]=zeldaLinkSpriteSheet1.crop(45,159,16,8); //superSword - side 
+            majoraProyectileSide[1]=EnemyOverwoldSpriteSheet.crop(107,115,16,7);
+            majoraProyectileSideL[0]=Images.flipHorizontal(zeldaLinkSpriteSheet1.crop(45,159,16,8)); //superSword - side ;
+            majoraProyectileSideL[1]=Images.flipHorizontal(EnemyOverwoldSpriteSheet.crop(107,115,16,7));
+            majoraProyectileDown[0]=zeldaLinkSpriteSheet1.crop(48,168,8,16); //superSword - down 
+            majoraProyectileDown[1]=EnemyOverwoldSpriteSheet1.crop(127,93,7,16);
+            
+            
+            
             
             whiteProyectileUp[0]=zeldaLinkSpriteSheet.crop(36,154,8,16);
             whiteProyectileUp[1]=EnemyOverwoldSpriteSheet.crop(100,93,7,16);

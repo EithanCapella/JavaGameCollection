@@ -10,6 +10,7 @@ import Game.Zelda.Entities.Dynamic.BaseMovingEntity;
 import Game.Zelda.Entities.Dynamic.BouncyFella;
 import Game.Zelda.Entities.Dynamic.Direction;
 import Game.Zelda.Entities.Dynamic.fireTile;
+import Game.Zelda.Entities.Dynamic.superWave;
 import Game.Zelda.Entities.Dynamic.Leever;
 import Game.Zelda.Entities.Dynamic.Link;
 import Game.Zelda.Entities.Dynamic.Lynel;
@@ -20,10 +21,12 @@ import Game.Zelda.Entities.Dynamic.Zora;
 import Game.Zelda.Entities.Dynamic.bombTile;
 import Game.Zelda.Entities.Dynamic.Items;
 import Game.Zelda.Entities.Dynamic.swordProjectile;
+import Game.Zelda.Entities.Statics.BookOfMagic;
 import Game.Zelda.Entities.Statics.Bow;
 import Game.Zelda.Entities.Statics.DungeonDoor;
 import Game.Zelda.Entities.Statics.Fire;
 import Game.Zelda.Entities.Statics.Item;
+import Game.Zelda.Entities.Statics.RedCandle;
 import Game.Zelda.Entities.Statics.oldMan;
 import Game.Zelda.Entities.Statics.raft;
 import Game.Zelda.Entities.Statics.riverBlock;
@@ -118,15 +121,10 @@ public class ZeldaGameState extends State {
 				link.boom=false;
 				//toAdd.add(new Items(object.x,object.y,Images.linkArrows, handler));
 				toAdd1.add(new DungeonDoor( object.x,object.y,16*worldScale,16*worldScale,Direction.UP,"other",handler,(7 * (ZeldaGameState.stageWidth/16)) + ZeldaGameState.xOffset,(9 * (ZeldaGameState.stageHeight/11)) + ZeldaGameState.yOffset));
-		        
-
-				
 			}
 		}
 
 		for (BaseMovingEntity enemy : enemies.get(mapX).get(mapY)) {
-			if(enemy instanceof bombTile&&!link.bomb) {toRemove.add(enemy);}
-			if (enemy instanceof fireTile && !link.fire) {toRemove.add(enemy);}
 
 			if (enemy instanceof Octorok && enemy.dead) {
 				toRemove.add(enemy);
@@ -165,10 +163,20 @@ public class ZeldaGameState extends State {
 			if (enemy instanceof Items && link.itemPickUp) {
 				toRemove.add(enemy);
 			}
-
+			if (enemy instanceof superWave && link.projectile) {
+				toRemove.add(enemy);
+				if (link.BOM) {
+					toAdd.add(new fireTile(enemy.x,enemy.y,Images.fireFrame, handler,Direction.UP));
+				}
+			}
 			if (enemy instanceof swordProjectile && link.projectile) {
 				toRemove.add(enemy);
+				if (link.BOM) {
+					toAdd.add(new fireTile(enemy.x,enemy.y,Images.fireFrame, handler,Direction.UP));
+				}
 			}
+			if(enemy instanceof bombTile&&!link.bomb) {toRemove.add(enemy);}
+			if (enemy instanceof fireTile &&(!link.fire)) {toRemove.add(enemy);}
 		}
 		for (SolidStaticEntities object : objects.get(mapX).get(mapY)) {
 			if (object instanceof raft && link.removeRaft) {
@@ -426,6 +434,10 @@ public class ZeldaGameState extends State {
 		caveObjects.add(new superSword(10,5,handler,Images.otherWeapons[3]));    
 		caveObjects.add(new superRing(5,5,handler,Images.superRingFrames[0]));
 		caveObjects.add(new Bow(11,5,handler,Images.otherWeapons[16])); 
+		caveObjects.add(new BookOfMagic(4,5,handler,Images.otherWeapons[18]));
+		caveObjects.add(new RedCandle(12,5,handler,Images.otherWeapons[17])); 
+
+
 
 
 

@@ -5,9 +5,10 @@ import java.awt.image.BufferedImage;
 
 import Main.Handler;
 import Resources.Animation;
+import Resources.Images;
 
 public class superWave extends BaseMovingEntity{
-    public Direction direction;
+	public Direction direction;
 	public superWave(int x, int y, BufferedImage[] sprite, Handler handler,Direction direction) {
 		super(x, y, sprite, handler);
 		this.direction=direction;
@@ -25,35 +26,65 @@ public class superWave extends BaseMovingEntity{
 	}
 	@Override
 	public void tick() {
+		collision();
 		switch (direction) {
 		case RIGHT:
 			x+=4;
-			collision(direction);
 			break;
 		case LEFT:
 			x-=4;
-			collision(direction);
 			break;
 		case UP:
 			y-=4;
-			collision(direction);
 			break;
 		case DOWN:
 			y+=4;
-			collision(direction);
 			break;
 		}
 		bounds.x= x;
 		bounds.y = y;
 
-		}
-	public void collision(Direction direction) {
+	}
+	public void collision() {
 		changeIntersectingBounds();
 		for (BaseMovingEntity objects : handler.getZeldaGameState().enemies.get(handler.getZeldaGameState().mapX).get(handler.getZeldaGameState().mapY)) {
 			if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
-				objects.damage(1);
+				objects.hurt=true;
+				handler.getZeldaGameState().link.projectile=true;
+				objects.damage(4);
+				if(handler.getZeldaGameState().link.bookOfMagic) {
+					handler.getZeldaGameState().link.BOM=true;
+					handler.getZeldaGameState().link.fire=true;
+					objects.damage(5);
+				}
 			}
+
+		}
+		for (BaseMovingEntity objects : handler.getZeldaDungeonState().enemies.get(handler.getZeldaDungeonState().mapX).get(handler.getZeldaDungeonState().mapY)) {
+			if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
+				objects.hurt=true;
+				handler.getZeldaDungeonState().link.projectile=true;
+				objects.damage(4);
+				if(handler.getZeldaDungeonState().link.bookOfMagic) {
+					handler.getZeldaDungeonState().link.BOM=true;
+					handler.getZeldaDungeonState().link.fire=true;
+					objects.damage(5);
+				}
+			}
+
+		}		for (BaseMovingEntity objects : handler.getZeldaOtherState().enemies.get(handler.getZeldaOtherState().mapX).get(handler.getZeldaOtherState().mapY)) {
+			if((objects instanceof Octorok)&&objects.bounds.intersects(bounds)) {
+				objects.hurt=true;
+				handler.getZeldaOtherState().link.projectile=true;
+				objects.damage(4);
+				if(handler.getZeldaOtherState().link.bookOfMagic) {
+					handler.getZeldaOtherState().link.BOM=true;
+					handler.getZeldaOtherState().link.fire=true;
+					objects.damage(5);
+				}
+			}
+
 		}
 	}
 
-	}
+}
