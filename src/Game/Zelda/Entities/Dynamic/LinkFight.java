@@ -36,9 +36,9 @@ public class LinkFight extends BaseMovingEntity {
 
 	private final int animSpeed = 120;
 	private double life=3.0;
-	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0;
+	int newMapX=0,newMapY=0,xExtraCounter=0,yExtraCounter=0, victoryCount = 60*3;
 	int attackCoolDown= 30, jumpCoolDown = 30, jumpTime = 10, hitCount = 30;
-	public boolean notFloor = false, jump = false, idle = false, attack = false, attackLow = false;
+	public boolean notFloor = false, jump = false, idle = false, attack = false, attackLow = false, victory = false;
 	Direction movingTo;
 	String dir = ""; //facing relative to link
 	public swordLaser laserSword;
@@ -97,6 +97,25 @@ public class LinkFight extends BaseMovingEntity {
 	}
 	@Override
 	public void tick() {
+		//------Ganon Hits Link------
+		if (handler.getFightingState().ganonFight.swordBounds.intersects(bounds)) {
+			life -= .5;//gives link a fighting chance
+			//----knockback----
+			if(dir == "left") {
+				x+=40;
+			}
+			else if(dir == "right") {
+				x-=40;
+			}
+		}
+		//GameOver link is dead, Return of Ganon
+		if (life <= 0.0) {
+			handler.changeState(handler.getGameOverState());
+		}
+		
+		if(handler.getFightingState().ganonFight.getLife() <= 0) {
+			victory = true;
+		}
 		//--------------------------------//--------------------------------//--------------------------------//
 		//Timers and attackCoolDowns
 		if (attackCoolDown > 0 && (attack || attackLow)) {
@@ -293,6 +312,21 @@ public class LinkFight extends BaseMovingEntity {
 	@Override
 	public void render(Graphics g) {//render all anims
 		g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+		//if victory is true
+		if (victory) {
+			if (victoryCount > 0) {
+				victoryCount--;
+				g.setColor(Color.GREEN);
+				g.setFont(new Font("TimesRoman", Font.PLAIN, 32));
+				g.drawString("Congratulations you have won the Game, you get nothing, but the satisfaction of winning!", newMapX, newMapY);
+			}
+			else if (victoryCount <= 0) {
+				victoryCount = 60*3;
+				victory = false;
+				handler.changeState(handler.getMenuState());
+			}
+			
+		}
 		
 		//Draws Link's idle animation
 			if (!attack && (movingTo != Direction.NONE)) {
