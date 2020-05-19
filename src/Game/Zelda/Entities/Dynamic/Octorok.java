@@ -23,7 +23,7 @@ import static Game.Zelda.Entities.Dynamic.Direction.UP;
  */
 public class Octorok extends BaseMovingEntity {
 
-	private final int animSpeed = 120;
+	private final int animSpeed = 120,knockback = 40;
 	private double life=3.0;
 
 	int randomDirection = 0;
@@ -67,6 +67,7 @@ public class Octorok extends BaseMovingEntity {
 			directionCounter = 60;
 		}
 		BufferedImage[] animList = new BufferedImage[2];
+		//------Basic Movement------
 		switch (randomDirection) {
 		case 0: 
 			direction = direction.LEFT;
@@ -104,33 +105,34 @@ public class Octorok extends BaseMovingEntity {
 			animation.tick();
 			break;
 		}
+		//------Differential Damages for weapons------
 		if (handler.getZeldaGameState().link.hasSword) {
 			if (bounds.intersects(handler.getZeldaGameState().link.swordBounds)) {
-				if(handler.getZeldaGameState().link.wooden && !(handler.getZeldaGameState().link.white&&handler.getZeldaGameState().link.magical&&handler.getZeldaGameState().link.majora&&handler.getZeldaGameState().link.second)) {
+				if(handler.getZeldaGameState().link.swordHolding == "wood" && !(handler.getZeldaGameState().link.second)) {
 					life -= 1;
 					hurt=true;
 				}
-				if(handler.getZeldaGameState().link.white&& !(handler.getZeldaGameState().link.wooden&&handler.getZeldaGameState().link.magical&&handler.getZeldaGameState().link.majora)) {
+				if(handler.getZeldaGameState().link.swordHolding == "white" && !(handler.getZeldaGameState().link.second)) {
 					life -= 1;
 					hurt=true;
 				}
-				if(handler.getZeldaGameState().link.magical&& !(handler.getZeldaGameState().link.white&&handler.getZeldaGameState().link.wooden&&handler.getZeldaGameState().link.majora)) {
+				if(handler.getZeldaGameState().link.swordHolding == "magical"&& !(handler.getZeldaGameState().link.second)) {
 					life -= 1;
 					hurt=true;
 				}
-				if(handler.getZeldaGameState().link.majora&& !(handler.getZeldaGameState().link.wooden&&handler.getZeldaGameState().link.magical&&handler.getZeldaGameState().link.white)) {
+				if(handler.getZeldaGameState().link.swordHolding == "majora"&& !(handler.getZeldaGameState().link.second)) {
 					life -= 3;
 					hurt=true;
 				}
 				if(direction == Direction.LEFT) {
-					x+=40;
+					x+=knockback;
 				}else if(direction == Direction.RIGHT) {
-					x-=40;
+					x-=knockback;
 				}
 				else if(direction == Direction.UP) {
-					y+=40;
+					y+=knockback;
 				}else if(direction == Direction.DOWN) {
-					y-=40;
+					y-=knockback;
 				}
 			}
 
@@ -142,14 +144,14 @@ public class Octorok extends BaseMovingEntity {
 					life -= 2;
 					hurt=true;
 					if(direction == Direction.LEFT) {
-						x+=40;
+						x+=knockback;
 					}else if(direction == Direction.RIGHT) {
-						x-=40;
+						x-=knockback;
 					}
 					else if(direction == Direction.UP) {
-						y+=40;
+						y+=knockback;
 					}else if(direction == Direction.DOWN) {
-						y-=40;
+						y-=knockback;
 					}
 				}
 			}	
@@ -233,3 +235,4 @@ public class Octorok extends BaseMovingEntity {
 		this.life = life;
 	}
 }
+
