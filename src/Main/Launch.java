@@ -10,7 +10,7 @@ import java.awt.*;
 public class Launch {
 
     public static void main(String[] args) {
-        GameSetUp game = new GameSetUp("Java Game Box", Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+        GameSetUp game = new GameSetUp("Java Game Box", 1280, 720);
         game.start();
     }
 }

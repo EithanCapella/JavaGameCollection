@@ -34,8 +34,7 @@ public class MenuState extends State {
         g.fillRect(0,0,handler.getWidth(),handler.getHeight());
         g.drawImage(Images.titleScreenBackground,0,0,handler.getWidth(),handler.getHeight()-handler.getHeight()/45,null);
         uiManager.Render(g);
-
-    }
+        }
 
 
     @Override
@@ -44,11 +43,15 @@ public class MenuState extends State {
         handler.getMouseManager().setUimanager(uiManager);
 
 
-        uiManager.addObjects(new UIImageButton((handler.getWidth() / 2) - (handler.getWidth() /16), (handler.getHeight() /2) - (handler.getHeight() /8)+85, handler.getWidth()/8, handler.getHeight()/16, Images.startGameButton, new ClickListlener() {
+        uiManager.addObjects(new UIImageButton((handler.getWidth() / 2) - (handler.getWidth() /16), (handler.getHeight() /2) - (handler.getHeight() /8), handler.getWidth()/8, handler.getHeight()/16, Images.startGameButton, new ClickListlener() {
             @Override
             public void onClick() {
                 handler.getMouseManager().setUimanager(null);
+                if (handler.secondClick == true) {
+                	handler.getMusicHandler().changeMusic("BigBlueArena.wav");
+                }
                 State.setState(handler.getGameState());
+
             }
         }));
     }

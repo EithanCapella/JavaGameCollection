@@ -16,6 +16,7 @@ public class PlayerLaser extends BaseEntity {
         super(x, y, width, height, sprite, handler);
         this.enemies=enemies;
     }
+
     @Override
     public void tick() {
         if (!remove) {
@@ -25,7 +26,27 @@ public class PlayerLaser extends BaseEntity {
             for (BaseEntity enemy : enemies.entities) {
                 if (enemy instanceof PlayerShip || enemy instanceof PlayerLaser) {
                     continue;
+                }          
+                
+                // The following 3 if statements prevent your bullets from getting eaten by dead enemies
+                if (enemy instanceof EnemyBee) {
+                	if ( ((EnemyBee) enemy ).hit == true ) {
+                		continue;
+                	}
                 }
+                
+                if (enemy instanceof NewEnemy) {
+                	if ( ((NewEnemy) enemy ).hit == true ) {
+                		continue;
+                	}
+                }
+                
+                if (enemy instanceof HeMan) {
+                	if ( ((HeMan) enemy ).hit == true ) {
+                		continue;
+                	}
+                }
+                
                 if (enemy.bounds.intersects(bounds)) {
                     enemy.damage(this);
                 }

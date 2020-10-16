@@ -72,6 +72,10 @@ public class GameState extends State {
     public void render(Graphics g) {
         g.drawImage(Images.selectionBackground,0,0,handler.getWidth(),handler.getHeight(),null);
         uiManager.Render(g);
+        
+        g.setColor(Color.RED);
+        g.fillRect(handler.getWidth()/2, handler.getHeight()/2 , 30, 50);
+
     }
 
     @Override
@@ -82,13 +86,24 @@ public class GameState extends State {
 
         uiManager.addObjects(new UIImageButton((handler.getWidth() / 2) - (handler.getWidth() /3) + 24, (handler.getHeight() /2)-(handler.getHeight() /32), handler.getWidth()/7, handler.getHeight()/6, Images.galagaLogo, new ClickListlener() {
             @Override
+            
             public void onClick() {
-                if (handler.getState() == handler.getGameState()) {
+            	if (handler.getGalagaState().difficulty.equals("hard")) {
+        			handler.getMusicHandler().changeMusic("hrdmode.wav");
+        		}
+        		
+        		else if (handler.getGalagaState().difficulty.equals("baby")) {
+        			// TODO: add baby mode music here
+        			handler.getMusicHandler().changeMusic("TomboyishBabyMode.wav");
+        		}
 
-                    handler.getMouseManager().setUimanager(null);
-                    handler.getMusicHandler().triggerGalaga();
-                    State.setState(handler.getGalagaState());
-                }
+        		else {
+        			handler.getMusicHandler().changeMusic("BigBlueArena.wav");
+        		}
+            	 handler.getMouseManager().setUimanager(null);
+                 State.setState(handler.getGalagaState());
+                 if (handler.secondClick == false) {
+                 handler.getMusicHandler().triggerGalaga();}
             }
         }));
 

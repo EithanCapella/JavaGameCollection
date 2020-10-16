@@ -171,7 +171,7 @@ public class LinkFight extends BaseMovingEntity {
 					y-=4;
 				}
 				else {
-					jumpTime = 10;
+					jumpTime = 7;
 					jump = false;
 				}
 			}

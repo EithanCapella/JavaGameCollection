@@ -26,6 +26,7 @@ import Resources.ScoreManager;
 import Game.Zelda.Entities.Statics.MMMoveTile;
 import javax.sound.sampled.Clip;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -52,6 +53,8 @@ public class Handler {
     private Zora zora;
     private MMMoveTile MMMove;
     private swordProjectile swordProyectile;
+    public boolean firstClick = false;
+    public boolean secondClick = false;
     
 
 	public Handler(GameSetUp game){
@@ -140,6 +143,12 @@ public class Handler {
     	return (GameOverState)getGameProperties().gameOverState;
     }
 
+    public int getRandomFormation(int max, int min) {
+		Random rando = new Random();
+		int num = rando.nextInt(max-min) + min;
+		return num;
+	}
+    
     public void changeState(State state){
         State.setState(state);
     }

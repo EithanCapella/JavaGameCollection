@@ -71,4 +71,8 @@ public class KeyManager implements KeyListener {
 		return justPressed[keyCode];
 	}
 
+	public boolean keyIsActive(int key) {
+		return keys[key];
+	}
+	
 }

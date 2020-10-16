@@ -24,6 +24,7 @@ public class Images {
     public static BufferedImage muteIcon;
     public static BufferedImage galagaPlayerLaser;
     public static BufferedImage gameOverScreen;
+    public static BufferedImage galagaTrophy, galagaSilverTrophy, galagaBronzeTrophy;
     public static BufferedImage[] startGameButton;
     public static BufferedImage[] galagaLogo;
     public static BufferedImage[] pauseResumeButton;
@@ -35,6 +36,13 @@ public class Images {
     public static BufferedImage[] ganonFight;
     public static BufferedImage[] galagaEnemyDeath;
     public static BufferedImage[] galagaEnemyBee;
+    public static BufferedImage[] galagaHeMan;
+    public static BufferedImage[] KirbyPowerUp;
+    public static BufferedImage[] galagaNewEnemy;
+    public static BufferedImage heManImage;
+    public static BufferedImage heManAttack;
+    public SpriteSheet heManSheet;
+    public SpriteSheet heManAttackSheet;
     public static BufferedImage map1;
     public static BufferedImage ghost;
     public static BufferedImage[] pacmanDots;
@@ -194,7 +202,11 @@ public class Images {
         galagaPlayerDeath = new BufferedImage[8];
         galagaEnemyDeath = new BufferedImage[5];
         galagaEnemyBee = new BufferedImage[8];
-
+        KirbyPowerUp = new BufferedImage[2];
+        galagaNewEnemy = new BufferedImage[8];
+        galagaHeMan = new BufferedImage[5];
+        
+        
         pacmanDots = new BufferedImage[2];
         pacmanRight = new BufferedImage[2];
         pacmanLeft = new BufferedImage[2];
@@ -356,7 +368,13 @@ public class Images {
             galagaEnemyBee[6] = galagaSpriteSheet.crop(42,178,12,11);
             galagaEnemyBee[7] = galagaSpriteSheet.crop(19,177,10,13);
 
-
+            KirbyPowerUp[0] = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/Galaga/KirbyWarp.png"));
+            KirbyPowerUp[1] = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/Galaga/KirbyWarpDim.png"));
+            
+            galagaTrophy = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/Galaga/trophy.png"));
+            galagaSilverTrophy = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/Galaga/silver.png"));
+            galagaBronzeTrophy = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/Galaga/bronze.png"));
+            
             galagaPlayerLaser = galagaSpriteSheet.crop(365 ,219,3,8);
 
             pacmanImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/PacMan/Background.png"));

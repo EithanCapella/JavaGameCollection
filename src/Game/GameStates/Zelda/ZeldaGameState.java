@@ -554,8 +554,8 @@ public class ZeldaGameState extends State {
 		monster.add(new BouncyFella(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.bouncyEnemyFrames, handler));
 		monster.add(new Octorok(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.octorokEnemyFrames, handler));
 		System.out.println(monster.get(1));
-		monster.add(new Leever(8,3,handler));
-		monster.add(new Zora(4,7,handler)); 
+		//monster.add(new Leever(8,3,handler));
+		//monster.add(new Zora(4,7,handler)); 
 		//        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.moblinEnemyFrames,handler));
 		//        monster.add(new Moblin(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.dmoblinEnemyFrames,handler));
 		//        monster.add(new Lynel(xOffset+(stageWidth/2),yOffset + (stageHeight/2),Images.lynelEnemyFrames ,handler));
@@ -710,7 +710,7 @@ public class ZeldaGameState extends State {
 		solids.add(new SectionDoor( 15,4,16*worldScale,16*worldScale*3, Direction.RIGHT,handler));
 		solids.add(new SectionDoor( 12,10,16*worldScale * 2,16*worldScale,Direction.DOWN,handler));
 		solids.add(new SectionDoor( 0,2,16*worldScale,16*worldScale*6, Direction.LEFT,handler));
-		monster.add(new Thunderbird(xOffset+(stageWidth/2),yOffset + (stageHeight/2),handler));
+		//monster.add(new Thunderbird(xOffset+(stageWidth/2),yOffset + (stageHeight/2),handler));
 
 		objects.get(6).set(6,solids);
 		enemies.get(6).set(6,monster);

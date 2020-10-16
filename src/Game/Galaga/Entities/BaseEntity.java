@@ -19,8 +19,8 @@ public class BaseEntity {
     Random random;
     Rectangle arena;
     Animation enemyDeath;
-    boolean remove = false;
-
+    boolean remove = false, playerDamage = true, playSound = true;
+    
 
     public BaseEntity(int x, int y, int width, int height, BufferedImage sprite, Handler handler) {
         this.x = x;
